@@ -35,7 +35,8 @@ namespace Collision.Console
             _repository = repository;
         }
         
-        private Dictionary<int, Task> taskList = new Dictionary<int, Task>();
+        private List<string> flightList = new List<string>();
+        private List<string> flightListCurrentlyWorkingOn = new List<string>();
         public void Run()
         {
             //https://api.flightstats.com/flex/flightstatus/samples/v2/lts/FlightTrack_single_flight_defaults.json
@@ -62,16 +63,16 @@ namespace Collision.Console
             //    IsInFlight = false
             //};
             //position = _repository.Create(position);
-            
+
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago.  
-            int[] flights = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-            foreach(var flightId in flights)
+            List<dynamic> flights = null;
+            foreach(var flight in flights)
             {
-                if (!taskList.ContainsKey(flightId))
+                if (!flightListCurrentlyWorkingOn.Contains(flight.Id))
                 {
-                    var task = Task.Factory.StartNew(() => HandleFlight(flightId));
-                    System.Console.WriteLine("Adding flightId " + flightId.ToString());
-                    taskList.Add(flightId, task);
+                    var task = Task.Factory.StartNew(() => HandleFlight(flight.Id));
+                    System.Console.WriteLine("Adding flightId " + flight.Id.ToString());
+                    flightListCurrentlyWorkingOn.Add(flight.Id);
                 }
             }
             Thread.Sleep(1000);
@@ -80,17 +81,21 @@ namespace Collision.Console
             
         }
 
-        public void HandleFlight(int flightId)
+        public void HandleFlight(string flightId)
         {
             //What this will do is go get the flight data by flightId, then draw the bounding box, then repeat until the flight is over.  
-            Random rnd = new Random();
-            //simulating work.  
-            Thread.Sleep(rnd.Next(10000, 20000));
-            System.Console.WriteLine("Work for flightId " + flightId.ToString() + " is done.");
-            taskList.Remove(flightId);
+            //getting the fight by arline, number, and arrival date.
+            //"https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/AA/100/dep/2015/12/5?appId=284fdac1&appKey=543f72a5d73e4fcf3dba3c4355413bd5&utc=true&includeFlightPlan=false&maxPositions=2""
+            var flight = "";//web service call passing flightId
+
+            //
+
+            HandleFlight(flightId);
+            //When we're done working on the flight remove it.
+            //flightListCurrentlyWorkingOn.Remove(flightId);
         } 
 
-        public void HandleColisions()
+        public void HandleCollisions()
         {
             //Get all flights within a certain relative position.  lat/long 
         }
