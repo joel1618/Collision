@@ -14,8 +14,9 @@ namespace Collision.Sql.Ef
     
     public partial class Position
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
+        public int AircraftId { get; set; }
         public string FlightId { get; set; }
         public string FlightIdentity { get; set; }
         public decimal Temp1Latitude { get; set; }
@@ -58,5 +59,7 @@ namespace Collision.Sql.Ef
         public Nullable<int> Z8 { get; set; }
         public Nullable<System.DateTime> CreatedAtTimeStamp { get; set; }
         public bool IsInFlight { get; set; }
+    
+        public virtual Aircraft Aircraft { get; set; }
     }
 }

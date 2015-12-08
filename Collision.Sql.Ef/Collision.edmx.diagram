@@ -12,7 +12,9 @@
         <AssociationConnector Association="CollisionModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="CollisionModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="CollisionModel.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="CollisionModel.Position" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CollisionModel.Aircraft" Width="1.5" PointX="0.75" PointY="11.125" />
+        <EntityTypeShape EntityType="CollisionModel.Position" Width="1.5" PointX="3" PointY="7.375" />
+        <AssociationConnector Association="CollisionModel.FK_Positions_Aircraft" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

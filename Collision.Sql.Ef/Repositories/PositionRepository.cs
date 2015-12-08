@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Collision.Core.Models;
 using Collision.Sql.Ef.Interfaces;
 using Collision.Sql.Ef.Extensions;
-using Collision.Sql.Ef.Contexts;
 using EfPosition = Collision.Sql.Ef.Position;
 using CorePosition = Collision.Core.Models.Position;
 
@@ -14,14 +13,18 @@ namespace Collision.Sql.Ef.Repositories
 {
     public class PositionRepository : IPositionRepository
     {
-        private PositionContext _context;
+        private CollisionEntities _context;
 
-        public PositionRepository(PositionContext context)
+        public PositionRepository(CollisionEntities context)
         {
             _context = context;
         }
 
-        public List<CorePosition> Search()
+        public IEnumerable<CorePosition> Search()
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<CorePosition> GetAll()
         {
             throw new NotImplementedException();
         }
@@ -32,7 +35,7 @@ namespace Collision.Sql.Ef.Repositories
             return item.ToCore();
         }
 
-        public CorePosition Create(Core.Models.Position item)
+        public CorePosition Create(CorePosition item)
         {
             if(item == null)
             {
@@ -57,17 +60,17 @@ namespace Collision.Sql.Ef.Repositories
             return _item.ToCore();
         }
 
+        public CorePosition Update(int id, CorePosition item)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(int id)
         {
             var position = new EfPosition { Id = id };
             _context.Positions.Attach(position);
             _context.Positions.Remove(position);
             _context.SaveChanges();
-        }
-
-        public CorePosition Update(Core.Models.Position item)
-        {
-            throw new NotImplementedException();
         }
 
     }

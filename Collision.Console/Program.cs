@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Practices.Unity;
-using IPositionRepository = Collision.Sql.Ef.Interfaces.IPositionRepository;
-using PositionRepository = Collision.Sql.Ef.Repositories.PositionRepository;
+using Collision.Sql.Ef.Interfaces;
+using Collision.Sql.Ef.Repositories;
 using CorePosition = Collision.Core.Models.Position;
 
 namespace Collision.Console
@@ -17,6 +17,7 @@ namespace Collision.Console
         {
             var container = new UnityContainer();
             container.RegisterType<IPositionRepository, PositionRepository>();
+            container.RegisterType<IAircraftRepository, AircraftRepository>();
             container.RegisterType<IApplication, Application>();
             var app = container.Resolve<Application>();
             app.Run();
@@ -29,10 +30,13 @@ namespace Collision.Console
 
     public class Application : IApplication
     {
-        private readonly IPositionRepository _repository;
-        public Application(IPositionRepository repository)
+        private readonly IPositionRepository _positionRepository;
+        private readonly IAircraftRepository _aircraftRepository;
+
+        public Application(IPositionRepository positionRepository, IAircraftRepository aircraftRepository)
         {
-            _repository = repository;
+            _positionRepository = positionRepository;
+            _aircraftRepository = aircraftRepository;
         }
         
         private List<string> flightList = new List<string>();
@@ -65,7 +69,9 @@ namespace Collision.Console
             //position = _repository.Create(position);
 
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago.  
-            List<dynamic> flights = null;
+            var flights = _aircraftRepository.GetAll();
+            int i = 0;
+            /*
             foreach(var flight in flights)
             {
                 if (!flightListCurrentlyWorkingOn.Contains(flight.Id))
@@ -77,7 +83,7 @@ namespace Collision.Console
             }
             Thread.Sleep(1000);
             System.Console.WriteLine("Go get new flights");
-            Run();
+            Run();*/
             
         }
 

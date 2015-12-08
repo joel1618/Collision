@@ -7,11 +7,8 @@ using CorePosition = Collision.Core.Models.Position;
 
 namespace Collision.Sql.Ef.Interfaces
 {
-    public interface IPositionRepository
+    public interface IPositionRepository : IRepository<CorePosition>
     {
-        CorePosition Get(int id);
-        CorePosition Create(CorePosition item);
-        CorePosition Update(CorePosition item);
-        void Delete(int id);
+        
     }
 }
