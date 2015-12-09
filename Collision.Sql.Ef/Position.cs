@@ -24,15 +24,13 @@ namespace Collision.Sql.Ef
         public int Temp1Altitude { get; set; }
         public int Temp1Speed { get; set; }
         public int Temp1Heading { get; set; }
-        public System.DateTime Temp1TimeStamp { get; set; }
-        public Nullable<long> Temp1EpochTimeStamp { get; set; }
+        public System.DateTime Temp1UtcTimeStamp { get; set; }
         public Nullable<decimal> Temp2Latitude { get; set; }
         public Nullable<decimal> Temp2Longitude { get; set; }
         public Nullable<int> Temp2Altitude { get; set; }
         public Nullable<int> Temp2Speed { get; set; }
         public Nullable<int> Temp2Heading { get; set; }
-        public Nullable<System.DateTime> Temp2TimeStamp { get; set; }
-        public Nullable<long> Temp2EpochTimeStamp { get; set; }
+        public Nullable<System.DateTime> Temp2UtcTimeStamp { get; set; }
         public Nullable<decimal> X1 { get; set; }
         public Nullable<decimal> Y1 { get; set; }
         public Nullable<int> Z1 { get; set; }
@@ -57,7 +55,7 @@ namespace Collision.Sql.Ef
         public Nullable<decimal> X8 { get; set; }
         public Nullable<decimal> Y8 { get; set; }
         public Nullable<int> Z8 { get; set; }
-        public Nullable<System.DateTime> CreatedAtTimeStamp { get; set; }
+        public System.DateTime CreatedAtUtcTimeStamp { get; set; }
         public bool IsInFlight { get; set; }
     
         public virtual Aircraft Aircraft { get; set; }

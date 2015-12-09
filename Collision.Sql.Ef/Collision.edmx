@@ -80,15 +80,13 @@
           <Property Name="Temp1Altitude" Type="int" Nullable="false" />
           <Property Name="Temp1Speed" Type="int" Nullable="false" />
           <Property Name="Temp1Heading" Type="int" Nullable="false" />
-          <Property Name="Temp1TimeStamp" Type="datetime" Nullable="false" />
-          <Property Name="Temp1EpochTimeStamp" Type="bigint" />
+          <Property Name="Temp1UtcTimeStamp" Type="datetime" Nullable="false" />
           <Property Name="Temp2Latitude" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Temp2Longitude" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Temp2Altitude" Type="int" />
           <Property Name="Temp2Speed" Type="int" />
           <Property Name="Temp2Heading" Type="int" />
-          <Property Name="Temp2TimeStamp" Type="datetime" />
-          <Property Name="Temp2EpochTimeStamp" Type="bigint" />
+          <Property Name="Temp2UtcTimeStamp" Type="datetime" />
           <Property Name="X1" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Y1" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Z1" Type="int" />
@@ -113,7 +111,7 @@
           <Property Name="X8" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Y8" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Z8" Type="int" />
-          <Property Name="CreatedAtTimeStamp" Type="datetime" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
           <Property Name="IsInFlight" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -347,15 +345,13 @@
           <Property Name="Temp1Altitude" Type="Int32" Nullable="false" />
           <Property Name="Temp1Speed" Type="Int32" Nullable="false" />
           <Property Name="Temp1Heading" Type="Int32" Nullable="false" />
-          <Property Name="Temp1TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Temp1EpochTimeStamp" Type="Int64" />
+          <Property Name="Temp1UtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Temp2Latitude" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Temp2Longitude" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Temp2Altitude" Type="Int32" />
           <Property Name="Temp2Speed" Type="Int32" />
           <Property Name="Temp2Heading" Type="Int32" />
-          <Property Name="Temp2TimeStamp" Type="DateTime" Precision="3" />
-          <Property Name="Temp2EpochTimeStamp" Type="Int64" />
+          <Property Name="Temp2UtcTimeStamp" Type="DateTime" Precision="3" />
           <Property Name="X1" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Y1" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Z1" Type="Int32" />
@@ -380,7 +376,7 @@
           <Property Name="X8" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Y8" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Z8" Type="Int32" />
-          <Property Name="CreatedAtTimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="IsInFlight" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Aircraft" Relationship="CollisionModel.FK_Positions_Aircraft" FromRole="Position" ToRole="Aircraft" />
         </EntityType>
@@ -470,7 +466,7 @@
             <EntityTypeMapping TypeName="CollisionModel.Position">
               <MappingFragment StoreEntitySet="Positions">
                 <ScalarProperty Name="IsInFlight" ColumnName="IsInFlight" />
-                <ScalarProperty Name="CreatedAtTimeStamp" ColumnName="CreatedAtTimeStamp" />
+                <ScalarProperty Name="CreatedAtUtcTimeStamp" ColumnName="CreatedAtUtcTimeStamp" />
                 <ScalarProperty Name="Z8" ColumnName="Z8" />
                 <ScalarProperty Name="Y8" ColumnName="Y8" />
                 <ScalarProperty Name="X8" ColumnName="X8" />
@@ -495,15 +491,13 @@
                 <ScalarProperty Name="Z1" ColumnName="Z1" />
                 <ScalarProperty Name="Y1" ColumnName="Y1" />
                 <ScalarProperty Name="X1" ColumnName="X1" />
-                <ScalarProperty Name="Temp2EpochTimeStamp" ColumnName="Temp2EpochTimeStamp" />
-                <ScalarProperty Name="Temp2TimeStamp" ColumnName="Temp2TimeStamp" />
+                <ScalarProperty Name="Temp2UtcTimeStamp" ColumnName="Temp2UtcTimeStamp" />
                 <ScalarProperty Name="Temp2Heading" ColumnName="Temp2Heading" />
                 <ScalarProperty Name="Temp2Speed" ColumnName="Temp2Speed" />
                 <ScalarProperty Name="Temp2Altitude" ColumnName="Temp2Altitude" />
                 <ScalarProperty Name="Temp2Longitude" ColumnName="Temp2Longitude" />
                 <ScalarProperty Name="Temp2Latitude" ColumnName="Temp2Latitude" />
-                <ScalarProperty Name="Temp1EpochTimeStamp" ColumnName="Temp1EpochTimeStamp" />
-                <ScalarProperty Name="Temp1TimeStamp" ColumnName="Temp1TimeStamp" />
+                <ScalarProperty Name="Temp1UtcTimeStamp" ColumnName="Temp1UtcTimeStamp" />
                 <ScalarProperty Name="Temp1Heading" ColumnName="Temp1Heading" />
                 <ScalarProperty Name="Temp1Speed" ColumnName="Temp1Speed" />
                 <ScalarProperty Name="Temp1Altitude" ColumnName="Temp1Altitude" />

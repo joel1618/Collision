@@ -26,13 +26,12 @@ namespace Collision.Sql.Ef.Repositories
         }
         public IEnumerable<CorePosition> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Positions.Select(x => x.ToCore());
         }
 
         public CorePosition Get(int id)
         {
-            var item = _context.Positions.Find(id);
-            return item.ToCore();
+            return _context.Positions.Find(id).ToCore();
         }
 
         public CorePosition Create(CorePosition item)
@@ -50,8 +49,7 @@ namespace Collision.Sql.Ef.Repositories
                 Temp1Altitude = item.Temp1Altitude,
                 Temp1Speed = item.Temp1Speed,
                 Temp1Heading = item.Temp1Heading,
-                Temp1EpochTimeStamp = (long)(now - new DateTime(1970, 1, 1)).TotalMilliseconds,
-                Temp1TimeStamp = now,
+                Temp1UtcTimeStamp = now,
                 IsInFlight = item.IsInFlight
             };
 

@@ -7,7 +7,7 @@ using System.Threading;
 using Microsoft.Practices.Unity;
 using Collision.Sql.Ef.Interfaces;
 using Collision.Sql.Ef.Repositories;
-using CorePosition = Collision.Core.Models.Position;
+using Collision.Core.Models;
 
 namespace Collision.Console
 {
@@ -32,78 +32,82 @@ namespace Collision.Console
     {
         private readonly IPositionRepository _positionRepository;
         private readonly IAircraftRepository _aircraftRepository;
+        private Dictionary<int, Task> handlePosition = new Dictionary<int, Task>();
+        private Dictionary<int, Task> handleCollision = new Dictionary<int, Task>();
 
         public Application(IPositionRepository positionRepository, IAircraftRepository aircraftRepository)
         {
             _positionRepository = positionRepository;
             _aircraftRepository = aircraftRepository;
         }
-        
-        private List<string> flightList = new List<string>();
-        private List<string> flightListCurrentlyWorkingOn = new List<string>();
+
         public void Run()
         {
-            //https://api.flightstats.com/flex/flightstatus/samples/v2/lts/FlightTrack_single_flight_defaults.json
-            //General breakdown of what needs to happen
-            //Get all of the flights that are active
-            //Iterate through and spin up a new thread per flight.
-            //Look in database for the flightId, if there update otherwise create.  Then go back to api and get latest data updating bounding box. 
-            //(Algorithm relies on it being an active flight)
-
-            //Another group of threads needs to be somehow looking at each flight and trying to find potential collisions.
-            //Somehow collect and store status for potential collisions like flightId, distance, time, ect. ect.
-
-            //Get All Flights
-
-            //Pass flight to Task.  Keep track of those tasks that are running working on flights.  If the new flight list has a flight with a new task spin up new thread.
-            //var position = new CorePosition()
-            //{
-            //    Name = "Joel",
-            //    Temp1Latitude = 30.417991,
-            //    Temp1Longitude = -97.690357,
-            //    Temp1Altitude = 2000,
-            //    Temp1Speed = 1000,
-            //    Temp1Heading = 180,
-            //    IsInFlight = false
-            //};
-            //position = _repository.Create(position);
-
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago.  
-            var flights = _aircraftRepository.GetAll();
-            int i = 0;
-            /*
+            var flights = _aircraftRepository.GetAll();            
             foreach(var flight in flights)
             {
-                if (!flightListCurrentlyWorkingOn.Contains(flight.Id))
+                if (!handlePosition.ContainsKey(flight.Id))
                 {
-                    var task = Task.Factory.StartNew(() => HandleFlight(flight.Id));
-                    System.Console.WriteLine("Adding flightId " + flight.Id.ToString());
-                    flightListCurrentlyWorkingOn.Add(flight.Id);
+                    handlePosition.Add(flight.Id, Task.Factory.StartNew(() => HandlePosition(flight));
                 }
             }
-            Thread.Sleep(1000);
+            //Sleep 5 minutes before getting the list again and going through it.
+            Thread.Sleep(300000);
             System.Console.WriteLine("Go get new flights");
-            Run();*/
-            
+            Run();
         }
 
-        public void HandleFlight(string flightId)
+        public void HandlePosition(Aircraft aircraft)
         {
-            //What this will do is go get the flight data by flightId, then draw the bounding box, then repeat until the flight is over.  
-            //getting the fight by arline, number, and arrival date.
-            //"https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/AA/100/dep/2015/12/5?appId=284fdac1&appKey=543f72a5d73e4fcf3dba3c4355413bd5&utc=true&includeFlightPlan=false&maxPositions=2""
-            var flight = "";//web service call passing flightId
+            //TODO: Get the position by AircraftId.  Need to implement Search endpoint.
+            var positions = _positionRepository.GetAll();
+            Position _position = null;
+            foreach (var position in positions)
+            {
+                if (position.AircraftId == aircraft.Id)
+                {
+                    _position = position;
+                }
+            }
+            if(_position == null)
+            {
+                //No position yet exists for this aircraft and we need to create a new one
 
-            //
+                //Call api for flight
 
-            HandleFlight(flightId);
-            //When we're done working on the flight remove it.
-            //flightListCurrentlyWorkingOn.Remove(flightId);
+                //Fill in object and calculate bounding box
+
+                //Call HandleCollisions to start evaluating this position for potential collisions
+            }
+            else
+            {
+                //We found a position and need to update position from api and recalculate boundingbox
+
+                //Call HandleCollisions to start evaluating this position for potential collisions
+            }
+            //Wait 30 seconds before evaluating this flight again.
+            Thread.Sleep(30000);
+            HandlePosition(aircraft);
         } 
 
-        public void HandleCollisions()
+        public void UpdateFlightInformation(Aircraft aircraft, Position position)
+        {           
+            //web service call
+            //"https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/AA/100/dep/2015/12/5?appId=284fdac1&appKey=543f72a5d73e4fcf3dba3c4355413bd5&utc=true&includeFlightPlan=false&maxPositions=2"
+
+            CalculateBoundingBox(position);
+            handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => HandleCollision(position)));
+        }
+
+        public void CalculateBoundingBox(Position position)
         {
-            //Get all flights within a certain relative position.  lat/long 
+
+        }
+
+        public void HandleCollision(Position position)
+        {
+            //Check to see if already evaluating position.  If so do nothing. 
         }
     }
 }

@@ -9,5 +9,7 @@ namespace Collision.Core.Models
     public class Aircraft
     {
         public int Id { get; set; }
+        public string Carrier { get; set; }
+        public string FlightNumber { get; set; }
     }
 }
