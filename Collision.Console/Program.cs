@@ -152,9 +152,11 @@ namespace Collision.Console
             }
             position.IsActive = flight.appendix.airlines[0].active;
             return true;
-        }       
-        
+        }
 
+
+        //http://williams.best.vwh.net/avform.htm
+        //http://stackoverflow.com/questions/6074476/calculating-a-future-position
         public void CalculateBoundingBox(Position position)
         {
             //Figure out bounding box
