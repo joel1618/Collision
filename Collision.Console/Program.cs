@@ -49,7 +49,7 @@ namespace Collision.Console
             {
                 if (!handlePosition.ContainsKey(flight.Id))
                 {
-                    handlePosition.Add(flight.Id, Task.Factory.StartNew(() => HandlePosition(flight));
+                    handlePosition.Add(flight.Id, Task.Factory.StartNew(() => HandlePosition(flight)));
                 }
             }
             //Sleep 5 minutes before getting the list again and going through it.
