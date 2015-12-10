@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Carrier" Type="nvarchar" MaxLength="50" />
           <Property Name="CarrierName" Type="nvarchar" MaxLength="50" />
           <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />

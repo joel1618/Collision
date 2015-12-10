@@ -79,31 +79,35 @@ namespace Collision.Console
                 _position = new Position();
                 _position.AircraftId = aircraft.Id;
                 //Call api for flight
-                UpdateFlightInformation(aircraft, _position);
-                //Create position in database
-                _position = _positionService.Create(_position);
-                //Calculate bounding box
-                CalculateBoundingBox(_position);
-                //Update position object in database
-                _position = _positionService.Update(_position.Id, _position);
-                //Call HandleCollisions to start evaluating this position for potential collisions
-                if (!handleCollision.ContainsKey(_position.Id))
+                if (UpdateFlightInformation(aircraft, _position))
                 {
-                    handleCollision.Add(_position.Id, Task.Factory.StartNew(() => HandleCollision(_position)));
+                    //Create position in database
+                    _position = _positionService.Create(_position);
+                    //Calculate bounding box
+                    CalculateBoundingBox(_position);
+                    //Update position object in database
+                    _position = _positionService.Update(_position.Id, _position);
+                    //Call HandleCollisions to start evaluating this position for potential collisions
+                    if (!handleCollision.ContainsKey(_position.Id))
+                    {
+                        handleCollision.Add(_position.Id, Task.Factory.StartNew(() => HandleCollision(_position)));
+                    }
                 }
             }
             else
             {
                 //We found a position and need to update position from api and recalculate boundingbox
-                UpdateFlightInformation(aircraft, _position);
-                //Call HandleCollisions to start evaluating this position for potential collisions
-                CalculateBoundingBox(_position);
-                //Update position object in database
-                _position = _positionService.Update(_position.Id, _position);
-                //Call HandleCollisions to start evaluating this position for potential collisions
-                if (!handleCollision.ContainsKey(_position.Id))
+                if (UpdateFlightInformation(aircraft, _position))
                 {
-                    handleCollision.Add(_position.Id, Task.Factory.StartNew(() => HandleCollision(_position)));
+                    //Call HandleCollisions to start evaluating this position for potential collisions
+                    CalculateBoundingBox(_position);
+                    //Update position object in database
+                    _position = _positionService.Update(_position.Id, _position);
+                    //Call HandleCollisions to start evaluating this position for potential collisions
+                    if (!handleCollision.ContainsKey(_position.Id))
+                    {
+                        handleCollision.Add(_position.Id, Task.Factory.StartNew(() => HandleCollision(_position)));
+                    }
                 }
             }
             //Wait 30 seconds before evaluating this flight again.
@@ -112,7 +116,7 @@ namespace Collision.Console
         } 
 
         //TODO: Eventually move appId and appKey to config file
-        public void UpdateFlightInformation(Aircraft aircraft, Position position)
+        public bool UpdateFlightInformation(Aircraft aircraft, Position position)
         {
             var baseUrl = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/";
             //TODO: Use Stringbuilder here.
@@ -128,6 +132,14 @@ namespace Collision.Console
                 "&utc=true&includeFlightPlan=false&maxPositions=2";
             var syncClient = new WebClient();
             dynamic flight = JsonConvert.DeserializeObject(syncClient.DownloadString(url));
+            if (flight.error != null)
+            {
+                if (position.Id != 0)
+                {
+                    _positionService.Delete(position.Id);
+                }
+                return false;
+            }
 
             if (flight.flightTracks.Count != 0 && flight.flightTracks[0].positions.Count == 2)
             {
@@ -141,14 +153,15 @@ namespace Collision.Console
                 position.Temp2Longitude = flight.flightTracks[0].positions[1].lon;
                 position.Temp2Speed = flight.flightTracks[0].positions[1].speedMph * 1.60934;
                 position.Temp2Altitude = flight.flightTracks[0].positions[1].altitudeFt * 0.3048;
-                position.Temp2UtcTimeStamp = flight.flightTracks[0].positions[1].date;
-
-                position.IsActive = flight.appendix.airlines[0].active;
+                position.Temp2UtcTimeStamp = flight.flightTracks[0].positions[1].date;                
             }
             else
             {
+                position.IsInFlight = false;
                 NullifyPosition(position);
-            }            
+            }
+            position.IsActive = flight.appendix.airlines[0].active;
+            return true;
         }       
         
 
@@ -211,8 +224,6 @@ namespace Collision.Console
             position.X8 = new Nullable<decimal>();
             position.Y8 = new Nullable<decimal>();
             position.Z8 = new Nullable<int>();
-
-            position.IsActive = false;
         }
         #endregion
     }
