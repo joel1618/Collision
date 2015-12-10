@@ -14,12 +14,12 @@ namespace Collision.Core.Models
         public string FlightId { get; set; }
         public string FlightIdentity { get; set; }
 
-        public decimal Temp1Latitude { get; set; }
-        public decimal Temp1Longitude { get; set; }
-        public int Temp1Altitude { get; set; }
-        public int Temp1Speed { get; set; }
+        public decimal? Temp1Latitude { get; set; }
+        public decimal? Temp1Longitude { get; set; }
+        public int? Temp1Altitude { get; set; }
+        public int? Temp1Speed { get; set; }
         public int? Temp1Heading { get; set; }
-        public DateTime Temp1UtcTimeStamp { get; set; }
+        public DateTime? Temp1UtcTimeStamp { get; set; }
 
         public decimal? Temp2Latitude { get; set; }
         public decimal? Temp2Longitude { get; set; }
@@ -61,6 +61,7 @@ namespace Collision.Core.Models
         public int? Z8 { get; set; }
 
         public DateTime CreatedAtUtcTimeStamp { get; set; }
+        public DateTime? ModifiedAtUtcTimeStamp { get; set; }
 
         public bool IsInFlight { get; set; }
         public bool IsActive { get; set; }
