@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CorePosition = Collision.Core.Models.Position;
 
-namespace Collision.Sql.Ef.Interfaces
+namespace Collision.Sql.Ef.Services.Interfaces
 {
-    public interface IPositionRepository : IRepository<CorePosition>
+    public interface IPositionService : IService<CorePosition>
     {
-        
+        CorePosition GetByAircraftId(int id);
     }
 }

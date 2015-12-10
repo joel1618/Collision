@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Collision.Sql.Ef.Interfaces
+namespace Collision.Sql.Ef.Services.Interfaces
 {
-    public interface IRepository<TEntity>
+    public interface IService<TEntity>
     {
         IEnumerable<TEntity> Search();
         IEnumerable<TEntity> GetAll();

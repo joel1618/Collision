@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Collision.Core.Models;
-using Collision.Sql.Ef.Interfaces;
 using Collision.Sql.Ef.Extensions;
+using Collision.Sql.Ef.Services.Interfaces;
 using EfPosition = Collision.Sql.Ef.Position;
 using CorePosition = Collision.Core.Models.Position;
 
-namespace Collision.Sql.Ef.Repositories
+namespace Collision.Sql.Ef.Services
 {
-    public class PositionRepository : IPositionRepository
+    public class PositionService : IPositionService
     {
         private CollisionEntities _context;
 
-        public PositionRepository(CollisionEntities context)
+        public PositionService(CollisionEntities context)
         {
             _context = context;
         }
@@ -26,7 +25,7 @@ namespace Collision.Sql.Ef.Repositories
         }
         public IEnumerable<CorePosition> GetAll()
         {
-            return _context.Positions.Select(x => x.ToCore());
+            return _context.Positions.ToList().Select(x => x.ToCore());
         }
 
         public CorePosition Get(int id)
@@ -34,9 +33,14 @@ namespace Collision.Sql.Ef.Repositories
             return _context.Positions.Find(id).ToCore();
         }
 
+        public CorePosition GetByAircraftId(int id)
+        {
+            return _context.Positions.Where(x => x.AircraftId == id).FirstOrDefault().ToCore();
+        }
+
         public CorePosition Create(CorePosition item)
         {
-            if(item == null)
+            if (item == null)
             {
                 throw new ArgumentNullException("Core.Models.Position");
             }
@@ -70,6 +74,5 @@ namespace Collision.Sql.Ef.Repositories
             _context.Positions.Remove(position);
             _context.SaveChanges();
         }
-
     }
 }

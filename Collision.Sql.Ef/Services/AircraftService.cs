@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Collision.Core.Models;
-using Collision.Sql.Ef.Interfaces;
+using Collision.Sql.Ef.Services.Interfaces;
 using Collision.Sql.Ef.Extensions;
 using CoreAircraft = Collision.Core.Models.Aircraft;
 
-namespace Collision.Sql.Ef.Repositories
+namespace Collision.Sql.Ef.Services
 {
-    public class AircraftRepository : IAircraftRepository
+    public class AircraftService : IAircraftService
     {
         private CollisionEntities _context;
 
-        public AircraftRepository(CollisionEntities context)
+        public AircraftService(CollisionEntities context)
         {
             _context = context;
         }
@@ -24,7 +23,7 @@ namespace Collision.Sql.Ef.Repositories
             throw new NotImplementedException();
         }
         public IEnumerable<CoreAircraft> GetAll()
-        {            
+        {
             return _context.Aircraft.ToList().Select(x => x.ToCore());
         }
         public CoreAircraft Get(int id)
