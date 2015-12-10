@@ -46,15 +46,6 @@ namespace Collision.Console
 
         public void Run()
         {
-            //Clear all position data on initial run
-
-            //Continue
-            RunStep2();
-        }
-
-        public void RunStep2()
-        {
-
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago.  
             var aircrafts = _aircraftService.GetAll();
             foreach (var aircraft in aircrafts)
@@ -67,7 +58,7 @@ namespace Collision.Console
             //Sleep 5 minutes before getting the list again and going through it to see if any new flights have been added.
             Thread.Sleep(300000);
             System.Console.WriteLine("Go get new flights");
-            RunStep2();
+            Run();
         }
 
         public void HandlePosition(Aircraft aircraft)
@@ -114,8 +105,7 @@ namespace Collision.Console
             Thread.Sleep(30000);
             HandlePosition(aircraft);
         } 
-
-        //TODO: Eventually move appId and appKey to config file
+                
         public bool UpdateFlightInformation(Aircraft aircraft, Position position)
         {
             var baseUrl = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/";
