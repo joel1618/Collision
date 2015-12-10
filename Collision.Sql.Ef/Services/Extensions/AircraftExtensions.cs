@@ -19,7 +19,9 @@ namespace Collision.Sql.Ef.Extensions
 
             return new CoreAircraft()
             {
-                Id = item.Id
+                Id = item.Id,
+                Carrier = item.Carrier,
+                FlightNumber = item.FlightNumber
             };
         }
     }

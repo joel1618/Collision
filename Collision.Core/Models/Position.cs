@@ -18,7 +18,7 @@ namespace Collision.Core.Models
         public decimal Temp1Longitude { get; set; }
         public int Temp1Altitude { get; set; }
         public int Temp1Speed { get; set; }
-        public int Temp1Heading { get; set; }
+        public int? Temp1Heading { get; set; }
         public DateTime Temp1UtcTimeStamp { get; set; }
 
         public decimal? Temp2Latitude { get; set; }
@@ -63,5 +63,6 @@ namespace Collision.Core.Models
         public DateTime CreatedAtUtcTimeStamp { get; set; }
 
         public bool IsInFlight { get; set; }
+        public bool IsActive { get; set; }
     }
 }

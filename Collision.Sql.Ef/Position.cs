@@ -23,7 +23,7 @@ namespace Collision.Sql.Ef
         public decimal Temp1Longitude { get; set; }
         public int Temp1Altitude { get; set; }
         public int Temp1Speed { get; set; }
-        public int Temp1Heading { get; set; }
+        public Nullable<int> Temp1Heading { get; set; }
         public System.DateTime Temp1UtcTimeStamp { get; set; }
         public Nullable<decimal> Temp2Latitude { get; set; }
         public Nullable<decimal> Temp2Longitude { get; set; }
@@ -56,7 +56,8 @@ namespace Collision.Sql.Ef
         public Nullable<decimal> Y8 { get; set; }
         public Nullable<int> Z8 { get; set; }
         public System.DateTime CreatedAtUtcTimeStamp { get; set; }
-        public bool IsInFlight { get; set; }
+        public Nullable<bool> IsInFlight { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         public virtual Aircraft Aircraft { get; set; }
     }

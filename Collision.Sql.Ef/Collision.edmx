@@ -66,7 +66,7 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
-        <EntityType Name="Positions">
+        <EntityType Name="Position">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -79,7 +79,7 @@
           <Property Name="Temp1Longitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
           <Property Name="Temp1Altitude" Type="int" Nullable="false" />
           <Property Name="Temp1Speed" Type="int" Nullable="false" />
-          <Property Name="Temp1Heading" Type="int" Nullable="false" />
+          <Property Name="Temp1Heading" Type="int" />
           <Property Name="Temp1UtcTimeStamp" Type="datetime" Nullable="false" />
           <Property Name="Temp2Latitude" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Temp2Longitude" Type="decimal" Precision="9" Scale="6" />
@@ -112,7 +112,8 @@
           <Property Name="Y8" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Z8" Type="int" />
           <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
-          <Property Name="IsInFlight" Type="bit" Nullable="false" />
+          <Property Name="IsInFlight" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -170,14 +171,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Positions_Aircraft">
+        <Association Name="FK_Position_Aircraft">
           <End Role="Aircraft" Type="Self.Aircraft" Multiplicity="1" />
-          <End Role="Positions" Type="Self.Positions" Multiplicity="*" />
+          <End Role="Position" Type="Self.Position" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Aircraft">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Positions">
+            <Dependent Role="Position">
               <PropertyRef Name="AircraftId" />
             </Dependent>
           </ReferentialConstraint>
@@ -189,7 +190,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -206,9 +207,9 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Positions_Aircraft" Association="Self.FK_Positions_Aircraft">
+          <AssociationSet Name="FK_Position_Aircraft" Association="Self.FK_Position_Aircraft">
             <End Role="Aircraft" EntitySet="Aircraft" />
-            <End Role="Positions" EntitySet="Positions" />
+            <End Role="Position" EntitySet="Position" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -314,10 +315,10 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Aircraft" EntityType="CollisionModel.Aircraft" />
-          <EntitySet Name="Positions" EntityType="CollisionModel.Position" />
-          <AssociationSet Name="FK_Positions_Aircraft" Association="CollisionModel.FK_Positions_Aircraft">
+          <EntitySet Name="Position" EntityType="CollisionModel.Position" />
+          <AssociationSet Name="FK_Position_Aircraft" Association="CollisionModel.FK_Position_Aircraft">
             <End Role="Aircraft" EntitySet="Aircraft" />
-            <End Role="Position" EntitySet="Positions" />
+            <End Role="Position" EntitySet="Position" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Aircraft">
@@ -329,7 +330,7 @@
           <Property Name="CarrierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PlaneType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Positions" Relationship="CollisionModel.FK_Positions_Aircraft" FromRole="Aircraft" ToRole="Position" />
+          <NavigationProperty Name="Position" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Aircraft" ToRole="Position" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -344,7 +345,7 @@
           <Property Name="Temp1Longitude" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
           <Property Name="Temp1Altitude" Type="Int32" Nullable="false" />
           <Property Name="Temp1Speed" Type="Int32" Nullable="false" />
-          <Property Name="Temp1Heading" Type="Int32" Nullable="false" />
+          <Property Name="Temp1Heading" Type="Int32" />
           <Property Name="Temp1UtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Temp2Latitude" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Temp2Longitude" Type="Decimal" Precision="9" Scale="6" />
@@ -377,10 +378,11 @@
           <Property Name="Y8" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Z8" Type="Int32" />
           <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="IsInFlight" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Aircraft" Relationship="CollisionModel.FK_Positions_Aircraft" FromRole="Position" ToRole="Aircraft" />
+          <Property Name="IsInFlight" Type="Boolean" />
+          <NavigationProperty Name="Aircraft" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Position" ToRole="Aircraft" />
+          <Property Name="IsActive" Type="Boolean" />
         </EntityType>
-        <Association Name="FK_Positions_Aircraft">
+        <Association Name="FK_Position_Aircraft">
           <End Type="CollisionModel.Aircraft" Role="Aircraft" Multiplicity="1" />
           <End Type="CollisionModel.Position" Role="Position" Multiplicity="*" />
           <ReferentialConstraint>
@@ -462,9 +464,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Positions">
+          <EntitySetMapping Name="Position">
             <EntityTypeMapping TypeName="CollisionModel.Position">
-              <MappingFragment StoreEntitySet="Positions">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsInFlight" ColumnName="IsInFlight" />
                 <ScalarProperty Name="CreatedAtUtcTimeStamp" ColumnName="CreatedAtUtcTimeStamp" />
                 <ScalarProperty Name="Z8" ColumnName="Z8" />
@@ -531,7 +534,7 @@
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
-    <!-- Diagram content (shape and connector positions) -->
+    <!-- Diagram content (shape and connector Position) -->
     <Diagrams></Diagrams>
   </Designer>
 </edmx:Edmx>

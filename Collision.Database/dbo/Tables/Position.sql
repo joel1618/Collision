@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Positions](
+﻿CREATE TABLE [dbo].[Position](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](500) NULL,
 	[AircraftId] [int] NOT NULL,
@@ -44,7 +44,7 @@
 	[Z8] [int] NULL,
 	[CreatedAtTimeStamp] [datetime] NULL,
 	[IsInFlight] [bit] NOT NULL,
- CONSTRAINT [PK_Positions] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Position] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -52,11 +52,11 @@
 
 GO
 
-ALTER TABLE [dbo].[Positions] ADD  CONSTRAINT [DF_Positions_IsInFlight]  DEFAULT ((0)) FOR [IsInFlight]
+ALTER TABLE [dbo].[Position] ADD  CONSTRAINT [DF_Position_IsInFlight]  DEFAULT ((0)) FOR [IsInFlight]
 GO
 
-ALTER TABLE [dbo].[Positions]  WITH CHECK ADD  CONSTRAINT [FK_Positions_Aircraft] FOREIGN KEY([AircraftId])
+ALTER TABLE [dbo].[Position]  WITH CHECK ADD  CONSTRAINT [FK_Position_Aircraft] FOREIGN KEY([AircraftId])
 REFERENCES [dbo].[Aircraft] ([Id])
 GO
 
-ALTER TABLE [dbo].[Positions] CHECK CONSTRAINT [FK_Positions_Aircraft]
+ALTER TABLE [dbo].[Position] CHECK CONSTRAINT [FK_Position_Aircraft]

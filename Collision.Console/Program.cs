@@ -9,6 +9,7 @@ using Microsoft.Practices.Unity;
 using Collision.Sql.Ef.Services.Interfaces;
 using Collision.Sql.Ef.Services;
 using Collision.Core.Models;
+using Newtonsoft.Json;
 
 namespace Collision.Console
 {
@@ -44,24 +45,32 @@ namespace Collision.Console
 
         public void Run()
         {
+            //Clear all position data on initial run
+
+            //Continue
+            RunStep2();
+        }
+
+        public void RunStep2()
+        {
+
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago.  
-            var flights = _aircraftService.GetAll();            
-            foreach(var flight in flights)
+            var aircrafts = _aircraftService.GetAll();
+            foreach (var aircraft in aircrafts)
             {
-                if (!handlePosition.ContainsKey(flight.Id))
+                if (!handlePosition.ContainsKey(aircraft.Id))
                 {
-                    handlePosition.Add(flight.Id, Task.Factory.StartNew(() => HandlePosition(flight)));
+                    handlePosition.Add(aircraft.Id, Task.Factory.StartNew(() => HandlePosition(aircraft)));
                 }
             }
-            //Sleep 5 minutes before getting the list again and going through it.
+            //Sleep 5 minutes before getting the list again and going through it to see if any new flights have been added.
             Thread.Sleep(300000);
             System.Console.WriteLine("Go get new flights");
-            Run();
+            RunStep2();
         }
 
         public void HandlePosition(Aircraft aircraft)
         {
-            //TODO: Get the position by AircraftId.  Need to implement Search endpoint.
             var _position = _positionService.GetByAircraftId(aircraft.Id);
             if(_position == null)
             {
@@ -71,7 +80,7 @@ namespace Collision.Console
                 //Call api for flight
                 UpdateFlightInformation(aircraft, _position);
                 //Create position in database
-
+                _position = _positionService.Create(_position);
                 //Calculate bounding box
                 CalculateBoundingBox(_position);
                 //Update position object in database
@@ -88,6 +97,8 @@ namespace Collision.Console
                 UpdateFlightInformation(aircraft, _position);
                 //Call HandleCollisions to start evaluating this position for potential collisions
                 CalculateBoundingBox(_position);
+                //Update position object in database
+
                 //Call HandleCollisions to start evaluating this position for potential collisions
                 if (!handleCollision.ContainsKey(_position.Id))
                 {
@@ -99,20 +110,33 @@ namespace Collision.Console
             HandlePosition(aircraft);
         } 
 
+        //TODO: Eventually move appId and appKey to config file
         public void UpdateFlightInformation(Aircraft aircraft, Position position)
         {
-            //web service call
-            //"https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/AA/100/dep/2015/12/5?appId=284fdac1&appKey=543f72a5d73e4fcf3dba3c4355413bd5&utc=true&includeFlightPlan=false&maxPositions=2"
-            var url = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/" + 
+            var baseUrl = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/";
+            //TODO: Use Stringbuilder here.
+            var url = baseUrl + 
                 aircraft.Carrier + "/" + 
                 aircraft.FlightNumber + "/dep/" +
                 DateTime.Now.Year + "/" +
                 DateTime.Now.Month + "/" +
                 DateTime.Now.Day + "?appId=284fdac1&appKey=543f72a5d73e4fcf3dba3c4355413bd5&utc=true&includeFlightPlan=false&maxPositions=2";
             var syncClient = new WebClient();
-            var content = syncClient.DownloadString(url);
-            //Fill in latitude/longitude/speed/heading/altitude/time temp properties with values from api.
-           
+            dynamic content = JsonConvert.DeserializeObject(syncClient.DownloadString(url));
+
+            position.Temp1Latitude = content.flightTracks[0].positions[0].lat;
+            position.Temp1Longitude = content.flightTracks[0].positions[0].lon;
+            position.Temp1Speed = content.flightTracks[0].positions[0].speedMph * 1.60934;
+            position.Temp1Altitude = content.flightTracks[0].positions[0].altitudeFt * 0.3048;
+            position.Temp1UtcTimeStamp = content.flightTracks[0].positions[0].date;
+
+            position.Temp2Latitude = content.flightTracks[0].positions[1].lat;
+            position.Temp2Longitude = content.flightTracks[0].positions[1].lon;
+            position.Temp2Speed = content.flightTracks[0].positions[1].speedMph * 1.60934;
+            position.Temp2Altitude = content.flightTracks[0].positions[1].altitudeFt * 0.3048;
+            position.Temp2UtcTimeStamp = content.flightTracks[0].positions[1].date;
+
+            position.IsActive = content.appendix.airlines[0].active;
         }
 
         public void CalculateBoundingBox(Position position)

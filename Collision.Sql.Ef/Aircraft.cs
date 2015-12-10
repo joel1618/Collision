@@ -17,7 +17,7 @@ namespace Collision.Sql.Ef
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Aircraft()
         {
-            this.Positions = new HashSet<Position>();
+            this.Position = new HashSet<Position>();
         }
     
         public int Id { get; set; }
@@ -27,6 +27,6 @@ namespace Collision.Sql.Ef
         public string PlaneType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Position> Positions { get; set; }
+        public virtual ICollection<Position> Position { get; set; }
     }
 }

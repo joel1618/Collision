@@ -25,17 +25,17 @@ namespace Collision.Sql.Ef.Services
         }
         public IEnumerable<CorePosition> GetAll()
         {
-            return _context.Positions.ToList().Select(x => x.ToCore());
+            return _context.Position.ToList().Select(x => x.ToCore());
         }
 
         public CorePosition Get(int id)
         {
-            return _context.Positions.Find(id).ToCore();
+            return _context.Position.Find(id).ToCore();
         }
 
         public CorePosition GetByAircraftId(int id)
         {
-            return _context.Positions.Where(x => x.AircraftId == id).FirstOrDefault().ToCore();
+            return _context.Position.Where(x => x.AircraftId == id).FirstOrDefault().ToCore();
         }
 
         public CorePosition Create(CorePosition item)
@@ -48,16 +48,26 @@ namespace Collision.Sql.Ef.Services
             var _item = new EfPosition()
             {
                 Name = item.Name,
-                Temp1Latitude = (decimal)item.Temp1Latitude,
-                Temp1Longitude = (decimal)item.Temp1Longitude,
+                Temp1Latitude = item.Temp1Latitude,
+                Temp1Longitude = item.Temp1Longitude,
                 Temp1Altitude = item.Temp1Altitude,
                 Temp1Speed = item.Temp1Speed,
                 Temp1Heading = item.Temp1Heading,
-                Temp1UtcTimeStamp = now,
-                IsInFlight = item.IsInFlight
+                Temp1UtcTimeStamp = item.Temp1UtcTimeStamp,
+
+                Temp2Latitude = item.Temp2Latitude,
+                Temp2Longitude = item.Temp2Longitude,
+                Temp2Altitude = item.Temp2Altitude,
+                Temp2Speed = item.Temp2Speed,
+                Temp2Heading = item.Temp2Heading,
+                Temp2UtcTimeStamp = item.Temp2UtcTimeStamp,
+
+                CreatedAtUtcTimeStamp = now,
+                IsInFlight = item.IsInFlight,
+                IsActive = item.IsActive
             };
 
-            _context.Positions.Add(_item);
+            _context.Position.Add(_item);
             _context.SaveChanges();
             return _item.ToCore();
         }
@@ -70,8 +80,8 @@ namespace Collision.Sql.Ef.Services
         public void Delete(int id)
         {
             var position = new EfPosition { Id = id };
-            _context.Positions.Attach(position);
-            _context.Positions.Remove(position);
+            _context.Position.Attach(position);
+            _context.Position.Remove(position);
             _context.SaveChanges();
         }
     }
