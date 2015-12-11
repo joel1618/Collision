@@ -25,7 +25,7 @@ namespace Collision.Sql.Ef.Services
         }
         public IEnumerable<CorePosition> GetAll()
         {
-            return _context.Position.ToList().Select(x => x.ToCore());
+            return _context.Position.ToList().Select(x => x.ToCore());          
         }
 
         public CorePosition Get(int id)
@@ -48,6 +48,8 @@ namespace Collision.Sql.Ef.Services
             var _item = new EfPosition()
             {
                 Name = item.Name,
+                AircraftId = item.AircraftId,
+
                 Temp1Latitude = item.Temp1Latitude,
                 Temp1Longitude = item.Temp1Longitude,
                 Temp1Altitude = item.Temp1Altitude,
