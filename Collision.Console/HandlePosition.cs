@@ -43,7 +43,7 @@ namespace Collision.Console
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions
-                    if (!handleCollision.ContainsKey(_position.Id))
+                    if (!handleCollision.ContainsKey(aircraft.Id))
                     {
                         handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
                         new PositionService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
@@ -60,7 +60,7 @@ namespace Collision.Console
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions
-                    if (!handleCollision.ContainsKey(_position.Id))
+                    if (!handleCollision.ContainsKey(aircraft.Id))
                     {
                         handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
                         new PositionService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
@@ -103,6 +103,7 @@ namespace Collision.Console
                 position.Temp1Longitude = flight.flightTracks[0].positions[0].lon;
                 position.Temp1Speed = flight.flightTracks[0].positions[0].speedMph * 1.60934;
                 position.Temp1Altitude = flight.flightTracks[0].positions[0].altitudeFt * 0.3048;
+                position.Temp1Heading = flight.flightTracks[0].heading;
                 position.Temp1UtcTimeStamp = flight.flightTracks[0].positions[0].date;
 
                 position.Temp2Latitude = flight.flightTracks[0].positions[1].lat;
@@ -138,12 +139,14 @@ namespace Collision.Console
             position.Temp1Longitude = new Nullable<decimal>();
             position.Temp1Speed = new Nullable<int>();
             position.Temp1Altitude = new Nullable<int>();
+            position.Temp1Heading = new Nullable<int>();
             position.Temp1UtcTimeStamp = new Nullable<DateTime>();
 
             position.Temp2Latitude = new Nullable<decimal>();
             position.Temp2Longitude = new Nullable<decimal>();
             position.Temp2Speed = new Nullable<int>();
             position.Temp2Altitude = new Nullable<int>();
+            position.Temp2Heading = new Nullable<int>();
             position.Temp2UtcTimeStamp = new Nullable<DateTime>();
 
             position.X1 = new Nullable<decimal>();
