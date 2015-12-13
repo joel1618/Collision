@@ -29,7 +29,13 @@ namespace Collision.Console
         {
             //Handle bounding box collisions
 
-            //If found insert into another table with information about the collision (need to work out these details)
+            //Find any within a certain distance
+
+            //First draw spheres and check if the spheres overlap
+
+            //Then do the expensive calculations here
+
+            //If collision found insert into another table with information about the collision (need to work out these details)
         }
     }
 }
