@@ -75,18 +75,24 @@
           <Property Name="AircraftId" Type="int" Nullable="false" />
           <Property Name="FlightId" Type="nvarchar" MaxLength="500" />
           <Property Name="FlightIdentity" Type="nvarchar" MaxLength="500" />
-          <Property Name="Temp1Latitude" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Temp1Longitude" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Temp1Altitude" Type="int" />
-          <Property Name="Temp1Speed" Type="int" />
-          <Property Name="Temp1Heading" Type="int" />
-          <Property Name="Temp1UtcTimeStamp" Type="datetime" />
-          <Property Name="Temp2Latitude" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Temp2Longitude" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Temp2Altitude" Type="int" />
-          <Property Name="Temp2Speed" Type="int" />
-          <Property Name="Temp2Heading" Type="int" />
-          <Property Name="Temp2UtcTimeStamp" Type="datetime" />
+          <Property Name="Latitude1" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude1" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude1" Type="int" />
+          <Property Name="Speed1" Type="int" />
+          <Property Name="Heading1" Type="int" />
+          <Property Name="UtcTimeStamp1" Type="datetime" />
+          <Property Name="Latitude2" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude2" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude2" Type="int" />
+          <Property Name="Speed2" Type="int" />
+          <Property Name="Heading2" Type="int" />
+          <Property Name="UtcTimeStamp2" Type="datetime" />
+          <Property Name="Latitude3" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude3" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude3" Type="int" />
+          <Property Name="Speed3" Type="int" />
+          <Property Name="Heading3" Type="int" />
+          <Property Name="UtcTimeStamp3" Type="datetime" />
           <Property Name="X1" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Y1" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Z1" Type="int" />
@@ -96,21 +102,7 @@
           <Property Name="X3" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Y3" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Z3" Type="int" />
-          <Property Name="X4" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y4" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z4" Type="int" />
-          <Property Name="X5" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y5" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z5" Type="int" />
-          <Property Name="X6" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y6" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z6" Type="int" />
-          <Property Name="X7" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y7" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z7" Type="int" />
-          <Property Name="X8" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y8" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z8" Type="int" />
+          <Property Name="Radius" Type="decimal" Precision="9" Scale="6" />
           <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
           <Property Name="ModifiedAtUtcTimeStamp" Type="datetime" />
           <Property Name="IsInFlight" Type="bit" />
@@ -316,22 +308,22 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Aircraft" EntityType="CollisionModel.Aircraft" />
-          <EntitySet Name="Position" EntityType="CollisionModel.Position" />
+          <EntitySet Name="Positions" EntityType="CollisionModel.Position" />
           <AssociationSet Name="FK_Position_Aircraft" Association="CollisionModel.FK_Position_Aircraft">
             <End Role="Aircraft" EntitySet="Aircraft" />
-            <End Role="Position" EntitySet="Position" />
+            <End Role="Position" EntitySet="Positions" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Aircraft">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Carrier" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CarrierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PlaneType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Position" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Aircraft" ToRole="Position" />
+          <NavigationProperty Name="Positions" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Aircraft" ToRole="Position" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -342,18 +334,24 @@
           <Property Name="AircraftId" Type="Int32" Nullable="false" />
           <Property Name="FlightId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FlightIdentity" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Temp1Latitude" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Temp1Longitude" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Temp1Altitude" Type="Int32" />
-          <Property Name="Temp1Speed" Type="Int32" />
-          <Property Name="Temp1Heading" Type="Int32" />
-          <Property Name="Temp1UtcTimeStamp" Type="DateTime" Precision="3" />
-          <Property Name="Temp2Latitude" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Temp2Longitude" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Temp2Altitude" Type="Int32" />
-          <Property Name="Temp2Speed" Type="Int32" />
-          <Property Name="Temp2Heading" Type="Int32" />
-          <Property Name="Temp2UtcTimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="Latitude1" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude1" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude1" Type="Int32" />
+          <Property Name="Speed1" Type="Int32" />
+          <Property Name="Heading1" Type="Int32" />
+          <Property Name="UtcTimeStamp1" Type="DateTime" Precision="3" />
+          <Property Name="Latitude2" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude2" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude2" Type="Int32" />
+          <Property Name="Speed2" Type="Int32" />
+          <Property Name="Heading2" Type="Int32" />
+          <Property Name="UtcTimeStamp2" Type="DateTime" Precision="3" />
+          <Property Name="Latitude3" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude3" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude3" Type="Int32" />
+          <Property Name="Speed3" Type="Int32" />
+          <Property Name="Heading3" Type="Int32" />
+          <Property Name="UtcTimeStamp3" Type="DateTime" Precision="3" />
           <Property Name="X1" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Y1" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Z1" Type="Int32" />
@@ -363,26 +361,12 @@
           <Property Name="X3" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Y3" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Z3" Type="Int32" />
-          <Property Name="X4" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y4" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z4" Type="Int32" />
-          <Property Name="X5" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y5" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z5" Type="Int32" />
-          <Property Name="X6" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y6" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z6" Type="Int32" />
-          <Property Name="X7" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y7" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z7" Type="Int32" />
-          <Property Name="X8" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y8" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z8" Type="Int32" />
-          <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="IsInFlight" Type="Boolean" />
-          <NavigationProperty Name="Aircraft" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Position" ToRole="Aircraft" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Radius" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedAtUtcTimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="IsInFlight" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Aircraft" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Position" ToRole="Aircraft" />
         </EntityType>
         <Association Name="FK_Position_Aircraft">
           <End Type="CollisionModel.Aircraft" Role="Aircraft" Multiplicity="1" />
@@ -466,28 +450,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Position">
+          <EntitySetMapping Name="Positions">
             <EntityTypeMapping TypeName="CollisionModel.Position">
               <MappingFragment StoreEntitySet="Position">
-                <ScalarProperty Name="ModifiedAtUtcTimeStamp" ColumnName="ModifiedAtUtcTimeStamp" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="IsInFlight" ColumnName="IsInFlight" />
+                <ScalarProperty Name="ModifiedAtUtcTimeStamp" ColumnName="ModifiedAtUtcTimeStamp" />
                 <ScalarProperty Name="CreatedAtUtcTimeStamp" ColumnName="CreatedAtUtcTimeStamp" />
-                <ScalarProperty Name="Z8" ColumnName="Z8" />
-                <ScalarProperty Name="Y8" ColumnName="Y8" />
-                <ScalarProperty Name="X8" ColumnName="X8" />
-                <ScalarProperty Name="Z7" ColumnName="Z7" />
-                <ScalarProperty Name="Y7" ColumnName="Y7" />
-                <ScalarProperty Name="X7" ColumnName="X7" />
-                <ScalarProperty Name="Z6" ColumnName="Z6" />
-                <ScalarProperty Name="Y6" ColumnName="Y6" />
-                <ScalarProperty Name="X6" ColumnName="X6" />
-                <ScalarProperty Name="Z5" ColumnName="Z5" />
-                <ScalarProperty Name="Y5" ColumnName="Y5" />
-                <ScalarProperty Name="X5" ColumnName="X5" />
-                <ScalarProperty Name="Z4" ColumnName="Z4" />
-                <ScalarProperty Name="Y4" ColumnName="Y4" />
-                <ScalarProperty Name="X4" ColumnName="X4" />
+                <ScalarProperty Name="Radius" ColumnName="Radius" />
                 <ScalarProperty Name="Z3" ColumnName="Z3" />
                 <ScalarProperty Name="Y3" ColumnName="Y3" />
                 <ScalarProperty Name="X3" ColumnName="X3" />
@@ -497,18 +467,24 @@
                 <ScalarProperty Name="Z1" ColumnName="Z1" />
                 <ScalarProperty Name="Y1" ColumnName="Y1" />
                 <ScalarProperty Name="X1" ColumnName="X1" />
-                <ScalarProperty Name="Temp2UtcTimeStamp" ColumnName="Temp2UtcTimeStamp" />
-                <ScalarProperty Name="Temp2Heading" ColumnName="Temp2Heading" />
-                <ScalarProperty Name="Temp2Speed" ColumnName="Temp2Speed" />
-                <ScalarProperty Name="Temp2Altitude" ColumnName="Temp2Altitude" />
-                <ScalarProperty Name="Temp2Longitude" ColumnName="Temp2Longitude" />
-                <ScalarProperty Name="Temp2Latitude" ColumnName="Temp2Latitude" />
-                <ScalarProperty Name="Temp1UtcTimeStamp" ColumnName="Temp1UtcTimeStamp" />
-                <ScalarProperty Name="Temp1Heading" ColumnName="Temp1Heading" />
-                <ScalarProperty Name="Temp1Speed" ColumnName="Temp1Speed" />
-                <ScalarProperty Name="Temp1Altitude" ColumnName="Temp1Altitude" />
-                <ScalarProperty Name="Temp1Longitude" ColumnName="Temp1Longitude" />
-                <ScalarProperty Name="Temp1Latitude" ColumnName="Temp1Latitude" />
+                <ScalarProperty Name="UtcTimeStamp3" ColumnName="UtcTimeStamp3" />
+                <ScalarProperty Name="Heading3" ColumnName="Heading3" />
+                <ScalarProperty Name="Speed3" ColumnName="Speed3" />
+                <ScalarProperty Name="Altitude3" ColumnName="Altitude3" />
+                <ScalarProperty Name="Longitude3" ColumnName="Longitude3" />
+                <ScalarProperty Name="Latitude3" ColumnName="Latitude3" />
+                <ScalarProperty Name="UtcTimeStamp2" ColumnName="UtcTimeStamp2" />
+                <ScalarProperty Name="Heading2" ColumnName="Heading2" />
+                <ScalarProperty Name="Speed2" ColumnName="Speed2" />
+                <ScalarProperty Name="Altitude2" ColumnName="Altitude2" />
+                <ScalarProperty Name="Longitude2" ColumnName="Longitude2" />
+                <ScalarProperty Name="Latitude2" ColumnName="Latitude2" />
+                <ScalarProperty Name="UtcTimeStamp1" ColumnName="UtcTimeStamp1" />
+                <ScalarProperty Name="Heading1" ColumnName="Heading1" />
+                <ScalarProperty Name="Speed1" ColumnName="Speed1" />
+                <ScalarProperty Name="Altitude1" ColumnName="Altitude1" />
+                <ScalarProperty Name="Longitude1" ColumnName="Longitude1" />
+                <ScalarProperty Name="Latitude1" ColumnName="Latitude1" />
                 <ScalarProperty Name="FlightIdentity" ColumnName="FlightIdentity" />
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="AircraftId" ColumnName="AircraftId" />
@@ -517,7 +493,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

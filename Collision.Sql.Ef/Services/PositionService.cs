@@ -50,19 +50,28 @@ namespace Collision.Sql.Ef.Services
                 Name = item.Name,
                 AircraftId = item.AircraftId,
 
-                Temp1Latitude = item.Temp1Latitude,
-                Temp1Longitude = item.Temp1Longitude,
-                Temp1Altitude = item.Temp1Altitude,
-                Temp1Speed = item.Temp1Speed,
-                Temp1Heading = item.Temp1Heading,
-                Temp1UtcTimeStamp = item.Temp1UtcTimeStamp,
+                Latitude1 = item.Latitude1,
+                Longitude1 = item.Longitude1,
+                Altitude1 = item.Altitude1,
+                Speed1 = item.Speed1,
+                Heading1 = item.Heading1,
+                UtcTimeStamp1 = item.UtcTimeStamp1,
 
-                Temp2Latitude = item.Temp2Latitude,
-                Temp2Longitude = item.Temp2Longitude,
-                Temp2Altitude = item.Temp2Altitude,
-                Temp2Speed = item.Temp2Speed,
-                Temp2Heading = item.Temp2Heading,
-                Temp2UtcTimeStamp = item.Temp2UtcTimeStamp,
+                Latitude2 = item.Latitude2,
+                Longitude2 = item.Longitude2,
+                Altitude2 = item.Altitude2,
+                Speed2 = item.Speed2,
+                Heading2 = item.Heading2,
+                UtcTimeStamp2 = item.UtcTimeStamp2,
+
+                Latitude3 = item.Latitude3,
+                Longitude3 = item.Longitude3,
+                Altitude3 = item.Altitude3,
+                Speed3 = item.Speed3,
+                Heading3 = item.Heading3,
+                UtcTimeStamp3 = item.UtcTimeStamp3,
+
+                Radius = item.Radius,
 
                 CreatedAtUtcTimeStamp = now,
                 IsInFlight = item.IsInFlight,
@@ -90,28 +99,33 @@ namespace Collision.Sql.Ef.Services
             var now = DateTime.UtcNow;
 
             record.Name = item.Name;
-            record.Temp1Latitude = item.Temp1Latitude;
-            record.Temp1Longitude = item.Temp1Longitude;
-            record.Temp1Altitude = item.Temp1Altitude;
-            record.Temp1Speed = item.Temp1Speed;
-            record.Temp1Heading = item.Temp1Heading;
-            record.Temp1UtcTimeStamp = item.Temp1UtcTimeStamp;
 
-            record.Temp2Latitude = item.Temp2Latitude;
-            record.Temp2Longitude = item.Temp2Longitude;
-            record.Temp2Altitude = item.Temp2Altitude;
-            record.Temp2Speed = item.Temp2Speed;
-            record.Temp2Heading = item.Temp2Heading;
-            record.Temp2UtcTimeStamp = item.Temp2UtcTimeStamp;
+            record.Latitude1 = item.Latitude1;
+            record.Longitude1 = item.Longitude1;
+            record.Altitude1 = item.Altitude1;
+            record.Speed1 = item.Speed1;
+            record.Heading1 = item.Heading1;
+            record.UtcTimeStamp1 = item.UtcTimeStamp1;
+            
+            record.Latitude2 = item.Latitude2;
+            record.Longitude2 = item.Longitude2;
+            record.Altitude2 = item.Altitude2;
+            record.Speed2 = item.Speed2;
+            record.Heading2 = item.Heading2;
+            record.UtcTimeStamp2 = item.UtcTimeStamp2;
+            
+            record.Latitude3 = item.Latitude3;
+            record.Longitude3 = item.Longitude3;
+            record.Altitude3 = item.Altitude3;
+            record.Speed3 = item.Speed3;
+            record.Heading3 = item.Heading3;
+            record.UtcTimeStamp3 = item.UtcTimeStamp3;
+
+            record.Radius = item.Radius;
 
             record.X1 = item.X1; record.Y1 = item.Y1; record.Z1 = item.Z1;
             record.X2 = item.X2; record.Y2 = item.Y2; record.Z2 = item.Z2;
             record.X3 = item.X3; record.Y3 = item.Y3; record.Z3 = item.Z3;
-            record.X4 = item.X4; record.Y4 = item.Y4; record.Z4 = item.Z4;
-            record.X5 = item.X5; record.Y5 = item.Y5; record.Z5 = item.Z5;
-            record.X6 = item.X6; record.Y6 = item.Y6; record.Z6 = item.Z6;
-            record.X7 = item.X7; record.Y7 = item.Y7; record.Z7 = item.Z7;
-            record.X8 = item.X8; record.Y8 = item.Y8; record.Z8 = item.Z8;
 
             record.IsInFlight = item.IsInFlight;
             record.IsActive = item.IsActive;

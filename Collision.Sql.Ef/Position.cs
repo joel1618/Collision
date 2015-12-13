@@ -19,18 +19,24 @@ namespace Collision.Sql.Ef
         public int AircraftId { get; set; }
         public string FlightId { get; set; }
         public string FlightIdentity { get; set; }
-        public Nullable<decimal> Temp1Latitude { get; set; }
-        public Nullable<decimal> Temp1Longitude { get; set; }
-        public Nullable<int> Temp1Altitude { get; set; }
-        public Nullable<int> Temp1Speed { get; set; }
-        public Nullable<int> Temp1Heading { get; set; }
-        public Nullable<System.DateTime> Temp1UtcTimeStamp { get; set; }
-        public Nullable<decimal> Temp2Latitude { get; set; }
-        public Nullable<decimal> Temp2Longitude { get; set; }
-        public Nullable<int> Temp2Altitude { get; set; }
-        public Nullable<int> Temp2Speed { get; set; }
-        public Nullable<int> Temp2Heading { get; set; }
-        public Nullable<System.DateTime> Temp2UtcTimeStamp { get; set; }
+        public Nullable<decimal> Latitude1 { get; set; }
+        public Nullable<decimal> Longitude1 { get; set; }
+        public Nullable<int> Altitude1 { get; set; }
+        public Nullable<int> Speed1 { get; set; }
+        public Nullable<int> Heading1 { get; set; }
+        public Nullable<System.DateTime> UtcTimeStamp1 { get; set; }
+        public Nullable<decimal> Latitude2 { get; set; }
+        public Nullable<decimal> Longitude2 { get; set; }
+        public Nullable<int> Altitude2 { get; set; }
+        public Nullable<int> Speed2 { get; set; }
+        public Nullable<int> Heading2 { get; set; }
+        public Nullable<System.DateTime> UtcTimeStamp2 { get; set; }
+        public Nullable<decimal> Latitude3 { get; set; }
+        public Nullable<decimal> Longitude3 { get; set; }
+        public Nullable<int> Altitude3 { get; set; }
+        public Nullable<int> Speed3 { get; set; }
+        public Nullable<int> Heading3 { get; set; }
+        public Nullable<System.DateTime> UtcTimeStamp3 { get; set; }
         public Nullable<decimal> X1 { get; set; }
         public Nullable<decimal> Y1 { get; set; }
         public Nullable<int> Z1 { get; set; }
@@ -40,25 +46,11 @@ namespace Collision.Sql.Ef
         public Nullable<decimal> X3 { get; set; }
         public Nullable<decimal> Y3 { get; set; }
         public Nullable<int> Z3 { get; set; }
-        public Nullable<decimal> X4 { get; set; }
-        public Nullable<decimal> Y4 { get; set; }
-        public Nullable<int> Z4 { get; set; }
-        public Nullable<decimal> X5 { get; set; }
-        public Nullable<decimal> Y5 { get; set; }
-        public Nullable<int> Z5 { get; set; }
-        public Nullable<decimal> X6 { get; set; }
-        public Nullable<decimal> Y6 { get; set; }
-        public Nullable<int> Z6 { get; set; }
-        public Nullable<decimal> X7 { get; set; }
-        public Nullable<decimal> Y7 { get; set; }
-        public Nullable<int> Z7 { get; set; }
-        public Nullable<decimal> X8 { get; set; }
-        public Nullable<decimal> Y8 { get; set; }
-        public Nullable<int> Z8 { get; set; }
+        public Nullable<decimal> Radius { get; set; }
         public System.DateTime CreatedAtUtcTimeStamp { get; set; }
+        public Nullable<System.DateTime> ModifiedAtUtcTimeStamp { get; set; }
         public Nullable<bool> IsInFlight { get; set; }
         public Nullable<bool> IsActive { get; set; }
-        public Nullable<System.DateTime> ModifiedAtUtcTimeStamp { get; set; }
     
         public virtual Aircraft Aircraft { get; set; }
     }

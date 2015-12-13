@@ -99,18 +99,21 @@ namespace Collision.Console
 
             if (flight.flightTracks.Count != 0 && flight.flightTracks[0].positions.Count == 2)
             {
-                position.Temp1Latitude = flight.flightTracks[0].positions[0].lat;
-                position.Temp1Longitude = flight.flightTracks[0].positions[0].lon;
-                position.Temp1Speed = flight.flightTracks[0].positions[0].speedMph * 1.60934;
-                position.Temp1Altitude = flight.flightTracks[0].positions[0].altitudeFt * 0.3048;
-                position.Temp1Heading = flight.flightTracks[0].heading;
-                position.Temp1UtcTimeStamp = flight.flightTracks[0].positions[0].date;
+                position.Latitude2 = flight.flightTracks[0].positions[0].lat;
+                position.Longitude2 = flight.flightTracks[0].positions[0].lon;
+                position.Speed2 = flight.flightTracks[0].positions[0].speedMph * 1.60934;
+                position.Altitude2 = flight.flightTracks[0].positions[0].altitudeFt * 0.3048;
+                position.Heading2 = flight.flightTracks[0].heading;
+                position.UtcTimeStamp2 = flight.flightTracks[0].positions[0].date;
 
-                position.Temp2Latitude = flight.flightTracks[0].positions[1].lat;
-                position.Temp2Longitude = flight.flightTracks[0].positions[1].lon;
-                position.Temp2Speed = flight.flightTracks[0].positions[1].speedMph * 1.60934;
-                position.Temp2Altitude = flight.flightTracks[0].positions[1].altitudeFt * 0.3048;
-                position.Temp2UtcTimeStamp = flight.flightTracks[0].positions[1].date;
+                position.Latitude3 = flight.flightTracks[0].positions[1].lat;
+                position.Longitude3 = flight.flightTracks[0].positions[1].lon;
+                position.Speed3 = flight.flightTracks[0].positions[1].speedMph * 1.60934;
+                position.Altitude3 = flight.flightTracks[0].positions[1].altitudeFt * 0.3048;
+                position.Heading3 = flight.flightTracks[0].heading;
+                position.UtcTimeStamp3 = flight.flightTracks[0].positions[1].date;
+
+                position.Radius = 10;
 
                 position.IsInFlight = true;
             }
@@ -135,19 +138,28 @@ namespace Collision.Console
         //TODO: Remove any collision potentials associated with this aircraft
         public void NullifyPosition(Position position)
         {
-            position.Temp1Latitude = new Nullable<decimal>();
-            position.Temp1Longitude = new Nullable<decimal>();
-            position.Temp1Speed = new Nullable<int>();
-            position.Temp1Altitude = new Nullable<int>();
-            position.Temp1Heading = new Nullable<int>();
-            position.Temp1UtcTimeStamp = new Nullable<DateTime>();
+            position.Latitude1 = new Nullable<decimal>();
+            position.Longitude1 = new Nullable<decimal>();
+            position.Speed1 = new Nullable<int>();
+            position.Altitude1 = new Nullable<int>();
+            position.Heading1 = new Nullable<int>();
+            position.UtcTimeStamp1 = new Nullable<DateTime>();
 
-            position.Temp2Latitude = new Nullable<decimal>();
-            position.Temp2Longitude = new Nullable<decimal>();
-            position.Temp2Speed = new Nullable<int>();
-            position.Temp2Altitude = new Nullable<int>();
-            position.Temp2Heading = new Nullable<int>();
-            position.Temp2UtcTimeStamp = new Nullable<DateTime>();
+            position.Latitude2 = new Nullable<decimal>();
+            position.Longitude2 = new Nullable<decimal>();
+            position.Speed2 = new Nullable<int>();
+            position.Altitude2 = new Nullable<int>();
+            position.Heading2 = new Nullable<int>();
+            position.UtcTimeStamp2 = new Nullable<DateTime>();
+
+            position.Latitude3 = new Nullable<decimal>();
+            position.Longitude3 = new Nullable<decimal>();
+            position.Speed3 = new Nullable<int>();
+            position.Altitude3 = new Nullable<int>();
+            position.Heading3 = new Nullable<int>();
+            position.UtcTimeStamp3 = new Nullable<DateTime>();
+
+            position.Radius = new Nullable<decimal>();
 
             position.X1 = new Nullable<decimal>();
             position.Y1 = new Nullable<decimal>();
@@ -160,26 +172,6 @@ namespace Collision.Console
             position.X3 = new Nullable<decimal>();
             position.Y3 = new Nullable<decimal>();
             position.Z3 = new Nullable<int>();
-
-            position.X4 = new Nullable<decimal>();
-            position.Y4 = new Nullable<decimal>();
-            position.Z4 = new Nullable<int>();
-
-            position.X5 = new Nullable<decimal>();
-            position.Y5 = new Nullable<decimal>();
-            position.Z5 = new Nullable<int>();
-
-            position.X6 = new Nullable<decimal>();
-            position.Y6 = new Nullable<decimal>();
-            position.Z6 = new Nullable<int>();
-
-            position.X7 = new Nullable<decimal>();
-            position.Y7 = new Nullable<decimal>();
-            position.Z7 = new Nullable<int>();
-
-            position.X8 = new Nullable<decimal>();
-            position.Y8 = new Nullable<decimal>();
-            position.Z8 = new Nullable<int>();
         }
         #endregion
     }
