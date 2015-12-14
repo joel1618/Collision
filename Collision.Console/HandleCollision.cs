@@ -59,7 +59,8 @@ namespace Collision.Console
             //https://www.youtube.com/watch?v=HC5YikQxwZA
             if (ValidateCanCheckForCollision(position1, position2))
             {
-                var distance = FindShortestDistanceBetweenLines(position1, position2);
+                //Distance in meters of the two lines.  
+                var distance = FindShortestDistanceBetweenLines(position1, position2) * 1000;
 
                 //If the distance is < position1.radius + position2.radius then we have a collision.
                 if (distance < (double)(position1.Radius + position2.Radius))
@@ -132,6 +133,12 @@ namespace Collision.Console
             public double z;
         }
 
+        /// <summary>
+        /// This function will return the shortest path between two line segments in Kilometers (XYZ is in Kilometer form)
+        /// </summary>
+        /// <param name="position1"></param>
+        /// <param name="position2"></param>
+        /// <returns></returns>
         private double FindShortestDistanceBetweenLines(Position position1, Position position2)
         {
             double EPS = 0.00000001;
