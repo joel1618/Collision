@@ -17,8 +17,8 @@ namespace Collision.Console
 {
     public class HandleCollision
     {
-        private readonly IPositionService _positionService;
-        private readonly IConflictService _conflictService;
+        private IPositionService _positionService;
+        private IConflictService _conflictService;
         private Dictionary<int, Task> handleCollision = new Dictionary<int, Task>();
 
         public HandleCollision(IPositionService positionService, IConflictService conflictService)
@@ -31,6 +31,7 @@ namespace Collision.Console
         public void HandleCollisions(int positionId)
         {
             var position1 = _positionService.Get(positionId);
+            if (!position1.IsActive){return;}
             System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
             //Check preexisting collisions
             var collisions = _conflictService.GetByPositionId1(position1.Id);
@@ -51,6 +52,8 @@ namespace Collision.Console
             }
             //Wait 30 seconds before evaluating this position for collisions again.
             Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
+            _positionService = new PositionService(new Sql.Ef.CollisionEntities());
+            _conflictService = new ConflictService(new Sql.Ef.CollisionEntities());
             HandleCollisions(positionId);
         }
 

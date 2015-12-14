@@ -28,7 +28,7 @@ namespace Collision.Sql.Ef.Services
         }
         public CoreAircraft Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.Aircraft.Find(id).ToCore();
         }
         public CoreAircraft Create(CoreAircraft item)
         {

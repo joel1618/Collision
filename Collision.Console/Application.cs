@@ -48,13 +48,13 @@ namespace Collision.Console
                     }
                 }
                 else
-                {                    
-                    //Kill the HandlePosition Task and remove from handlePosition dictionary 
+                {
+                    //Remove from handlePosition dictionary 
                     if (handlePosition.ContainsKey(aircraft.Id))
                     {
-                        var ts = handlePosition[aircraft.Id];
-                        //TODO: Figure out why this is not killing the tasks.
-                        ts.Cancel();
+                        //var ts = handlePosition[aircraft.Id];
+                        ////TODO: Figure out why this is not killing the tasks.
+                        //ts.Cancel();
                         handlePosition.Remove(aircraft.Id);
                     }
                     //Set position record to inactive if it exists

@@ -16,8 +16,8 @@ namespace Collision.Console
 {
     public class HandlePosition
     {
-        private readonly IPositionService _positionService;
-        private readonly IAircraftService _aircraftService;
+        private IPositionService _positionService;
+        private IAircraftService _aircraftService;
         private Dictionary<int, Task> handleCollision = new Dictionary<int, Task>();
 
         public HandlePosition(IPositionService positionService, IAircraftService aircraftService)
@@ -27,7 +27,21 @@ namespace Collision.Console
         }
         public void HandlePositions(Aircraft aircraft)
         {
-            var _position = _positionService.GetByAircraftId(aircraft.Id);
+            //End the process if the aircraft has been set to inactive.
+            Position _position = null;
+            aircraft = _aircraftService.Get(aircraft.Id);
+            if (!aircraft.IsActive)
+            {
+                _position = _positionService.GetByAircraftId(aircraft.Id);
+                NullifyPosition(_position);
+                _position.IsActive = false; _position.IsInFlight = false;
+                _positionService.Update(_position.Id, _position);
+                return;
+            }
+            else {
+                _position = _positionService.GetByAircraftId(aircraft.Id);
+            }
+
             if (_position == null)
             {
                 //No position yet exists for this aircraft and we need to create a new one
@@ -50,6 +64,10 @@ namespace Collision.Console
                         new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
                     }
                 }
+                else
+                {
+                    //There was an error from the API
+                }
             }
             else
             {
@@ -68,9 +86,15 @@ namespace Collision.Console
                         new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
                     }
                 }
+                else
+                {
+                    //There was an error from the API
+                }
             }
             //Wait 30 seconds before evaluating this flight again.
             Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
+            _positionService = new PositionService(new Sql.Ef.CollisionEntities());
+            _aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
             HandlePositions(aircraft);
         }
 
