@@ -15,12 +15,10 @@ using Newtonsoft.Json;
 
 namespace Collision.Console
 {
-
-
     public class Application : IApplication
     {
-        private readonly IPositionService _positionService;
-        private readonly IAircraftService _aircraftService;
+        private IPositionService _positionService;
+        private IAircraftService _aircraftService;
         private Dictionary<int, CancellationTokenSource> handlePosition = new Dictionary<int, CancellationTokenSource>();
 
         public Application(IPositionService positionService, IAircraftService aircraftService)
@@ -55,6 +53,7 @@ namespace Collision.Console
                     if (handlePosition.ContainsKey(aircraft.Id))
                     {
                         var ts = handlePosition[aircraft.Id];
+                        //TODO: Figure out why this is not killing the tasks.
                         ts.Cancel();
                         handlePosition.Remove(aircraft.Id);
                     }
@@ -69,7 +68,10 @@ namespace Collision.Console
                 }
             }
             //Sleep before getting the list again and going through it to see if any new flights have been added.
-            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));                   
+            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
+            //Necessary in order to get changed data
+            _positionService = new PositionService(new Sql.Ef.CollisionEntities());
+            _aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
             Run();
         }
     }
