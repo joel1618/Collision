@@ -39,7 +39,7 @@ namespace Collision.Console
                     //Create position in database
                     _position = _positionService.Create(_position);
                     //Calculate bounding box
-                    CalculateBoundingBox(_position);
+                    new HandleBoundingBox(_position);
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions
@@ -56,7 +56,7 @@ namespace Collision.Console
                 if (UpdateFlightInformation(aircraft, _position))
                 {
                     //Call HandleCollisions to start evaluating this position for potential collisions
-                    CalculateBoundingBox(_position);
+                    new HandleBoundingBox(_position);
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions

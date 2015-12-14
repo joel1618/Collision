@@ -48,15 +48,15 @@ namespace Collision.Sql.Ef.Extensions
 
                 X1 = item.X1.HasValue ? item.X1.Value : new Nullable<decimal>(),
                 Y1 = item.Y1.HasValue ? item.Y1.Value : new Nullable<decimal>(),
-                Z1 = item.Z1.HasValue ? item.Z1.Value : new Nullable<int>(),
+                Z1 = item.Z1.HasValue ? item.Z1.Value : new Nullable<decimal>(),
 
                 X2 = item.X2.HasValue ? item.X2.Value : new Nullable<decimal>(),
                 Y2 = item.Y2.HasValue ? item.Y2.Value : new Nullable<decimal>(),
-                Z2 = item.Z2.HasValue ? item.Z2.Value : new Nullable<int>(),
+                Z2 = item.Z2.HasValue ? item.Z2.Value : new Nullable<decimal>(),
 
                 X3 = item.X3.HasValue ? item.X3.Value : new Nullable<decimal>(),
                 Y3 = item.Y3.HasValue ? item.Y3.Value : new Nullable<decimal>(),
-                Z3 = item.Z3.HasValue ? item.Z3.Value : new Nullable<int>(),              
+                Z3 = item.Z3.HasValue ? item.Z3.Value : new Nullable<decimal>(),              
 
                 CreatedAtUtcTimeStamp = item.CreatedAtUtcTimeStamp
             };

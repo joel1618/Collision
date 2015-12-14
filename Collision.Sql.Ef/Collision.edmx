@@ -95,13 +95,13 @@
           <Property Name="UtcTimeStamp3" Type="datetime" />
           <Property Name="X1" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Y1" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z1" Type="int" />
+          <Property Name="Z1" Type="decimal" Precision="9" Scale="6" />
           <Property Name="X2" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Y2" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z2" Type="int" />
+          <Property Name="Z2" Type="decimal" Precision="9" Scale="6" />
           <Property Name="X3" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Y3" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z3" Type="int" />
+          <Property Name="Z3" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Radius" Type="decimal" Precision="9" Scale="6" />
           <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
           <Property Name="ModifiedAtUtcTimeStamp" Type="datetime" />
@@ -354,13 +354,13 @@
           <Property Name="UtcTimeStamp3" Type="DateTime" Precision="3" />
           <Property Name="X1" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Y1" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z1" Type="Int32" />
+          <Property Name="Z1" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="X2" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Y2" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z2" Type="Int32" />
+          <Property Name="Z2" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="X3" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Y3" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z3" Type="Int32" />
+          <Property Name="Z3" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Radius" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedAtUtcTimeStamp" Type="DateTime" Precision="3" />

@@ -112,6 +112,7 @@
     <Compile Include="Application.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="HandleBoundingBox.cs" />
     <Compile Include="HandleCollision.cs" />
     <Compile Include="HandlePosition.cs" />
     <Compile Include="Interfaces\IApplication.cs" />

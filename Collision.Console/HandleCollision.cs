@@ -27,13 +27,13 @@ namespace Collision.Console
 
         public void HandleCollisions(int PositionId)
         {
-            //Handle bounding box collisions
+            //Handle bounding box (pill) collisions
 
             //Find any within a certain distance
 
-            //First draw spheres and check if the spheres overlap
-
-            //Then do the expensive calculations here
+            //Find shortest distance between position1 xyz2 -> xyz1 line segment and position2 xyz2 -> xyz1 line segment.
+            
+            //If the distance is < position1.radius + position2.radius then we have a collision.
 
             //If collision found insert into another table with information about the collision (need to work out these details)
         }
