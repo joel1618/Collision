@@ -92,9 +92,13 @@ namespace Collision.Console
             position.Z3 = (decimal)((N3 * (1 - e2) + h3) * slat3) / 1000;
         }
 
-        //TODO: Make sure all necessary fields are available to calculate the bounds of the pill.
+        //Make sure all necessary fields are available to calculate the bounds of the pill.
         private bool ValidateCanCalculate(Position position)
         {
+            if(position == null)
+            {
+                return false;
+            }
             if (!position.Latitude2.HasValue || !position.Longitude2.HasValue || !position.Altitude2.HasValue ||
                 !position.Latitude3.HasValue || !position.Longitude3.HasValue || !position.Altitude3.HasValue){
                 return false;

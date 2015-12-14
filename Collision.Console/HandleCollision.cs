@@ -41,8 +41,8 @@ namespace Collision.Console
                 }
             }
 
-            //TODO: Prune and sweep
-            var positions = _positionService.GetAll();
+            //Find positions within a 55.5 kilometers radius
+            var positions = _positionService.GetPositionsByQuadrant(position1);
 
             foreach (Position position2 in positions)
             {
@@ -66,7 +66,7 @@ namespace Collision.Console
                 if (distance < (double)(position1.Radius + position2.Radius))
                 {
                     /*TODO: make sure position1.UtcTimeStamp2 and position2.UtcTimeStamp2 is within some 
-                    threshold (ideally 1 minute) to prevent a case of old position data colliding with new position data*/
+                    threshold (ideally 1 minute) to prevent a case of old position data false positive colliding with new position data*/
 
                     var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
                     if (collisionExists == null)

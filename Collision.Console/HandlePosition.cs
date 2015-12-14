@@ -95,6 +95,7 @@ namespace Collision.Console
                 if (position.Id != 0)
                 {
                     //TODO: Should be deactive the flight or delete it.
+                    //TODO: Delete conflicts first before deleting position
                     _positionService.Delete(position.Id);
                 }
                 return false;
@@ -116,7 +117,7 @@ namespace Collision.Console
                 position.Heading3 = flight.flightTracks[0].heading;
                 position.UtcTimeStamp3 = flight.flightTracks[0].positions[1].date;
 
-                position.Radius = 10;
+                position.Radius = 5;
 
                 position.IsInFlight = true;
             }

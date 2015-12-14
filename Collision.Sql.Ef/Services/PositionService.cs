@@ -28,6 +28,14 @@ namespace Collision.Sql.Ef.Services
             return _context.Positions.ToList().Select(x => x.ToCore());          
         }
 
+        public IEnumerable<CorePosition> GetPositionsByQuadrant(CorePosition item)
+        {
+            return _context.Positions.Where(x => x.Latitude2.Value > item.Latitude2.Value - (decimal).5
+            && x.Latitude2.Value < item.Latitude2.Value + (decimal).5
+            && x.Longitude2.Value > item.Longitude2.Value - (decimal).5
+            && x.Longitude2.Value < item.Longitude2.Value + (decimal).5).ToList().Select(x => x.ToCore());
+        }
+
         public CorePosition Get(int id)
         {
             return _context.Positions.Find(id).ToCore();

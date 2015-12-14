@@ -10,5 +10,6 @@ namespace Collision.Sql.Ef.Services.Interfaces
     public interface IPositionService : IService<CorePosition>
     {
         CorePosition GetByAircraftId(int id);
+        IEnumerable<CorePosition> GetPositionsByQuadrant(CorePosition item);
     }
 }
