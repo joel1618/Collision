@@ -35,11 +35,20 @@ namespace Collision.Console
             var aircrafts = _aircraftService.GetAll();
             foreach (var aircraft in aircrafts)
             {
-                if (!handlePosition.ContainsKey(aircraft.Id))
+                if (aircraft.IsActive)
                 {
-                    handlePosition.Add(aircraft.Id, Task.Factory.StartNew(() => new HandlePosition(
-                        new PositionService(new Sql.Ef.CollisionEntities()),
-                        new AircraftService(new Sql.Ef.CollisionEntities())).HandlePositions(aircraft)));
+                    if (!handlePosition.ContainsKey(aircraft.Id))
+                    {
+                        handlePosition.Add(aircraft.Id, Task.Factory.StartNew(() => new HandlePosition(
+                            new PositionService(new Sql.Ef.CollisionEntities()),
+                            new AircraftService(new Sql.Ef.CollisionEntities())).HandlePositions(aircraft)));
+                    }
+                }
+                else
+                {
+                    //TODO: Set position record to inactive if it exists
+                    
+                    //TODO: Kill the HandlePosition Task and remove from handlePosition dictionary     
                 }
             }
             //Sleep 5 minutes before getting the list again and going through it to see if any new flights have been added.

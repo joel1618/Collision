@@ -94,6 +94,7 @@ namespace Collision.Console
             {
                 if (position.Id != 0)
                 {
+                    //TODO: Should be deactive the flight or delete it.
                     _positionService.Delete(position.Id);
                 }
                 return false;
@@ -103,15 +104,15 @@ namespace Collision.Console
             {
                 position.Latitude2 = flight.flightTracks[0].positions[0].lat;
                 position.Longitude2 = flight.flightTracks[0].positions[0].lon;
-                position.Speed2 = flight.flightTracks[0].positions[0].speedMph * 1.60934;
-                position.Altitude2 = flight.flightTracks[0].positions[0].altitudeFt * 0.3048;
+                position.Speed2 = flight.flightTracks[0].positions[0].speedMph * 1.60934; //convert to Kmph
+                position.Altitude2 = flight.flightTracks[0].positions[0].altitudeFt * 0.3048; //convert to Meters
                 position.Heading2 = flight.flightTracks[0].heading;
                 position.UtcTimeStamp2 = flight.flightTracks[0].positions[0].date;
 
                 position.Latitude3 = flight.flightTracks[0].positions[1].lat;
                 position.Longitude3 = flight.flightTracks[0].positions[1].lon;
-                position.Speed3 = flight.flightTracks[0].positions[1].speedMph * 1.60934;
-                position.Altitude3 = flight.flightTracks[0].positions[1].altitudeFt * 0.3048;
+                position.Speed3 = flight.flightTracks[0].positions[1].speedMph * 1.60934; //convert to Kmph
+                position.Altitude3 = flight.flightTracks[0].positions[1].altitudeFt * 0.3048; //convert to Meters
                 position.Heading3 = flight.flightTracks[0].heading;
                 position.UtcTimeStamp3 = flight.flightTracks[0].positions[1].date;
 

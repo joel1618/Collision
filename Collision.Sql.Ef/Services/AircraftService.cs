@@ -24,7 +24,7 @@ namespace Collision.Sql.Ef.Services
         }
         public IEnumerable<CoreAircraft> GetAll()
         {
-            return _context.Aircraft.ToList().Where(e => e.IsActive == true).Select(x => x.ToCore());
+            return _context.Aircraft.ToList().Select(x => x.ToCore());
         }
         public CoreAircraft Get(int id)
         {

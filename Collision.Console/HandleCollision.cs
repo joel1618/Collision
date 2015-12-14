@@ -65,7 +65,9 @@ namespace Collision.Console
                 //If the distance is < position1.radius + position2.radius then we have a collision.
                 if (distance < (double)(position1.Radius + position2.Radius))
                 {
-                    //If collision found insert into another table with information about the collision (need to work out these details)
+                    /*TODO: make sure position1.UtcTimeStamp2 and position2.UtcTimeStamp2 is within some 
+                    threshold (ideally 1 minute) to prevent a case of old position data colliding with new position data*/
+
                     var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
                     if (collisionExists == null)
                     {

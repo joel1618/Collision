@@ -21,7 +21,8 @@ namespace Collision.Sql.Ef.Extensions
             {
                 Id = item.Id,
                 Carrier = item.Carrier,
-                FlightNumber = item.FlightNumber
+                FlightNumber = item.FlightNumber,
+                IsActive = item.IsActive
             };
         }
     }
