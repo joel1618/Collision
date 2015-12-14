@@ -20,6 +20,7 @@ namespace Collision.Console
         {
             if (ValidateCanCalculate(position))
             {
+                System.Console.WriteLine("Calculating bounding box for " + position.Aircraft.CarrierName + " flight " + position.Aircraft.FlightNumber);
                 ConvertLatLonAltToXYZ(position);
                 CalculateXYZ1(position);
                 //TODO: Find the lat/lon/alt from x1/y1/z1

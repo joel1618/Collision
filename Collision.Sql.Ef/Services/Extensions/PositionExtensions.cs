@@ -60,7 +60,9 @@ namespace Collision.Sql.Ef.Extensions
                 
                 Radius = item.Radius.HasValue ? item.Radius.Value : new Nullable<decimal>(),              
 
-                CreatedAtUtcTimeStamp = item.CreatedAtUtcTimeStamp
+                CreatedAtUtcTimeStamp = item.CreatedAtUtcTimeStamp,
+
+                Aircraft = item.Aircraft.ToCore()
             };
         }
     }

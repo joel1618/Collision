@@ -88,6 +88,8 @@ namespace Collision.Sql.Ef.Services
 
             _context.Positions.Add(_item);
             _context.SaveChanges();
+            //Load navigation property after a create.  
+            _context.Entry(_item).Reference(x => x.Aircraft).Load();
             return _item.ToCore();
         }
 
@@ -140,6 +142,7 @@ namespace Collision.Sql.Ef.Services
 
             _context.SaveChanges();
 
+            _context.Entry(record).Reference(x => x.Aircraft).Load();
             return record.ToCore();
         }
 

@@ -39,6 +39,7 @@ namespace Collision.Console
                 {
                     if (!handlePosition.ContainsKey(aircraft.Id))
                     {
+                        System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
                         handlePosition.Add(aircraft.Id, Task.Factory.StartNew(() => new HandlePosition(
                             new PositionService(new Sql.Ef.CollisionEntities()),
                             new AircraftService(new Sql.Ef.CollisionEntities())).HandlePositions(aircraft)));

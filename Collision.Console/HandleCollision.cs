@@ -31,6 +31,7 @@ namespace Collision.Console
         public void HandleCollisions(int positionId)
         {
             var position1 = _positionService.Get(positionId);
+            System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
             //Check preexisting collisions
             var collisions = _conflictService.GetByPositionId1(position1.Id);
             if(collisions != null)
@@ -71,6 +72,7 @@ namespace Collision.Console
                     var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
                     if (collisionExists == null)
                     {
+                        System.Console.WriteLine("Collision found between " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber + " and " + position2.Aircraft.CarrierName + " flight " + position2.Aircraft.FlightNumber);
                         _conflictService.Create(new CoreConflict()
                         {
                             PositionId1 = position1.Id,

@@ -54,5 +54,7 @@ namespace Collision.Core.Models
 
         public bool IsInFlight { get; set; }
         public bool IsActive { get; set; }
+
+        public Aircraft Aircraft { get; set; }
     }
 }

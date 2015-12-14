@@ -10,6 +10,7 @@ namespace Collision.Core.Models
     {
         public int Id { get; set; }
         public string Carrier { get; set; }
+        public string CarrierName { get; set; }
         public string FlightNumber { get; set; }
         public bool IsActive { get; set; }
     }

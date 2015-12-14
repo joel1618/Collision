@@ -60,6 +60,9 @@ namespace Collision.Sql.Ef.Services
 
             _context.Conflicts.Add(_item);
             _context.SaveChanges();
+
+            _context.Entry(_item).Reference(x => x.Position).Load();
+            _context.Entry(_item).Reference(x => x.Position1).Load();
             return _item.ToCore();
         }
 
@@ -82,6 +85,8 @@ namespace Collision.Sql.Ef.Services
 
             _context.SaveChanges();
 
+            _context.Entry(record).Reference(x => x.Position).Load();
+            _context.Entry(record).Reference(x => x.Position1).Load();
             return record.ToCore();
         }
 

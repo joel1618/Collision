@@ -31,7 +31,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "100",
                     IsActive = true
                 });
@@ -39,7 +39,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1002",
                     IsActive = true
                 });
@@ -47,7 +47,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1003",
                     IsActive = true
                 });
@@ -55,7 +55,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1010",
                     IsActive = true
                 });
@@ -63,7 +63,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1024",
                     IsActive = true
                 });
@@ -71,7 +71,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1055",
                     IsActive = true
                 });
@@ -79,7 +79,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "106",
                     IsActive = true
                 });
@@ -87,7 +87,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1067",
                     IsActive = true
                 });
@@ -95,7 +95,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1071",
                     IsActive = true
                 });
@@ -103,7 +103,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "1076",
                     IsActive = true
                 });
@@ -111,7 +111,7 @@ namespace Collision.Sql.Ef.Migrations
                 new Aircraft()
                 {
                     Carrier = "AA",
-                    CarrierName = "Amercan Airlines",
+                    CarrierName = "American Airlines",
                     FlightNumber = "108",
                     IsActive = true
                 });
