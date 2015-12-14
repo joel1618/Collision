@@ -132,7 +132,7 @@ namespace Collision.Console
 
         #region Helper
         //TODO: Remove any collision potentials associated with this aircraft
-        public void NullifyPosition(Position position)
+        public static void NullifyPosition(Position position)
         {
             position.Latitude1 = new Nullable<decimal>();
             position.Longitude1 = new Nullable<decimal>();

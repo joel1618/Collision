@@ -9,7 +9,7 @@ using CoreAircraft = Collision.Core.Models.Aircraft;
 
 namespace Collision.Sql.Ef.Services
 {
-    public class AircraftService : IAircraftService
+    public class AircraftService : IAircraftService, IDisposable
     {
         private CollisionEntities _context;
 
@@ -42,5 +42,28 @@ namespace Collision.Sql.Ef.Services
         {
             throw new NotImplementedException();
         }
+
+        #region IDisposable
+        private bool _disposed;
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                    // Dispose other managed resources.
+                }
+                //release unmanaged resources.
+            }
+            _disposed = true;
+        }
+        #endregion
     }
 }
