@@ -26,6 +26,7 @@ namespace Collision.Console
             {
                 ConvertLatLonAltToXYZ(position);
                 CalculateXYZ1(position);
+                //ConvertXYZ1toLatLonAlt1(position);
             }
         }
 

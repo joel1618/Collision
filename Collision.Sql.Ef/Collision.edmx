@@ -66,6 +66,17 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Conflict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionId1" Type="int" Nullable="false" />
+          <Property Name="PositionId2" Type="int" Nullable="false" />
+          <Property Name="ModifiedAtUtcTimeStamp" Type="datetime" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Position">
           <Key>
             <PropertyRef Name="Id" />
@@ -108,6 +119,30 @@
           <Property Name="IsInFlight" Type="bit" />
           <Property Name="IsActive" Type="bit" />
         </EntityType>
+        <Association Name="FK_Conflict_Position1">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Conflict" Type="Self.Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conflict_Position2">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Conflict" Type="Self.Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -183,7 +218,16 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conflict" EntityType="Self.Conflict" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Conflict_Position1" Association="Self.FK_Conflict_Position1">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Conflict" EntitySet="Conflict" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conflict_Position2" Association="Self.FK_Conflict_Position2">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Conflict" EntitySet="Conflict" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -313,7 +357,16 @@
             <End Role="Aircraft" EntitySet="Aircraft" />
             <End Role="Position" EntitySet="Positions" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Conflicts" EntityType="CollisionModel.Conflict" />
+          <AssociationSet Name="FK_Conflict_Position1" Association="CollisionModel.FK_Conflict_Position1">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Conflict" EntitySet="Conflicts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conflict_Position2" Association="CollisionModel.FK_Conflict_Position2">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Conflict" EntitySet="Conflicts" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Aircraft">
           <Key>
             <PropertyRef Name="Id" />
@@ -367,7 +420,9 @@
           <Property Name="IsInFlight" Type="Boolean" />
           <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Aircraft" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Position" ToRole="Aircraft" />
-        </EntityType>
+          <NavigationProperty Name="Conflicts" Relationship="CollisionModel.FK_Conflict_Position1" FromRole="Position" ToRole="Conflict" />
+          <NavigationProperty Name="Conflicts1" Relationship="CollisionModel.FK_Conflict_Position2" FromRole="Position" ToRole="Conflict" />
+          </EntityType>
         <Association Name="FK_Position_Aircraft">
           <End Type="CollisionModel.Aircraft" Role="Aircraft" Multiplicity="1" />
           <End Type="CollisionModel.Position" Role="Position" Multiplicity="*" />
@@ -380,7 +435,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="Conflict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionId1" Type="Int32" Nullable="false" />
+          <Property Name="PositionId2" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAtUtcTimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Position" Relationship="CollisionModel.FK_Conflict_Position1" FromRole="Conflict" ToRole="Position" />
+          <NavigationProperty Name="Position1" Relationship="CollisionModel.FK_Conflict_Position2" FromRole="Conflict" ToRole="Position" />
+        </EntityType>
+        <Association Name="FK_Conflict_Position1">
+          <End Type="CollisionModel.Position" Role="Position" Multiplicity="1" />
+          <End Type="CollisionModel.Conflict" Role="Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conflict_Position2">
+          <End Type="CollisionModel.Position" Role="Position" Multiplicity="1" />
+          <End Type="CollisionModel.Conflict" Role="Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -489,6 +581,18 @@
                 <ScalarProperty Name="FlightId" ColumnName="FlightId" />
                 <ScalarProperty Name="AircraftId" ColumnName="AircraftId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conflicts">
+            <EntityTypeMapping TypeName="CollisionModel.Conflict">
+              <MappingFragment StoreEntitySet="Conflict">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAtUtcTimeStamp" ColumnName="CreatedAtUtcTimeStamp" />
+                <ScalarProperty Name="ModifiedAtUtcTimeStamp" ColumnName="ModifiedAtUtcTimeStamp" />
+                <ScalarProperty Name="PositionId2" ColumnName="PositionId2" />
+                <ScalarProperty Name="PositionId1" ColumnName="PositionId1" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -46,7 +46,8 @@ namespace Collision.Console
                     if (!handleCollision.ContainsKey(aircraft.Id))
                     {
                         handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
+                        new PositionService(new Sql.Ef.CollisionEntities()), 
+                        new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
                     }
                 }
             }
@@ -63,7 +64,8 @@ namespace Collision.Console
                     if (!handleCollision.ContainsKey(aircraft.Id))
                     {
                         handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
+                        new PositionService(new Sql.Ef.CollisionEntities()), 
+                        new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
                     }
                 }
             }

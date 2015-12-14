@@ -144,7 +144,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Collision.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Conflict.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ConflictService.cs" />
     <Compile Include="Services\Extensions\AircraftExtensions.cs" />
+    <Compile Include="Services\Extensions\ConflictExtensions.cs" />
     <Compile Include="Services\Extensions\PositionExtensions.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Position.cs">
@@ -153,6 +158,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AircraftService.cs" />
     <Compile Include="Services\Interfaces\IAircraftService.cs" />
+    <Compile Include="Services\Interfaces\IConflictService.cs" />
     <Compile Include="Services\Interfaces\IPositionService.cs" />
     <Compile Include="Services\Interfaces\IService.cs" />
     <Compile Include="Services\PositionService.cs" />

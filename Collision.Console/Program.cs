@@ -22,6 +22,7 @@ namespace Collision.Console
             var container = new UnityContainer();
             container.RegisterType<IPositionService, PositionService>();
             container.RegisterType<IAircraftService, AircraftService>();
+            container.RegisterType<IConflictService, ConflictService>();
             container.RegisterType<IApplication, Application>();
             var app = container.Resolve<Application>();
             app.Run();

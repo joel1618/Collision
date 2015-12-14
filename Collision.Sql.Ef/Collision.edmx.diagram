@@ -16,6 +16,9 @@
         <EntityTypeShape EntityType="CollisionModel.Aircraft" Width="1.5" PointX="0.75" PointY="10.375" />
         <EntityTypeShape EntityType="CollisionModel.Position" Width="1.5" PointX="3" PointY="7.25" />
         <AssociationConnector Association="CollisionModel.FK_Position_Aircraft" />
+        <EntityTypeShape EntityType="CollisionModel.Conflict" Width="1.5" PointX="5.25" PointY="10.375" />
+        <AssociationConnector Association="CollisionModel.FK_Conflict_Position1" />
+        <AssociationConnector Association="CollisionModel.FK_Conflict_Position2" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -25,17 +25,17 @@ namespace Collision.Sql.Ef.Services
         }
         public IEnumerable<CorePosition> GetAll()
         {
-            return _context.Position.ToList().Select(x => x.ToCore());          
+            return _context.Positions.ToList().Select(x => x.ToCore());          
         }
 
         public CorePosition Get(int id)
         {
-            return _context.Position.Find(id).ToCore();
+            return _context.Positions.Find(id).ToCore();
         }
 
         public CorePosition GetByAircraftId(int id)
         {
-            return _context.Position.Where(x => x.AircraftId == id).FirstOrDefault().ToCore();
+            return _context.Positions.Where(x => x.AircraftId == id).FirstOrDefault().ToCore();
         }
 
         public CorePosition Create(CorePosition item)
@@ -78,7 +78,7 @@ namespace Collision.Sql.Ef.Services
                 IsActive = item.IsActive
             };
 
-            _context.Position.Add(_item);
+            _context.Positions.Add(_item);
             _context.SaveChanges();
             return _item.ToCore();
         }
@@ -90,13 +90,11 @@ namespace Collision.Sql.Ef.Services
                 throw new ArgumentNullException("Core.Models.Position");
             }
 
-            var record = _context.Position.FirstOrDefault(x => x.Id == id);
+            var record = _context.Positions.FirstOrDefault(x => x.Id == id);
             if (record == null)
             {
                 throw new ArgumentNullException("Cannot find position.");
             }
-
-            var now = DateTime.UtcNow;
 
             record.Name = item.Name;
 
@@ -140,8 +138,8 @@ namespace Collision.Sql.Ef.Services
         public void Delete(int id)
         {
             var position = new EfPosition { Id = id };
-            _context.Position.Attach(position);
-            _context.Position.Remove(position);
+            _context.Positions.Attach(position);
+            _context.Positions.Remove(position);
             _context.SaveChanges();
         }
     }

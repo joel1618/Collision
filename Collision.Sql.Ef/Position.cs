@@ -14,6 +14,13 @@ namespace Collision.Sql.Ef
     
     public partial class Position
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Position()
+        {
+            this.Conflicts = new HashSet<Conflict>();
+            this.Conflicts1 = new HashSet<Conflict>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public int AircraftId { get; set; }
@@ -53,5 +60,9 @@ namespace Collision.Sql.Ef
         public Nullable<bool> IsActive { get; set; }
     
         public virtual Aircraft Aircraft { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Conflict> Conflicts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Conflict> Conflicts1 { get; set; }
     }
 }
