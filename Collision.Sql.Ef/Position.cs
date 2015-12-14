@@ -28,21 +28,21 @@ namespace Collision.Sql.Ef
         public string FlightIdentity { get; set; }
         public Nullable<decimal> Latitude1 { get; set; }
         public Nullable<decimal> Longitude1 { get; set; }
-        public Nullable<int> Altitude1 { get; set; }
-        public Nullable<int> Speed1 { get; set; }
-        public Nullable<int> Heading1 { get; set; }
+        public Nullable<decimal> Altitude1 { get; set; }
+        public Nullable<decimal> Speed1 { get; set; }
+        public Nullable<decimal> Heading1 { get; set; }
         public Nullable<System.DateTime> UtcTimeStamp1 { get; set; }
         public Nullable<decimal> Latitude2 { get; set; }
         public Nullable<decimal> Longitude2 { get; set; }
-        public Nullable<int> Altitude2 { get; set; }
-        public Nullable<int> Speed2 { get; set; }
-        public Nullable<int> Heading2 { get; set; }
+        public Nullable<decimal> Altitude2 { get; set; }
+        public Nullable<decimal> Speed2 { get; set; }
+        public Nullable<decimal> Heading2 { get; set; }
         public Nullable<System.DateTime> UtcTimeStamp2 { get; set; }
         public Nullable<decimal> Latitude3 { get; set; }
         public Nullable<decimal> Longitude3 { get; set; }
-        public Nullable<int> Altitude3 { get; set; }
-        public Nullable<int> Speed3 { get; set; }
-        public Nullable<int> Heading3 { get; set; }
+        public Nullable<decimal> Altitude3 { get; set; }
+        public Nullable<decimal> Speed3 { get; set; }
+        public Nullable<decimal> Heading3 { get; set; }
         public Nullable<System.DateTime> UtcTimeStamp3 { get; set; }
         public Nullable<decimal> X1 { get; set; }
         public Nullable<decimal> Y1 { get; set; }

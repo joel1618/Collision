@@ -16,23 +16,23 @@ namespace Collision.Core.Models
 
         public decimal? Latitude1 { get; set; }
         public decimal? Longitude1 { get; set; }
-        public int? Altitude1 { get; set; }
-        public int? Speed1 { get; set; }
-        public int? Heading1 { get; set; }
+        public decimal? Altitude1 { get; set; }
+        public decimal? Speed1 { get; set; }
+        public decimal? Heading1 { get; set; }
         public DateTime? UtcTimeStamp1 { get; set; }
 
         public decimal? Latitude2 { get; set; }
         public decimal? Longitude2 { get; set; }
-        public int? Altitude2 { get; set; }
-        public int? Speed2 { get; set; }
-        public int? Heading2 { get; set; }
+        public decimal? Altitude2 { get; set; }
+        public decimal? Speed2 { get; set; }
+        public decimal? Heading2 { get; set; }
         public DateTime? UtcTimeStamp2 { get; set; }
 
         public decimal? Latitude3 { get; set; }
         public decimal? Longitude3 { get; set; }
-        public int? Altitude3 { get; set; }
-        public int? Speed3 { get; set; }
-        public int? Heading3 { get; set; }
+        public decimal? Altitude3 { get; set; }
+        public decimal? Speed3 { get; set; }
+        public decimal? Heading3 { get; set; }
         public DateTime? UtcTimeStamp3 { get; set; }
 
         public decimal? Radius { get; set; }
