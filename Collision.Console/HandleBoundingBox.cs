@@ -16,10 +16,6 @@ namespace Collision.Console
 {
     public class HandleBoundingBox
     {
-        public HandleBoundingBox()
-        {
-        }
-
         public void CalculateBoundingBox(Position position)
         {
             if (ValidateCanCalculate(position))
