@@ -128,14 +128,6 @@ namespace Collision.Console
             return true;
         }
 
-
-        //http://williams.best.vwh.net/avform.htm
-        //http://stackoverflow.com/questions/6074476/calculating-a-future-position
-        public void CalculateBoundingBox(Position position)
-        {
-            //Figure out bounding box
-        }
-
         #region Helper
         //TODO: Remove any collision potentials associated with this aircraft
         public void NullifyPosition(Position position)

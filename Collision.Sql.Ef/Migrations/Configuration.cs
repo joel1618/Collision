@@ -18,17 +18,103 @@ namespace Collision.Sql.Ef.Migrations
                 {
                     context.Database.Create();
                     context.Database.Connection.Open();
-                    context.Aircraft.AddOrUpdate(x => x.Id,
-                        new Aircraft()
-                        {
-                            Carrier = "AA",
-                            CarrierName = "Amercan Airlines",
-                            FlightNumber = "100"
-                        });
+                    AddAircraft(context);
                     context.SaveChanges();
                     context.Database.Connection.Close();
                 }
             }
+        }
+
+        public void AddAircraft(CollisionEntities context)
+        {
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "100",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1002",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1003",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1010",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1024",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1055",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "106",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1067",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1071",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "1076",
+                    IsActive = true
+                });
+            context.Aircraft.AddOrUpdate(x => x.Id,
+                new Aircraft()
+                {
+                    Carrier = "AA",
+                    CarrierName = "Amercan Airlines",
+                    FlightNumber = "108",
+                    IsActive = true
+                });
         }
     }
 }

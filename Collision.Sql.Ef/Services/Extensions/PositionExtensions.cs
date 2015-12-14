@@ -56,7 +56,9 @@ namespace Collision.Sql.Ef.Extensions
 
                 X3 = item.X3.HasValue ? item.X3.Value : new Nullable<decimal>(),
                 Y3 = item.Y3.HasValue ? item.Y3.Value : new Nullable<decimal>(),
-                Z3 = item.Z3.HasValue ? item.Z3.Value : new Nullable<decimal>(),              
+                Z3 = item.Z3.HasValue ? item.Z3.Value : new Nullable<decimal>(),
+                
+                Radius = item.Radius.HasValue ? item.Radius.Value : new Nullable<decimal>(),              
 
                 CreatedAtUtcTimeStamp = item.CreatedAtUtcTimeStamp
             };

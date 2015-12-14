@@ -48,6 +48,9 @@ namespace Collision.Console
             {
                 HandleConflict(position1, position2);
             }
+            //Wait 30 seconds before evaluating this position for collisions again.
+            Thread.Sleep(30000);
+            HandleCollisions(positionId);
         }
 
         public void HandleConflict(Position position1, Position position2)
@@ -95,7 +98,15 @@ namespace Collision.Console
         }
 
         private bool ValidateCanCheckForCollision(Position position1, Position position2)
-        {
+        {            
+            if(position1 == null || position2 == null)
+            {
+                return false;
+            }
+            if(position1.Id == position2.Id)
+            {
+                return false;
+            }
             if(!position1.X1.HasValue || !position1.Y1.HasValue || !position1.Z1.HasValue ||
                 !position1.X2.HasValue || !position1.Y2.HasValue || !position1.Z2.HasValue)
             {
@@ -103,6 +114,10 @@ namespace Collision.Console
             }
             if (!position2.X1.HasValue || !position2.Y1.HasValue || !position2.Z1.HasValue ||
                 !position2.X2.HasValue || !position2.Y2.HasValue || !position2.Z2.HasValue)
+            {
+                return false;
+            }
+            if(!position1.Radius.HasValue || !position2.Radius.HasValue)
             {
                 return false;
             }
