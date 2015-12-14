@@ -54,32 +54,59 @@ namespace Collision.Console
         {
             //Find shortest distance between position1 xyz2 -> xyz1 line segment and position2 xyz2 -> xyz1 line segment.
             //https://www.youtube.com/watch?v=HC5YikQxwZA
-            var distance = FindShortestDistanceBetweenLine(position1, position2);
-
-            //If the distance is < position1.radius + position2.radius then we have a collision.
-            if (distance < (double)(position1.Radius + position2.Radius))
+            if (ValidateCanCheckForCollision(position1, position2))
             {
-                //If collision found insert into another table with information about the collision (need to work out these details)
-                var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
-                if (collisionExists == null)
+                var distance = FindShortestDistanceBetweenLines(position1, position2);
+
+                //If the distance is < position1.radius + position2.radius then we have a collision.
+                if (distance < (double)(position1.Radius + position2.Radius))
                 {
-                    _conflictService.Create(new CoreConflict()
+                    //If collision found insert into another table with information about the collision (need to work out these details)
+                    var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
+                    if (collisionExists == null)
                     {
-                        PositionId1 = position1.Id,
-                        PositionId2 = position2.Id,
-                        IsActive = true
-                    });
+                        _conflictService.Create(new CoreConflict()
+                        {
+                            PositionId1 = position1.Id,
+                            PositionId2 = position2.Id,
+                            IsActive = true
+                        });
+                    }
+                }
+                else
+                {
+                    //Remove the collision from the database
+                    RemoveCollision(position1, position2);
                 }
             }
             else
             {
-                //Remove the collision from the database
-                var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
-                if (collisionExists == null)
-                {
-                    _conflictService.Delete(collisionExists.Id);
-                }
+                RemoveCollision(position1, position2);
             }
+        }
+
+        private void RemoveCollision(Position position1, Position position2)
+        {
+            var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
+            if (collisionExists != null)
+            {
+                _conflictService.Delete(collisionExists.Id);
+            }
+        }
+
+        private bool ValidateCanCheckForCollision(Position position1, Position position2)
+        {
+            if(!position1.X1.HasValue || !position1.Y1.HasValue || !position1.Z1.HasValue ||
+                !position1.X2.HasValue || !position1.Y2.HasValue || !position1.Z2.HasValue)
+            {
+                return false;
+            }
+            if (!position2.X1.HasValue || !position2.Y1.HasValue || !position2.Z1.HasValue ||
+                !position2.X2.HasValue || !position2.Y2.HasValue || !position2.Z2.HasValue)
+            {
+                return false;
+            }
+            return true;
         }
 
         //https://www.john.geek.nz/2009/03/code-shortest-distance-between-any-two-line-segments/
@@ -90,7 +117,7 @@ namespace Collision.Console
             public double z;
         }
 
-        private double FindShortestDistanceBetweenLine(Position position1, Position position2)
+        private double FindShortestDistanceBetweenLines(Position position1, Position position2)
         {
             double EPS = 0.00000001;
 

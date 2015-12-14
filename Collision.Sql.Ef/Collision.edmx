@@ -14,6 +14,7 @@
           <Property Name="CarrierName" Type="nvarchar" MaxLength="50" />
           <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="PlaneType" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -104,16 +105,16 @@
           <Property Name="Speed3" Type="int" />
           <Property Name="Heading3" Type="int" />
           <Property Name="UtcTimeStamp3" Type="datetime" />
-          <Property Name="X1" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y1" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z1" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="X2" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y2" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z2" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="X3" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Y3" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Z3" Type="decimal" Precision="9" Scale="6" />
-          <Property Name="Radius" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="X1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Y1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Z1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="X2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Y2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Z2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="X3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Y3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Z3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Radius" Type="decimal" Precision="18" Scale="8" />
           <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
           <Property Name="ModifiedAtUtcTimeStamp" Type="datetime" />
           <Property Name="IsInFlight" Type="bit" />
@@ -377,6 +378,7 @@
           <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PlaneType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Positions" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Aircraft" ToRole="Position" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
@@ -405,16 +407,16 @@
           <Property Name="Speed3" Type="Int32" />
           <Property Name="Heading3" Type="Int32" />
           <Property Name="UtcTimeStamp3" Type="DateTime" Precision="3" />
-          <Property Name="X1" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y1" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z1" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="X2" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y2" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z2" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="X3" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Y3" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Z3" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Radius" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="X1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Y1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Z1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="X2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Y2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Z2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="X3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Y3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Z3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Radius" Type="Decimal" Precision="18" Scale="8" />
           <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedAtUtcTimeStamp" Type="DateTime" Precision="3" />
           <Property Name="IsInFlight" Type="Boolean" />
@@ -534,6 +536,7 @@
           <EntitySetMapping Name="Aircraft">
             <EntityTypeMapping TypeName="CollisionModel.Aircraft">
               <MappingFragment StoreEntitySet="Aircraft">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="PlaneType" ColumnName="PlaneType" />
                 <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
                 <ScalarProperty Name="CarrierName" ColumnName="CarrierName" />

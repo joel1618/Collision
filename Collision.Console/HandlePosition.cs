@@ -39,14 +39,14 @@ namespace Collision.Console
                     //Create position in database
                     _position = _positionService.Create(_position);
                     //Calculate bounding box
-                    new HandleBoundingBox(_position);
+                    new HandleBoundingBox().CalculateBoundingBox(_position);
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions
                     if (!handleCollision.ContainsKey(aircraft.Id))
                     {
                         handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities()), 
+                        new PositionService(new Sql.Ef.CollisionEntities()),
                         new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
                     }
                 }
@@ -57,14 +57,14 @@ namespace Collision.Console
                 if (UpdateFlightInformation(aircraft, _position))
                 {
                     //Call HandleCollisions to start evaluating this position for potential collisions
-                    new HandleBoundingBox(_position);
+                    new HandleBoundingBox().CalculateBoundingBox(_position);
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions
                     if (!handleCollision.ContainsKey(aircraft.Id))
                     {
                         handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities()), 
+                        new PositionService(new Sql.Ef.CollisionEntities()),
                         new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
                     }
                 }
