@@ -70,7 +70,7 @@ namespace Collision.Console
                 }
             }
             //Wait 30 seconds before evaluating this flight again.
-            Thread.Sleep(30000);
+            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
             HandlePositions(aircraft);
         }
 

@@ -49,7 +49,7 @@ namespace Collision.Console
                 HandleConflict(position1, position2);
             }
             //Wait 30 seconds before evaluating this position for collisions again.
-            Thread.Sleep(30000);
+            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
             HandleCollisions(positionId);
         }
 
