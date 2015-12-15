@@ -18,7 +18,7 @@ namespace Collision.Console
     {
         private IPositionService _positionService;
         private IAircraftService _aircraftService;
-        private Dictionary<int, Task> handleCollision = new Dictionary<int, Task>();
+        private Dictionary<int, ThreadStart> handleCollision = new Dictionary<int, ThreadStart>();
 
         //TODO: Figure out why not executing quickly
         public HandlePosition(IPositionService positionService, IAircraftService aircraftService)
@@ -61,9 +61,16 @@ namespace Collision.Console
                     //Call HandleCollisions to start evaluating this position for potential collisions
                     if (!handleCollision.ContainsKey(aircraft.Id))
                     {
-                        handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities()),
-                        new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
+                        ThreadStart action = () =>
+                        {
+                            var handleCollision = new HandleCollision(
+                                new PositionService(new Sql.Ef.CollisionEntities()),
+                                new ConflictService(new Sql.Ef.CollisionEntities()));
+                            handleCollision.HandleCollisions(_position.Id);
+                        };
+                        Thread thread = new Thread(action) { IsBackground = true };
+                        thread.Start();
+                        handleCollision.Add(aircraft.Id, action);
                     }
                 }
                 else
@@ -83,9 +90,16 @@ namespace Collision.Console
                     //Call HandleCollisions to start evaluating this position for potential collisions
                     if (!handleCollision.ContainsKey(aircraft.Id))
                     {
-                        handleCollision.Add(aircraft.Id, Task.Factory.StartNew(() => new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities()),
-                        new ConflictService(new Sql.Ef.CollisionEntities())).HandleCollisions(_position.Id)));
+                        ThreadStart action = () =>
+                        {
+                            var handleCollision = new HandleCollision(
+                                new PositionService(new Sql.Ef.CollisionEntities()),
+                                new ConflictService(new Sql.Ef.CollisionEntities()));
+                            handleCollision.HandleCollisions(_position.Id);
+                        };
+                        Thread thread = new Thread(action) { IsBackground = true };
+                        thread.Start();
+                        handleCollision.Add(aircraft.Id, action);
                     }
                 }
                 else

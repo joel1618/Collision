@@ -19,7 +19,7 @@ namespace Collision.Console
     {
         private IPositionService _positionService;
         private IAircraftService _aircraftService;
-        private Dictionary<int, CancellationTokenSource> handlePosition = new Dictionary<int, CancellationTokenSource>();
+        private Dictionary<int, ThreadStart> handlePosition = new Dictionary<int, ThreadStart>();
 
         public Application(IPositionService positionService, IAircraftService aircraftService)
         {
@@ -37,13 +37,17 @@ namespace Collision.Console
                 if (aircraft.IsActive)
                 {
                     if (!handlePosition.ContainsKey(aircraft.Id))
-                    {                        
-                        CancellationTokenSource ts = new CancellationTokenSource();
-                        CancellationToken ct = ts.Token;
-                        Task.Factory.StartNew(() => new HandlePosition(
+                    {                   
+                        ThreadStart action = () =>
+                        {
+                            var handlePosition = new HandlePosition(
                            new PositionService(new Sql.Ef.CollisionEntities()),
-                           new AircraftService(new Sql.Ef.CollisionEntities())).HandlePositions(aircraft), ct);
-                        handlePosition.Add(aircraft.Id, ts);
+                           new AircraftService(new Sql.Ef.CollisionEntities()));
+                            handlePosition.HandlePositions(aircraft);
+                        };
+                        Thread thread = new Thread(action) { IsBackground = true };
+                        thread.Start();
+                        handlePosition.Add(aircraft.Id, action);
                     }
                 }
                 else
@@ -51,9 +55,6 @@ namespace Collision.Console
                     //Remove from handlePosition dictionary 
                     if (handlePosition.ContainsKey(aircraft.Id))
                     {
-                        //var ts = handlePosition[aircraft.Id];
-                        ////TODO: Figure out why this is not killing the tasks.
-                        //ts.Cancel();
                         handlePosition.Remove(aircraft.Id);
                     }
                     //Set position record to inactive if it exists
