@@ -23,8 +23,7 @@ namespace Collision.Console
                 System.Console.WriteLine("Calculating bounding box for " + position.Aircraft.CarrierName + " flight " + position.Aircraft.FlightNumber);
                 ConvertLatLonAltToXYZ(position);
                 CalculateXYZ1(position);
-                //TODO: Find the lat/lon/alt from x1/y1/z1
-                //ConvertXYZ1toLatLonAlt1(position);
+                ConvertXYZ1toLatLonAlt1(position);
             }
         }
 
@@ -49,6 +48,41 @@ namespace Collision.Console
             position.X1 =  (decimal)(((double)position.X2.Value) + (double)distance * unitVectorX);
             position.Y1 = (decimal)(((double)position.Y2.Value) + (double)distance * unitVectorY);
             position.Z1 = (decimal)(((double)position.Z2.Value) + (double)distance * unitVectorZ);
+        }
+
+        //TODO: Fix this Try using this http://www.nevaridge.com/georeferencing-tools.php
+        //Taken from here https://gist.github.com/klucar/1536194
+        public void ConvertXYZ1toLatLonAlt1(Position position)
+        {
+            //var x = position.X1;
+            //var y = position.Y1;
+            //var z = position.Z1;
+
+            //var a = 6378137; // radius
+            //var e = 8.1819190842622e-2;  // eccentricity
+
+            //var asq = Math.Pow(a, 2);
+            //var esq = Math.Pow(e, 2);
+
+            //double b = Math.Sqrt(asq * (1 - esq));
+            //double bsq = Math.Pow(b, 2);
+            //double ep = Math.Sqrt((asq - bsq) / bsq);
+            //double p = Math.Sqrt(Math.Pow((double)x, 2) + Math.Pow((double)y, 2));
+            //double th = Math.Atan2(a * (double)z, b * p);
+
+            //double lon = Math.Atan2((double)y, (double)x);
+            //double lat = Math.Atan2(((double)z + Math.Pow(ep, 2) * b * Math.Pow(Math.Sin(th), 3)), (p - esq * a * Math.Pow(Math.Cos(th), 3)));
+            //double N = a / (Math.Sqrt(1 - esq * Math.Pow(Math.Sin(lat), 2)));
+            //double alt = p / Math.Cos(lat) - N;
+
+            //// mod lat to 0-2pi
+            //lon = lon % (2 * Math.PI);
+
+            //// correction for altitude near poles left out.
+
+            //position.Latitude1 = (decimal)lat;
+            //position.Longitude1 = (decimal)lon;
+            //position.Altitude1 = (decimal)alt / 1000;
         }
 
         //Taken from here https://github.com/substack/geodetic-to-ecef/blob/master/index.js

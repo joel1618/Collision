@@ -31,7 +31,10 @@ namespace Collision.Console
         public void HandleCollisions(int positionId)
         {
             var position1 = _positionService.Get(positionId);
-            if (!position1.IsActive){return;}
+            if (!position1.IsActive)
+            {
+                return;
+            }
             System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
             //Check preexisting collisions
             var collisions = _conflictService.GetByPositionId1(position1.Id);
