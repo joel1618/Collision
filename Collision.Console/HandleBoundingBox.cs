@@ -36,6 +36,7 @@ namespace Collision.Console
             }
         }
 
+        //TODO: Write tests
         //Here we are going to use vector linear algebra.
         //http://math.stackexchange.com/questions/83404/finding-a-point-along-a-line-in-three-dimensions-given-two-points
         public void CalculateXYZ1(Position position)
@@ -68,7 +69,8 @@ namespace Collision.Console
             position.Y1 = (decimal)(((double)position.Y2.Value) + (double)distance * unitVectorY);
             position.Z1 = (decimal)(((double)position.Z2.Value) + (double)distance * unitVectorZ);
         }
-        
+
+        //TODO: Write tests
         //Taken from here http://www.nevaridge.com/georeferencing-tools.php
         public void ConvertXYZ1toLatLonAlt1(Position position)
         {
@@ -114,6 +116,7 @@ namespace Collision.Console
             position.Altitude1 = (decimal)alt / 1000;
         }
 
+        //TODO: Write tests
         //Taken from here https://github.com/substack/geodetic-to-ecef/blob/master/index.js
         public void ConvertLatLonAltToXYZ(Position position)
         {
