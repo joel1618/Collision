@@ -116,6 +116,7 @@
     <Compile Include="HandleCollision.cs" />
     <Compile Include="HandlePosition.cs" />
     <Compile Include="Interfaces\IApplication.cs" />
+    <Compile Include="MockData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

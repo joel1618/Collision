@@ -131,7 +131,17 @@ namespace Collision.Console
                 "&appKey=" + ConfigurationManager.AppSettings["appKey"] +
                 "&utc=true&includeFlightPlan=false&maxPositions=2";
             var syncClient = new WebClient();
-            dynamic flight = JsonConvert.DeserializeObject(syncClient.DownloadString(url));
+
+            dynamic flight = null;
+            //Testing the application.
+            if (bool.Parse(ConfigurationManager.AppSettings["mockData"]))
+            {
+                flight = new MockData().Get();
+            }
+            else
+            {
+                flight = JsonConvert.DeserializeObject(syncClient.DownloadString(url));
+            }
             if (flight.error != null)
             {
                 if (position.Id != 0)
