@@ -38,9 +38,9 @@ namespace Collision.Console
             System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
             //Check preexisting collisions
             var collisions = _conflictService.GetByPositionId1(position1.Id);
-            if(collisions != null)
+            if (collisions != null)
             {
-                foreach(var collision in collisions)
+                foreach (var collision in collisions)
                 {
                     HandleConflict(position1, collision.Position2);
                 }
@@ -64,19 +64,16 @@ namespace Collision.Console
         {
             //Find shortest distance between position1 xyz2 -> xyz1 line segment and position2 xyz2 -> xyz1 line segment.
             //https://www.youtube.com/watch?v=HC5YikQxwZA
-            if (ValidateCanCheckForCollision(position1, position2))
+            if (ValidateCanCheckForCollision(position1, position2) && ValidateTiming(position1, position2))
             {
-                //Distance in meters of the two lines.  
+                //Distance in meters between the two lines.  
                 var distance = FindShortestDistanceBetweenLines(position1, position2) * 1000;
 
                 //If the distance is < position1.radius + position2.radius then we have a collision.
                 if (distance < (double)(position1.Radius + position2.Radius))
                 {
-                    /*TODO: make sure position1.UtcTimeStamp2 and position2.UtcTimeStamp2 is within some 
-                    threshold (ideally 1 minute) to prevent a case of old position data false positive colliding with new position data*/
-
-                    var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
-                    if (collisionExists == null)
+                    var conflict = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
+                    if (conflict == null)
                     {
                         System.Console.WriteLine("Collision found between " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber + " and " + position2.Aircraft.CarrierName + " flight " + position2.Aircraft.FlightNumber);
                         _conflictService.Create(new CoreConflict()
@@ -85,6 +82,10 @@ namespace Collision.Console
                             PositionId2 = position2.Id,
                             IsActive = true
                         });
+                    }
+                    else
+                    {
+                        _conflictService.Update(conflict.Id, conflict);
                     }
                 }
                 else
@@ -108,27 +109,66 @@ namespace Collision.Console
             }
         }
 
+        public void RemoveCollisions(Position position)
+        {
+            var collisions = _conflictService.GetByPositionId1(position.Id);
+            foreach (var collision in collisions)
+            {
+                _conflictService.Delete(collision.Id);
+            }
+        }
+
+        //Make sure position1 and position2 are within 60 seconds of each other
+        private bool ValidateTiming(Position position1, Position position2)
+        {
+            if (position1.UtcTimeStamp1.Value.AddSeconds(-60) < position2.UtcTimeStamp1.Value &&
+                position1.UtcTimeStamp1.Value.AddSeconds(+60) > position2.UtcTimeStamp1.Value)
+            {
+                return true;
+            }
+            else
+            {
+                RemoveCollision(position1, position2);
+                return false;
+            }
+        }
+
         private bool ValidateCanCheckForCollision(Position position1, Position position2)
-        {            
-            if(position1 == null || position2 == null)
+        {
+            if (position1 == null || position2 == null)
             {
                 return false;
             }
-            if(position1.Id == position2.Id)
+            if (position1.Id == position2.Id)
             {
                 return false;
             }
-            if(!position1.X1.HasValue || !position1.Y1.HasValue || !position1.Z1.HasValue ||
+            bool isFalse = false;
+            if (!position1.X1.HasValue || !position1.Y1.HasValue || !position1.Z1.HasValue ||
                 !position1.X2.HasValue || !position1.Y2.HasValue || !position1.Z2.HasValue)
             {
-                return false;
+                //Remove conflict from database.  We can not accurately determine that there is a collision using this position.
+                RemoveCollisions(position1);
+                isFalse = true;
             }
             if (!position2.X1.HasValue || !position2.Y1.HasValue || !position2.Z1.HasValue ||
                 !position2.X2.HasValue || !position2.Y2.HasValue || !position2.Z2.HasValue)
             {
+                //Remove conflict from database.  We can not accurately determine that there is a collision using this position.
+                RemoveCollisions(position2);
+                isFalse = true;
+            }
+            if (!position1.UtcTimeStamp1.HasValue || !position2.UtcTimeStamp1.HasValue)
+            {
+                //Remove conflict from database.  We can not accurately determine that there is a collision using this position.
+                RemoveCollision(position1, position2);
+                isFalse = true;
+            }
+            if (isFalse)
+            {
                 return false;
             }
-            if(!position1.Radius.HasValue || !position2.Radius.HasValue)
+            if (!position1.Radius.HasValue || !position2.Radius.HasValue)
             {
                 return false;
             }

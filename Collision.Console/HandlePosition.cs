@@ -18,13 +18,15 @@ namespace Collision.Console
     {
         private IPositionService _positionService;
         private IAircraftService _aircraftService;
+        private IConflictService _conflictService;
         private Dictionary<int, ThreadStart> handleCollision = new Dictionary<int, ThreadStart>();
 
         //TODO: Figure out why not executing quickly
-        public HandlePosition(IPositionService positionService, IAircraftService aircraftService)
+        public HandlePosition(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
         {
             _positionService = positionService;
             _aircraftService = aircraftService;
+            _conflictService = conflictService;
         }
         public void HandlePositions(Aircraft aircraft)
         {
@@ -68,7 +70,7 @@ namespace Collision.Console
                                 new ConflictService(new Sql.Ef.CollisionEntities()));
                             handleCollision.HandleCollisions(_position.Id);
                         };
-                        Thread thread = new Thread(action) { IsBackground = true };
+                        Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
                         thread.Start();
                         handleCollision.Add(aircraft.Id, action);
                     }
@@ -97,7 +99,7 @@ namespace Collision.Console
                                 new ConflictService(new Sql.Ef.CollisionEntities()));
                             handleCollision.HandleCollisions(_position.Id);
                         };
-                        Thread thread = new Thread(action) { IsBackground = true };
+                        Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
                         thread.Start();
                         handleCollision.Add(aircraft.Id, action);
                     }
@@ -111,13 +113,13 @@ namespace Collision.Console
             Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
             _positionService = new PositionService(new Sql.Ef.CollisionEntities());
             _aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
+            _conflictService = new ConflictService(new Sql.Ef.CollisionEntities());
             HandlePositions(aircraft);
         }
 
         public bool UpdateFlightInformation(Aircraft aircraft, Position position)
         {
             var baseUrl = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/";
-            //TODO: Use Stringbuilder here.
             var url =
                 baseUrl +
                 aircraft.Carrier +
@@ -135,8 +137,10 @@ namespace Collision.Console
                 if (position.Id != 0)
                 {
                     System.Console.WriteLine("API cannot find " + aircraft.CarrierName + " flight " + aircraft.FlightNumber + ". Removing position.");
-                    //TODO: Should be deactive the flight or delete it.
-                    //TODO: Delete conflicts first before deleting position
+                    //Remove collision potentials associated with this position
+                    new HandleCollision(new PositionService(new Sql.Ef.CollisionEntities()),
+                        new ConflictService(new Sql.Ef.CollisionEntities())).RemoveCollisions(position);
+                    //Delete the position
                     _positionService.Delete(position.Id);
                 }
                 return false;
@@ -171,8 +175,7 @@ namespace Collision.Console
             return true;
         }
 
-        #region Helper
-        //TODO: Remove any collision potentials associated with this aircraft
+        #region Helper        
         public static void NullifyPosition(Position position)
         {
             position.Latitude1 = new Nullable<decimal>();
@@ -209,6 +212,10 @@ namespace Collision.Console
             position.X3 = new Nullable<decimal>();
             position.Y3 = new Nullable<decimal>();
             position.Z3 = new Nullable<int>();
+
+            //Remove collision potentials associated with this position
+            new HandleCollision(new PositionService(new Sql.Ef.CollisionEntities()),
+                new ConflictService(new Sql.Ef.CollisionEntities())).RemoveCollisions(position);
         }
         #endregion
     }

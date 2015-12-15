@@ -148,7 +148,7 @@ namespace Collision.Sql.Ef.Services
 
         public void Delete(int id)
         {
-            var position = new EfPosition { Id = id };
+            var position = _context.Positions.Find(id);
             _context.Positions.Attach(position);
             _context.Positions.Remove(position);
             _context.SaveChanges();

@@ -92,7 +92,7 @@ namespace Collision.Sql.Ef.Services
 
         public void Delete(int id)
         {
-            var conflict = new EfConflict { Id = id };
+            var conflict = _context.Conflicts.Find(id);
             _context.Conflicts.Attach(conflict);
             _context.Conflicts.Remove(conflict);
             _context.SaveChanges();

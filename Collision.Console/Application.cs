@@ -42,10 +42,11 @@ namespace Collision.Console
                         {
                             var handlePosition = new HandlePosition(
                            new PositionService(new Sql.Ef.CollisionEntities()),
-                           new AircraftService(new Sql.Ef.CollisionEntities()));
+                           new AircraftService(new Sql.Ef.CollisionEntities()),
+                           new ConflictService(new Sql.Ef.CollisionEntities()));
                             handlePosition.HandlePositions(aircraft);
                         };
-                        Thread thread = new Thread(action) { IsBackground = true };
+                        Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
                         thread.Start();
                         handlePosition.Add(aircraft.Id, action);
                     }
