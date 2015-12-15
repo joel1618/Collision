@@ -46,13 +46,9 @@ namespace Collision.Console
                 }
             }
 
-            //Find positions within a 55.5 kilometers radius
-#if DEBUG
-            //var positions = _positionService.GetAll();
-#else
-            
-#endif
+            //Find positions within a 55.5 kilometer radius
             var positions = _positionService.GetPositionsByQuadrant(position1);
+
             foreach (Position position2 in positions)
             {
                 HandleConflict(position1, position2);
