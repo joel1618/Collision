@@ -24,6 +24,15 @@ namespace Collision.Console
                 ConvertLatLonAltToXYZ(position);
                 CalculateXYZ1(position);
                 ConvertXYZ1toLatLonAlt1(position);
+                CalculateTimeAtPosition1(position);
+            }
+        }
+
+        public void CalculateTimeAtPosition1(Position position)
+        {
+            if(position != null && position.UtcTimeStamp2.HasValue)
+            {
+                position.UtcTimeStamp1 = position.UtcTimeStamp1.Value.AddSeconds(60);
             }
         }
 
@@ -49,40 +58,50 @@ namespace Collision.Console
             position.Y1 = (decimal)(((double)position.Y2.Value) + (double)distance * unitVectorY);
             position.Z1 = (decimal)(((double)position.Z2.Value) + (double)distance * unitVectorZ);
         }
-
-        //TODO: Fix this Try using this http://www.nevaridge.com/georeferencing-tools.php
-        //Taken from here https://gist.github.com/klucar/1536194
+        
+        //Taken from here http://www.nevaridge.com/georeferencing-tools.php
         public void ConvertXYZ1toLatLonAlt1(Position position)
         {
-            //var x = position.X1;
-            //var y = position.Y1;
-            //var z = position.Z1;
+            
+            var x = position.X1 * 1000; // convert to meters
+            var y = position.Y1 * 1000; // convert to meters
+            var z = position.Z1 * 1000; // convert to meters
+            var a = 6378137.0;
+            var b = 6356752.314245;
+            var e2 = 1.0 - ((b * b) / (a * a));
+            var p2 = x * x + y * y;
+            var r2 = p2 + z * z;
+            var p = Math.Sqrt((double)p2);
+            var r = Math.Sqrt((double)r2);
 
-            //var a = 6378137; // radius
-            //var e = 8.1819190842622e-2;  // eccentricity
+            var e = e2 / (1.0 - e2);
+            var tanu = (b / a) * ((double)z / p) * (1.0 + e * b / r);
+            var tan2u = tanu * tanu;
 
-            //var asq = Math.Pow(a, 2);
-            //var esq = Math.Pow(e, 2);
+            var cos2u = 1.0 / (1.0 + tan2u);
+            var cosu = Math.Sqrt(cos2u);
+            var cos3u = cos2u * cosu;
 
-            //double b = Math.Sqrt(asq * (1 - esq));
-            //double bsq = Math.Pow(b, 2);
-            //double ep = Math.Sqrt((asq - bsq) / bsq);
-            //double p = Math.Sqrt(Math.Pow((double)x, 2) + Math.Pow((double)y, 2));
-            //double th = Math.Atan2(a * (double)z, b * p);
+            var sinu = tanu * cosu;
+            var sin2u = 1.0 - cos2u;
+            var sin3u = sin2u * sinu;
 
-            //double lon = Math.Atan2((double)y, (double)x);
-            //double lat = Math.Atan2(((double)z + Math.Pow(ep, 2) * b * Math.Pow(Math.Sin(th), 3)), (p - esq * a * Math.Pow(Math.Cos(th), 3)));
-            //double N = a / (Math.Sqrt(1 - esq * Math.Pow(Math.Sin(lat), 2)));
-            //double alt = p / Math.Cos(lat) - N;
+            var tanlat = ((double)z + e * b * sin3u) / (p - e2 * a * cos3u);
 
-            //// mod lat to 0-2pi
-            //lon = lon % (2 * Math.PI);
+            var tan2lat = tanlat * tanlat;
+            var cos2lat = 1.0 / (1.0 + tan2lat);
+            var sin2lat = 1.0 - cos2lat;
 
-            //// correction for altitude near poles left out.
+            var coslat = Math.Sqrt(cos2lat);
+            var sinlat = tanlat * coslat;
 
-            //position.Latitude1 = (decimal)lat;
-            //position.Longitude1 = (decimal)lon;
-            //position.Altitude1 = (decimal)alt / 1000;
+            var lon = Math.Atan2((double)y, (double)x) * 180.0 / Math.PI;
+            var lat = Math.Atan(tanlat) * 180.0 / Math.PI;
+            var alt = p * coslat + (double)z * sinlat - a * Math.Sqrt(1.0 - e2 * sin2lat);
+
+            position.Latitude1 = (decimal)lat;
+            position.Longitude1 = (decimal)lon;
+            position.Altitude1 = (decimal)alt / 1000;
         }
 
         //Taken from here https://github.com/substack/geodetic-to-ecef/blob/master/index.js
