@@ -32,7 +32,7 @@ namespace Collision.Console
         {
             if(position != null && position.UtcTimeStamp2.HasValue)
             {
-                position.UtcTimeStamp1 = position.UtcTimeStamp1.Value.AddSeconds(60);
+                position.UtcTimeStamp1 = position.UtcTimeStamp2.Value.AddSeconds(60);
             }
         }
 
@@ -46,9 +46,18 @@ namespace Collision.Console
 
             var normalizedTotal = Math.Sqrt(productX * productX + productY * productY + productZ * productZ);
 
-            var unitVectorX = productX / normalizedTotal;
-            var unitVectorY = productY / normalizedTotal;
-            var unitVectorZ = productZ / normalizedTotal;
+            if(normalizedTotal == 0)
+            {
+                var unitVectorX = productX;
+                var unitVectorY = productY;
+                var unitVectorZ = productZ;
+            }
+            else
+            {
+                var unitVectorX = productX / normalizedTotal;
+                var unitVectorY = productY / normalizedTotal;
+                var unitVectorZ = productZ / normalizedTotal;
+            }
 
             //distance traveled at current speed for 60 seconds (can make this dynamic later)
             var distance = position.Speed2.Value / 60;

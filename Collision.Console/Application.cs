@@ -30,15 +30,14 @@ namespace Collision.Console
         public void Run()
         {
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago. 
-            System.Console.WriteLine("Getting aircraft list");
+            System.Console.WriteLine("Getting aircraft list.");
             var aircrafts = _aircraftService.GetAll();
             foreach (var aircraft in aircrafts)
             {
                 if (aircraft.IsActive)
                 {
                     if (!handlePosition.ContainsKey(aircraft.Id))
-                    {
-                        System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
+                    {                        
                         CancellationTokenSource ts = new CancellationTokenSource();
                         CancellationToken ct = ts.Token;
                         Task.Factory.StartNew(() => new HandlePosition(

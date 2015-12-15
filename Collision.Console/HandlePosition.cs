@@ -20,6 +20,7 @@ namespace Collision.Console
         private IAircraftService _aircraftService;
         private Dictionary<int, Task> handleCollision = new Dictionary<int, Task>();
 
+        //TODO: Figure out why not executing quickly
         public HandlePosition(IPositionService positionService, IAircraftService aircraftService)
         {
             _positionService = positionService;
@@ -31,7 +32,7 @@ namespace Collision.Console
             Position _position = null;
             aircraft = _aircraftService.Get(aircraft.Id);
             if (!aircraft.IsActive)
-            {
+            {                
                 _position = _positionService.GetByAircraftId(aircraft.Id);
                 NullifyPosition(_position);
                 _position.IsActive = false; _position.IsInFlight = false;
@@ -39,6 +40,7 @@ namespace Collision.Console
                 return;
             }
             else {
+                System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
                 _position = _positionService.GetByAircraftId(aircraft.Id);
             }
 
@@ -118,6 +120,7 @@ namespace Collision.Console
             {
                 if (position.Id != 0)
                 {
+                    System.Console.WriteLine("API cannot find " + aircraft.CarrierName + " flight " + aircraft.FlightNumber + ". Removing position.");
                     //TODO: Should be deactive the flight or delete it.
                     //TODO: Delete conflicts first before deleting position
                     _positionService.Delete(position.Id);
