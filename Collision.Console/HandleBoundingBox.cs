@@ -46,17 +46,18 @@ namespace Collision.Console
 
             var normalizedTotal = Math.Sqrt(productX * productX + productY * productY + productZ * productZ);
 
+            double unitVectorX, unitVectorY, unitVectorZ;
             if(normalizedTotal == 0)
             {
-                var unitVectorX = productX;
-                var unitVectorY = productY;
-                var unitVectorZ = productZ;
+                unitVectorX = productX;
+                unitVectorY = productY;
+                unitVectorZ = productZ;
             }
             else
             {
-                var unitVectorX = productX / normalizedTotal;
-                var unitVectorY = productY / normalizedTotal;
-                var unitVectorZ = productZ / normalizedTotal;
+                unitVectorX = productX / normalizedTotal;
+                unitVectorY = productY / normalizedTotal;
+                unitVectorZ = productZ / normalizedTotal;
             }
 
             //distance traveled at current speed for 60 seconds (can make this dynamic later)
