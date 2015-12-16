@@ -158,18 +158,18 @@ namespace Collision.Console
 
             if (flight.flightTracks.Count != 0 && flight.flightTracks[0].positions.Count == 2)
             {
-                position.Latitude2 = flight.flightTracks[0].positions[0].lat;
-                position.Longitude2 = flight.flightTracks[0].positions[0].lon;
-                position.Speed2 = flight.flightTracks[0].positions[0].speedMph * 1.60934; //convert to kilometers per hour
-                position.Altitude2 = flight.flightTracks[0].positions[0].altitudeFt * 0.3048 * .001; //convert to kilometers
-                position.Heading2 = flight.flightTracks[0].heading;
+                position.Latitude2 = (decimal)flight.flightTracks[0].positions[0].lat;
+                position.Longitude2 = (decimal)flight.flightTracks[0].positions[0].lon;
+                position.Speed2 = Convert.ToDecimal(flight.flightTracks[0].positions[0].speedMph * 1.60934); //convert to kilometers per hour
+                position.Altitude2 = Convert.ToDecimal(flight.flightTracks[0].positions[0].altitudeFt * 0.3048 * .001); //convert to kilometers
+                position.Heading2 = (decimal)flight.flightTracks[0].heading;
                 position.UtcTimeStamp2 = flight.flightTracks[0].positions[0].date;
 
-                position.Latitude3 = flight.flightTracks[0].positions[1].lat;
-                position.Longitude3 = flight.flightTracks[0].positions[1].lon;
-                position.Speed3 = flight.flightTracks[0].positions[1].speedMph * 1.60934; //convert to kilometers per hour
-                position.Altitude3 = flight.flightTracks[0].positions[1].altitudeFt * 0.3048 * .001; //convert to kilometers
-                position.Heading3 = flight.flightTracks[0].heading;
+                position.Latitude3 = (decimal)flight.flightTracks[0].positions[1].lat;
+                position.Longitude3 = (decimal)flight.flightTracks[0].positions[1].lon;
+                position.Speed3 = Convert.ToDecimal(flight.flightTracks[0].positions[1].speedMph * 1.60934); //convert to kilometers per hour
+                position.Altitude3 = Convert.ToDecimal(flight.flightTracks[0].positions[1].altitudeFt * 0.3048 * .001); //convert to kilometers
+                position.Heading3 = (decimal)flight.flightTracks[0].heading;
                 position.UtcTimeStamp3 = flight.flightTracks[0].positions[1].date;
 
                 position.Radius = 5;

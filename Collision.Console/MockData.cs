@@ -7,25 +7,122 @@ using Collision.Core.Models.Mock;
 
 namespace Collision.Console
 {
+    
     public class MockData
     {
-        private decimal minLatitude = 0, maxLatitude = 0;
-        private decimal minLongitude = 0, maxLongitude = 0;
-        private decimal minAltitude = 0, maxAltitude = 0;
-        private decimal minSpeed = 0, maxSpeed = 0;
-        private decimal minHeading = 0, maxHeading = 0;
+        //all mins and max's have been adjusted for their inverse min-max
+        //-90 to 90
+        private int minLatitude = -88, maxLatitude = 88;
+        //-180 to 180
+        private int minLongitude = -178, maxLongitude = 178;
+        //0 to 30000
+        private int minAltitude = 1000, maxAltitude = 29000;
+        //0 to 1000
+        private int minSpeed = 100, maxSpeed = 900;
+        //Unused
+        private int minHeading = 0, maxHeading = 360;
+        Flight flight = null;
+
         public MockData()
         {
+            flight = new Flight();
 
+            flight.flightTracks = new List<FlightTrack>();
+            FlightTrack flightTrack = new FlightTrack();
+            flight.flightTracks.Add(flightTrack);
+
+            flight.appendix = new Appendix();
+            flight.appendix.airlines = new List<Airline>();
+            Airline airline = new Airline();
+            flight.appendix.airlines.Add(airline);
+
+            flightTrack.positions = new List<Position>();
+            Position position1 = new Position();
+            flightTrack.positions.Add(position1);
+            Position position2 = new Position();
+            flightTrack.positions.Add(position2);
         }
 
         public Flight Get()
         {
-            Flight flight = new Flight();
-            Random random = new Random();
+            Random random = new Random(Guid.NewGuid().GetHashCode());
+            var isActive = random.Next(0, 100);
+            if (isActive > 0)
+            {
+                flight.appendix.airlines[0].active = true;
+            }
+            else
+            {
+                flight.appendix.airlines[0].active = false;
+            }
 
-            
-            int randomNumber = random.Next(0, 100);
+            var now = DateTime.UtcNow;
+
+            flight.flightTracks[0].positions[1].lat = random.Next(minLatitude, maxLatitude);
+            flight.flightTracks[0].positions[1].lon = random.Next(minLongitude, maxLongitude);
+            flight.flightTracks[0].positions[1].altitudeFt = random.Next(minAltitude, maxAltitude);
+            flight.flightTracks[0].positions[1].speedMph = random.Next(minSpeed, maxSpeed);
+            flight.flightTracks[0].heading = random.Next(minHeading, maxHeading);
+            flight.flightTracks[0].positions[1].date = now.AddSeconds(random.Next(-90, -30));
+
+            random = new Random(Guid.NewGuid().GetHashCode());
+            var isPositive = random.Next(0, 1);
+            if(isPositive == 1)
+            {
+                flight.flightTracks[0].positions[0].lat = random.Next(
+                int.Parse(flight.flightTracks[0].positions[1].lat.ToString()) + 1,
+                int.Parse(flight.flightTracks[0].positions[1].lat.ToString()) + 2);
+            }
+            else
+            {
+                flight.flightTracks[0].positions[0].lat = random.Next(
+                int.Parse(flight.flightTracks[0].positions[1].lat.ToString()) - 2,
+                int.Parse(flight.flightTracks[0].positions[1].lat.ToString()) - 1);
+            }
+
+            isPositive = random.Next(0, 1);
+            if (isPositive == 1)
+            {
+                flight.flightTracks[0].positions[0].lon = random.Next(
+                int.Parse(flight.flightTracks[0].positions[1].lon.ToString()) + 1,
+                int.Parse(flight.flightTracks[0].positions[1].lon.ToString()) + 2);
+            }
+            else
+            {
+                flight.flightTracks[0].positions[0].lon = random.Next(
+               int.Parse(flight.flightTracks[0].positions[1].lon.ToString()) - 2,
+               int.Parse(flight.flightTracks[0].positions[1].lon.ToString()) - 1);
+            }
+
+            isPositive = random.Next(0, 1);
+            if (isPositive == 1)
+            {
+                flight.flightTracks[0].positions[0].altitudeFt = random.Next(
+                int.Parse(flight.flightTracks[0].positions[1].altitudeFt.ToString()) + 100,
+                int.Parse(flight.flightTracks[0].positions[1].altitudeFt.ToString()) + 1000);
+            }
+            else
+            {
+                flight.flightTracks[0].positions[0].altitudeFt = random.Next(
+                int.Parse(flight.flightTracks[0].positions[1].altitudeFt.ToString()) - 1000,
+                int.Parse(flight.flightTracks[0].positions[1].altitudeFt.ToString()) + 100);
+            }
+
+            isPositive = random.Next(0, 1);
+            if (isPositive == 1)
+            {
+                flight.flightTracks[0].positions[0].speedMph = random.Next(
+                int.Parse(flight.flightTracks[0].positions[1].speedMph.ToString()) + 0,
+                int.Parse(flight.flightTracks[0].positions[1].speedMph.ToString()) + 100);
+            }
+            else
+            {
+                flight.flightTracks[0].positions[0].speedMph = random.Next(
+                int.Parse(flight.flightTracks[0].positions[1].speedMph.ToString()) - 100,
+                int.Parse(flight.flightTracks[0].positions[1].speedMph.ToString()) - 0);
+            }
+            flight.flightTracks[0].heading = flight.flightTracks[0].heading;
+            flight.flightTracks[0].positions[0].date = now;
             return flight;
         }
     }
