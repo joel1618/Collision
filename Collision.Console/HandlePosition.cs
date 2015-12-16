@@ -20,7 +20,7 @@ namespace Collision.Console
         private IAircraftService _aircraftService;
         private IConflictService _conflictService;
         private Dictionary<int, ThreadStart> handleCollision = new Dictionary<int, ThreadStart>();
-        
+
         //TODO: Figure out why not executing quickly
         public HandlePosition(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
         {
@@ -31,111 +31,115 @@ namespace Collision.Console
 
         public void HandlePositions(Aircraft aircraft)
         {
-            //End the process if the aircraft has been set to inactive.
-            Position _position = null;
-            aircraft = _aircraftService.Get(aircraft.Id);
-            if (!aircraft.IsActive)
+            do
             {
-                _position = _positionService.GetByAircraftId(aircraft.Id);
-                NullifyPosition(_position);
-                //Remove collision potentials associated with this position
-                RemoveCollisions(_position);
-                _position.IsActive = false; _position.IsInFlight = false;
-                _positionService.Update(_position.Id, _position);
-                return;
-            }
-            else {
-                System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
-                _position = _positionService.GetByAircraftId(aircraft.Id);
-            }
+                //End the process if the aircraft has been set to inactive.
+                Position _position = null;
+                aircraft = _aircraftService.Get(aircraft.Id);
+                if (!aircraft.IsActive)
+                {
+                    _position = _positionService.GetByAircraftId(aircraft.Id);
+                    NullifyPosition(_position);
+                    //Remove collision potentials associated with this position
+                    RemoveCollisions(_position);
+                    _position.IsActive = false; _position.IsInFlight = false;
+                    _positionService.Update(_position.Id, _position);
+                    break;
+                }
+                else {
+                    System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
+                    _position = _positionService.GetByAircraftId(aircraft.Id);
+                }
 
-            if (_position == null)
-            {
-                //No position yet exists for this aircraft and we need to create a new one
-                _position = new Position();
-                _position.AircraftId = aircraft.Id;
-                //Call api for flight
-                if (UpdateFlightInformation(aircraft, _position))
+                if (_position == null)
                 {
-                    //Create position in database
-                    _position = _positionService.Create(_position);
-                    //Calculate the positions bounds
-                    HandleBoundingBox.CalculateBoundingBox(_position);
-                    //Update position object in database
-                    _position = _positionService.Update(_position.Id, _position);
-                    //Call HandleCollisions to start evaluating this position for potential collisions
-                    if(bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true){
-                        if (!handleCollision.ContainsKey(aircraft.Id))
+                    //No position yet exists for this aircraft and we need to create a new one
+                    _position = new Position();
+                    _position.AircraftId = aircraft.Id;
+                    //Call api for flight
+                    if (UpdateFlightInformation(aircraft, _position))
+                    {
+                        //Create position in database
+                        _position = _positionService.Create(_position);
+                        //Calculate the positions bounds
+                        HandleBoundingBox.CalculateBoundingBox(_position);
+                        //Update position object in database
+                        _position = _positionService.Update(_position.Id, _position);
+                        //Call HandleCollisions to start evaluating this position for potential collisions
+                        if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true)
                         {
-                            ThreadStart action = () =>
+                            if (!handleCollision.ContainsKey(aircraft.Id))
                             {
-                                var handleCollision = new HandleCollision(
-                                    new PositionService(new Sql.Ef.CollisionEntities()),
-                                    new ConflictService(new Sql.Ef.CollisionEntities()));
-                                handleCollision.HandleCollisions(_position.Id);
-                            };
-                            Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                            thread.Start();
-                            handleCollision.Add(aircraft.Id, action);
+                                ThreadStart action = () =>
+                                {
+                                    var handleCollision = new HandleCollision(
+                                        new PositionService(new Sql.Ef.CollisionEntities()),
+                                        new ConflictService(new Sql.Ef.CollisionEntities()));
+                                    handleCollision.HandleCollisions(_position.Id);
+                                };
+                                Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
+                                thread.Start();
+                                handleCollision.Add(aircraft.Id, action);
+                            }
+                        }
+                        else
+                        {
+                            var handleCollision = new HandleCollision(
+                                        new PositionService(new Sql.Ef.CollisionEntities()),
+                                        new ConflictService(new Sql.Ef.CollisionEntities()));
+                            handleCollision.HandleCollisions(_position.Id);
                         }
                     }
                     else
                     {
-                        var handleCollision = new HandleCollision(
-                                    new PositionService(new Sql.Ef.CollisionEntities()),
-                                    new ConflictService(new Sql.Ef.CollisionEntities()));
-                        handleCollision.HandleCollisions(_position.Id);
+                        //There was an error from the API
                     }
                 }
                 else
                 {
-                    //There was an error from the API
-                }
-            }
-            else
-            {
-                //We found a position and need to update position from api and recalculate boundingbox
-                if (UpdateFlightInformation(aircraft, _position))
-                {
-                    //Calculate the positions bounds
-                    HandleBoundingBox.CalculateBoundingBox(_position);
-                    //Update position object in database
-                    _position = _positionService.Update(_position.Id, _position);
-                    //Call HandleCollisions to start evaluating this position for potential collisions
-                    if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true)
+                    //We found a position and need to update position from api and recalculate boundingbox
+                    if (UpdateFlightInformation(aircraft, _position))
                     {
-                        if (!handleCollision.ContainsKey(aircraft.Id))
+                        //Calculate the positions bounds
+                        HandleBoundingBox.CalculateBoundingBox(_position);
+                        //Update position object in database
+                        _position = _positionService.Update(_position.Id, _position);
+                        //Call HandleCollisions to start evaluating this position for potential collisions
+                        if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true)
                         {
-                            ThreadStart action = () =>
+                            if (!handleCollision.ContainsKey(aircraft.Id))
                             {
-                                var handleCollision = new HandleCollision(
-                                    new PositionService(new Sql.Ef.CollisionEntities()),
-                                    new ConflictService(new Sql.Ef.CollisionEntities()));
-                                handleCollision.HandleCollisions(_position.Id);
-                            };
-                            Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                            thread.Start();
-                            handleCollision.Add(aircraft.Id, action);
+                                ThreadStart action = () =>
+                                {
+                                    var handleCollision = new HandleCollision(
+                                        new PositionService(new Sql.Ef.CollisionEntities()),
+                                        new ConflictService(new Sql.Ef.CollisionEntities()));
+                                    handleCollision.HandleCollisions(_position.Id);
+                                };
+                                Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
+                                thread.Start();
+                                handleCollision.Add(aircraft.Id, action);
+                            }
+                        }
+                        else
+                        {
+                            var handleCollision = new HandleCollision(
+                                        new PositionService(new Sql.Ef.CollisionEntities()),
+                                        new ConflictService(new Sql.Ef.CollisionEntities()));
+                            handleCollision.HandleCollisions(_position.Id);
+                            handleCollision = null;
                         }
                     }
                     else
                     {
-                        var handleCollision = new HandleCollision(
-                                    new PositionService(new Sql.Ef.CollisionEntities()),
-                                    new ConflictService(new Sql.Ef.CollisionEntities()));
-                        handleCollision.HandleCollisions(_position.Id);
-                        handleCollision = null;
+                        //There was an error from the API
                     }
                 }
-                else
-                {
-                    //There was an error from the API
-                }
-            }
-            //Wait 30 seconds before evaluating this flight again.
-            _position = null;
-            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
-            HandlePositions(aircraft);
+                //Wait 30 seconds before evaluating this flight again.
+                _position = null;
+                Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
+            } while (true);
+            return;
         }
 
         public bool UpdateFlightInformation(Aircraft aircraft, Position position)
@@ -151,7 +155,7 @@ namespace Collision.Console
                 "?appId=" + ConfigurationManager.AppSettings["appId"] +
                 "&appKey=" + ConfigurationManager.AppSettings["appKey"] +
                 "&utc=true&includeFlightPlan=false&maxPositions=2";
-             
+
             dynamic flight = null;
             //Testing the application.
             if (bool.Parse(ConfigurationManager.AppSettings["mockData"]))
@@ -263,6 +267,6 @@ namespace Collision.Console
         #endregion
 
 
-        
+
     }
 }
