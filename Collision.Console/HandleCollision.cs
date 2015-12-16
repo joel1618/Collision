@@ -54,10 +54,10 @@ namespace Collision.Console
                 HandleConflict(position1, position2);
             }
             //Wait 30 seconds before evaluating this position for collisions again.
-            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
-            _positionService = new PositionService(new Sql.Ef.CollisionEntities());
-            _conflictService = new ConflictService(new Sql.Ef.CollisionEntities());
-            HandleCollisions(positionId);
+            //Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
+            //_positionService = new PositionService(new Sql.Ef.CollisionEntities());
+            //_conflictService = new ConflictService(new Sql.Ef.CollisionEntities());
+            //HandleCollisions(positionId);
         }
 
         public void HandleConflict(Position position1, Position position2)

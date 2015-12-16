@@ -34,7 +34,7 @@ namespace Collision.Console
             Position _position = null;
             aircraft = _aircraftService.Get(aircraft.Id);
             if (!aircraft.IsActive)
-            {                
+            {
                 _position = _positionService.GetByAircraftId(aircraft.Id);
                 NullifyPosition(_position);
                 _position.IsActive = false; _position.IsInFlight = false;
@@ -61,18 +61,27 @@ namespace Collision.Console
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions
-                    if (!handleCollision.ContainsKey(aircraft.Id))
-                    {
-                        ThreadStart action = () =>
+                    if(bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true){
+                        if (!handleCollision.ContainsKey(aircraft.Id))
                         {
-                            var handleCollision = new HandleCollision(
-                                new PositionService(new Sql.Ef.CollisionEntities()),
-                                new ConflictService(new Sql.Ef.CollisionEntities()));
-                            handleCollision.HandleCollisions(_position.Id);
-                        };
-                        Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                        thread.Start();
-                        handleCollision.Add(aircraft.Id, action);
+                            ThreadStart action = () =>
+                            {
+                                var handleCollision = new HandleCollision(
+                                    new PositionService(new Sql.Ef.CollisionEntities()),
+                                    new ConflictService(new Sql.Ef.CollisionEntities()));
+                                handleCollision.HandleCollisions(_position.Id);
+                            };
+                            Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
+                            thread.Start();
+                            handleCollision.Add(aircraft.Id, action);
+                        }
+                    }
+                    else
+                    {
+                        var handleCollision = new HandleCollision(
+                                    new PositionService(new Sql.Ef.CollisionEntities()),
+                                    new ConflictService(new Sql.Ef.CollisionEntities()));
+                        handleCollision.HandleCollisions(_position.Id);
                     }
                 }
                 else
@@ -90,18 +99,29 @@ namespace Collision.Console
                     //Update position object in database
                     _position = _positionService.Update(_position.Id, _position);
                     //Call HandleCollisions to start evaluating this position for potential collisions
-                    if (!handleCollision.ContainsKey(aircraft.Id))
+                    //Call HandleCollisions to start evaluating this position for potential collisions
+                    if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true)
                     {
-                        ThreadStart action = () =>
+                        if (!handleCollision.ContainsKey(aircraft.Id))
                         {
-                            var handleCollision = new HandleCollision(
-                                new PositionService(new Sql.Ef.CollisionEntities()),
-                                new ConflictService(new Sql.Ef.CollisionEntities()));
-                            handleCollision.HandleCollisions(_position.Id);
-                        };
-                        Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                        thread.Start();
-                        handleCollision.Add(aircraft.Id, action);
+                            ThreadStart action = () =>
+                            {
+                                var handleCollision = new HandleCollision(
+                                    new PositionService(new Sql.Ef.CollisionEntities()),
+                                    new ConflictService(new Sql.Ef.CollisionEntities()));
+                                handleCollision.HandleCollisions(_position.Id);
+                            };
+                            Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
+                            thread.Start();
+                            handleCollision.Add(aircraft.Id, action);
+                        }
+                    }
+                    else
+                    {
+                        var handleCollision = new HandleCollision(
+                                    new PositionService(new Sql.Ef.CollisionEntities()),
+                                    new ConflictService(new Sql.Ef.CollisionEntities()));
+                        handleCollision.HandleCollisions(_position.Id);
                     }
                 }
                 else
@@ -110,10 +130,10 @@ namespace Collision.Console
                 }
             }
             //Wait 30 seconds before evaluating this flight again.
-            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
-            _positionService = new PositionService(new Sql.Ef.CollisionEntities());
-            _aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
-            _conflictService = new ConflictService(new Sql.Ef.CollisionEntities());
+            //Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
+            //_positionService = new PositionService(new Sql.Ef.CollisionEntities());
+            //_aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
+            //_conflictService = new ConflictService(new Sql.Ef.CollisionEntities());
             HandlePositions(aircraft);
         }
 

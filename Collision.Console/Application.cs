@@ -27,6 +27,8 @@ namespace Collision.Console
             _aircraftService = aircraftService;
         }
 
+        //TODO: connection pool stuff
+        //TODO: threading optimization
         public void Run()
         {
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago. 
