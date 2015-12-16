@@ -20,7 +20,7 @@ namespace Collision.Console
         private IAircraftService _aircraftService;
         private IConflictService _conflictService;
         private Dictionary<int, ThreadStart> handleCollision = new Dictionary<int, ThreadStart>();
-
+        
         //TODO: Figure out why not executing quickly
         public HandlePosition(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
         {
@@ -28,6 +28,7 @@ namespace Collision.Console
             _aircraftService = aircraftService;
             _conflictService = conflictService;
         }
+
         public void HandlePositions(Aircraft aircraft)
         {
             //End the process if the aircraft has been set to inactive.
@@ -150,8 +151,7 @@ namespace Collision.Console
                 "?appId=" + ConfigurationManager.AppSettings["appId"] +
                 "&appKey=" + ConfigurationManager.AppSettings["appKey"] +
                 "&utc=true&includeFlightPlan=false&maxPositions=2";
-            var syncClient = new WebClient();
-
+             
             dynamic flight = null;
             //Testing the application.
             if (bool.Parse(ConfigurationManager.AppSettings["mockData"]))
@@ -160,7 +160,10 @@ namespace Collision.Console
             }
             else
             {
-                flight = JsonConvert.DeserializeObject(syncClient.DownloadString(url));
+                using (var syncClient = new WebClient())
+                {
+                    flight = JsonConvert.DeserializeObject(syncClient.DownloadString(url));
+                }
             }
             if (flight.error != null)
             {
@@ -207,7 +210,6 @@ namespace Collision.Console
             flight = null;
             baseUrl = null;
             url = null;
-            syncClient.Dispose();
             return true;
         }
 
@@ -259,5 +261,8 @@ namespace Collision.Console
             }
         }
         #endregion
+
+
+        
     }
 }
