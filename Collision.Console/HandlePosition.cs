@@ -136,7 +136,6 @@ namespace Collision.Console
                     }
                 }
                 //Wait 30 seconds before evaluating this flight again.
-                _position = null;
                 Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
             } while (true);
             return;
@@ -210,10 +209,7 @@ namespace Collision.Console
                 RemoveCollisions(position);
             }
             position.IsActive = flight.appendix.airlines[0].active;
-
-            flight = null;
-            baseUrl = null;
-            url = null;
+            
             return true;
         }
 
