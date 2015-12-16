@@ -16,7 +16,7 @@ namespace Collision.Console
 {
     public class HandleBoundingBox
     {
-        public void CalculateBoundingBox(Position position)
+        public static void CalculateBoundingBox(Position position)
         {
             if (ValidateCanCalculate(position))
             {
@@ -26,20 +26,12 @@ namespace Collision.Console
                 ConvertXYZ1toLatLonAlt1(position);
                 CalculateTimeAtPosition1(position);
             }
-        }
-
-        public void CalculateTimeAtPosition1(Position position)
-        {
-            if(position != null && position.UtcTimeStamp2.HasValue)
-            {
-                position.UtcTimeStamp1 = position.UtcTimeStamp2.Value.AddSeconds(60);
-            }
-        }
+        }        
 
         //TODO: Write tests
         //Here we are going to use vector linear algebra.
         //http://math.stackexchange.com/questions/83404/finding-a-point-along-a-line-in-three-dimensions-given-two-points
-        public void CalculateXYZ1(Position position)
+        private static void CalculateXYZ1(Position position)
         {
             var productX = (double)(position.X3.Value - position.X2.Value);
             var productY = (double)(position.Y3.Value - position.Y2.Value);
@@ -72,7 +64,7 @@ namespace Collision.Console
 
         //TODO: Write tests
         //Taken from here http://www.nevaridge.com/georeferencing-tools.php
-        public void ConvertXYZ1toLatLonAlt1(Position position)
+        private static void ConvertXYZ1toLatLonAlt1(Position position)
         {
             
             var x = position.X1 * 1000; // convert to meters
@@ -118,7 +110,7 @@ namespace Collision.Console
 
         //TODO: Write tests
         //Taken from here https://github.com/substack/geodetic-to-ecef/blob/master/index.js
-        public void ConvertLatLonAltToXYZ(Position position)
+        private static void ConvertLatLonAltToXYZ(Position position)
         {
             var a = 6378137; // wgs84.RADIUS;  equitorial radius (semi-major axis)
             var f = 1 / 298.257223563;// wgs84.FLATTENING;
@@ -156,7 +148,7 @@ namespace Collision.Console
         }
 
         //Make sure all necessary fields are available to calculate the bounds of the pill.
-        private bool ValidateCanCalculate(Position position)
+        private static bool ValidateCanCalculate(Position position)
         {
             if(position == null)
             {
@@ -167,6 +159,14 @@ namespace Collision.Console
                 return false;
             }
             return true;
+        }
+
+        private static void CalculateTimeAtPosition1(Position position)
+        {
+            if (position != null && position.UtcTimeStamp2.HasValue)
+            {
+                position.UtcTimeStamp1 = position.UtcTimeStamp2.Value.AddSeconds(60);
+            }
         }
     }
 }

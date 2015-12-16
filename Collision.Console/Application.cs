@@ -19,16 +19,19 @@ namespace Collision.Console
     {
         private IPositionService _positionService;
         private IAircraftService _aircraftService;
+        private IConflictService _conflictService;
         private Dictionary<int, ThreadStart> handlePosition = new Dictionary<int, ThreadStart>();
 
-        public Application(IPositionService positionService, IAircraftService aircraftService)
+        public Application(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
         {
             _positionService = positionService;
             _aircraftService = aircraftService;
+            _conflictService = conflictService;
         }
 
         //TODO: connection pool stuff
         //TODO: threading optimization
+        //TODO: figure out memory leak
         public void Run()
         {
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago. 
@@ -65,17 +68,29 @@ namespace Collision.Console
                     if (position != null)
                     {
                         HandlePosition.NullifyPosition(position);
+                        RemoveCollisions(position);
                         position.IsActive = false;
                         _positionService.Update(position.Id, position);
                     }
+                    position = null;
                 }
             }
             //Sleep before getting the list again and going through it to see if any new flights have been added.
+            aircrafts = null;
             Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
             //Necessary in order to get changed data
-            _positionService = new PositionService(new Sql.Ef.CollisionEntities());
-            _aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
+            //_positionService = new PositionService(new Sql.Ef.CollisionEntities());
+            //_aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
             Run();
+        }
+
+        private void RemoveCollisions(Position position)
+        {
+            var collisions = _conflictService.GetByPositionId1(position.Id);
+            foreach (var collision in collisions)
+            {
+                _conflictService.Delete(collision.Id);
+            }
         }
     }
 }
