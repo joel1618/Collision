@@ -74,6 +74,7 @@ namespace Collision.Console
                     }
                     else
                     {
+                        //Updates the updated timestamp so we know when the conflict was last evaluated.
                         _conflictService.Update(conflict.Id, conflict);
                     }
                 }
