@@ -56,8 +56,14 @@ namespace Collision.Console
                     HandleConflict(position1, position2);
                 }
                 //Wait 30 seconds before evaluating this position for collisions again.
-                Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
-                HandleCollisions(positionId);
+                if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"])){
+                    Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
+                    HandleCollisions(positionId);
+                }
+                else
+                {
+                    break;
+                }
             } while (true);
             return;
         }

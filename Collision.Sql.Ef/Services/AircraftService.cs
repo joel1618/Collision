@@ -9,7 +9,7 @@ using CoreAircraft = Collision.Core.Models.Aircraft;
 
 namespace Collision.Sql.Ef.Services
 {
-    public class AircraftService : IAircraftService, IDisposable
+    public class AircraftService : IAircraftService
     {
         private CollisionEntities _context;
 
@@ -17,7 +17,6 @@ namespace Collision.Sql.Ef.Services
         {
             _context = context;
         }
-
         public IEnumerable<CoreAircraft> Search()
         {
             throw new NotImplementedException();
@@ -25,6 +24,10 @@ namespace Collision.Sql.Ef.Services
         public IEnumerable<CoreAircraft> GetAll()
         {
             return _context.Aircraft.ToList().Select(x => x.ToCore());
+        }
+        public IEnumerable<CoreAircraft> GetAllActive()
+        {
+            return _context.Aircraft.Where(e => e.IsActive == true).ToList().Select(x => x.ToCore());
         }
         public CoreAircraft Get(int id)
         {
@@ -42,28 +45,5 @@ namespace Collision.Sql.Ef.Services
         {
             throw new NotImplementedException();
         }
-
-        #region IDisposable
-        private bool _disposed;
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                    // Dispose other managed resources.
-                }
-                //release unmanaged resources.
-            }
-            _disposed = true;
-        }
-        #endregion
     }
 }

@@ -30,111 +30,40 @@ namespace Collision.Console
             _conflictService = conflictService;
         }
 
-        //TODO: connection pool stuff
-        //TODO: threading optimization
-        //TODO: figure out memory leak
         public void Run()
         {
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago. 
             System.Console.WriteLine("Getting aircraft list.");
-            var aircrafts = _aircraftService.GetAll();
-            foreach (var aircraft in aircrafts)
-            {
-                if (aircraft.IsActive)
-                {
-                    if (!handlePosition.Contains(aircraft.Id))
-                    {
-                        queueAircraft.Enqueue(aircraft);
-                    }
-                }
-                else
-                {
-                    //Remove from handlePosition dictionary 
-                    if (handlePosition.Contains(aircraft.Id))
-                    {
-                        handlePosition.Remove(aircraft.Id);
-                    }
-                    //Set position record to inactive if it exists
-                    var position = _positionService.GetByAircraftId(aircraft.Id);
-                    if (position != null)
-                    {
-                        HandlePosition.NullifyPosition(position);
-                        RemoveCollisions(position);
-                        position.IsActive = false;
-                        _positionService.Update(position.Id, position);
-                    }
-                    position = null;
-                }
-            }
+            List<List<Aircraft>> aircraftLists = splitList(_aircraftService.GetAllActive().ToList());
 
-            List<List<Aircraft>> aircraftListList = new List<List<Aircraft>>();
-            for(int i = 0; i < queueAircraft.Count(); i++)
+            foreach(List<Aircraft> aircraftList in aircraftLists)
             {
-                List<Aircraft> aircraftList = new List<Aircraft>();
-                if (i + 10 < queueAircraft.Count())
-                    {
-                    for (int j = 0; j < 10; j++)
-                    {
-                        var aircraft = queueAircraft.Dequeue();
-                        if (handlePosition.Add(aircraft.Id))
-                        {
-                            aircraftList.Add(aircraft);
-                        }
-                        if(j == 9)
-                        {
-                            aircraftListList.Add(aircraftList);
-                        }
-                    }
-                }
-                else
-                {
-                    var aircraft = queueAircraft.Dequeue();
-                    if (handlePosition.Add(aircraft.Id))
-                    {
-                        aircraftList.Add(aircraft);
-                        aircraftListList.Add(aircraftList);
-                    }
-                }
-            }
-
-            for(int i = 0; i < aircraftListList.Count(); i++)
-            {
-                var q = i;
                 ThreadStart action = () =>
                 {
-                    DoWork(aircraftListList[q]);
+                    HandlePosition(aircraftList);
                 };
                 Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
                 thread.Start();
             }
             //Sleep before getting the list again and going through it to see if any new flights have been added.
-            aircrafts = null;
             Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
-            //Necessary in order to get changed data
-            //_positionService = new PositionService(new Sql.Ef.CollisionEntities());
-            //_aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
             Run();
+        }        
+
+        private void HandlePosition(List<Aircraft> aircrafts)
+        {
+            var position = new HandlePosition(new PositionService(new Sql.Ef.CollisionEntities()),new AircraftService(new Sql.Ef.CollisionEntities()),new ConflictService(new Sql.Ef.CollisionEntities()));
+            position.HandlePositions(aircrafts);
         }
 
-        private void DoWork(List<Aircraft> aircrafts)
+        private static List<List<Aircraft>> splitList(List<Aircraft> aircrafts, int nSize = 30)
         {
-            var position = new HandlePosition(
-                               new PositionService(new Sql.Ef.CollisionEntities()),
-                               new AircraftService(new Sql.Ef.CollisionEntities()),
-                               new ConflictService(new Sql.Ef.CollisionEntities()));
-            foreach(var aircraft in aircrafts)
+            var list = new List<List<Aircraft>>();
+            for (int i = 0; i < aircrafts.Count; i += nSize)
             {
-                position.HandlePositions(aircraft);
+                list.Add(aircrafts.GetRange(i, Math.Min(nSize, aircrafts.Count - i)));
             }
-        }
-
-        private void RemoveCollisions(Position position)
-        {
-            var collisions = _conflictService.GetByPositionId1(position.Id);
-            foreach (var collision in collisions)
-            {
-                _conflictService.Delete(collision.Id);
-            }
+            return list;
         }
     }
 }
