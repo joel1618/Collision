@@ -21,6 +21,7 @@ namespace Collision.Console
         private IAircraftService _aircraftService;
         private IConflictService _conflictService;
         private HashSet<int> handlePosition = new HashSet<int>();
+        private Queue<Aircraft> queueAircraft = new Queue<Aircraft>();
 
         public Application(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
         {
@@ -42,18 +43,8 @@ namespace Collision.Console
                 if (aircraft.IsActive)
                 {
                     if (!handlePosition.Contains(aircraft.Id))
-                    {                   
-                        ThreadStart action = () =>
-                        {
-                            var handlePosition = new HandlePosition(
-                           new PositionService(new Sql.Ef.CollisionEntities()),
-                           new AircraftService(new Sql.Ef.CollisionEntities()),
-                           new ConflictService(new Sql.Ef.CollisionEntities()));
-                            handlePosition.HandlePositions(aircraft);
-                        };
-                        Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                        thread.Start();
-                        handlePosition.Add(aircraft.Id);
+                    {
+                        queueAircraft.Enqueue(aircraft);
                     }
                 }
                 else
@@ -75,6 +66,47 @@ namespace Collision.Console
                     position = null;
                 }
             }
+
+            List<List<Aircraft>> aircraftListList = new List<List<Aircraft>>();
+            for(int i = 0; i < queueAircraft.Count(); i++)
+            {
+                List<Aircraft> aircraftList = new List<Aircraft>();
+                if (i + 10 < queueAircraft.Count())
+                    {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        var aircraft = queueAircraft.Dequeue();
+                        if (handlePosition.Add(aircraft.Id))
+                        {
+                            aircraftList.Add(aircraft);
+                        }
+                        if(j == 9)
+                        {
+                            aircraftListList.Add(aircraftList);
+                        }
+                    }
+                }
+                else
+                {
+                    var aircraft = queueAircraft.Dequeue();
+                    if (handlePosition.Add(aircraft.Id))
+                    {
+                        aircraftList.Add(aircraft);
+                        aircraftListList.Add(aircraftList);
+                    }
+                }
+            }
+
+            for(int i = 0; i < aircraftListList.Count(); i++)
+            {
+                var q = i;
+                ThreadStart action = () =>
+                {
+                    DoWork(aircraftListList[q]);
+                };
+                Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
+                thread.Start();
+            }
             //Sleep before getting the list again and going through it to see if any new flights have been added.
             aircrafts = null;
             Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
@@ -82,6 +114,18 @@ namespace Collision.Console
             //_positionService = new PositionService(new Sql.Ef.CollisionEntities());
             //_aircraftService = new AircraftService(new Sql.Ef.CollisionEntities());
             Run();
+        }
+
+        private void DoWork(List<Aircraft> aircrafts)
+        {
+            var position = new HandlePosition(
+                               new PositionService(new Sql.Ef.CollisionEntities()),
+                               new AircraftService(new Sql.Ef.CollisionEntities()),
+                               new ConflictService(new Sql.Ef.CollisionEntities()));
+            foreach(var aircraft in aircrafts)
+            {
+                position.HandlePositions(aircraft);
+            }
         }
 
         private void RemoveCollisions(Position position)
