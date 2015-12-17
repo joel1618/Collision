@@ -30,6 +30,7 @@ namespace Collision.Console
             _conflictService = conflictService;
         }
 
+        //TODO: Fix mem leak in HandleCollision class somewhere.  All other classes seem fine.
         public void Run()
         {
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago. 
