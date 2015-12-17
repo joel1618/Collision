@@ -20,6 +20,7 @@ namespace Collision.Console
         private IAircraftService _aircraftService;
         private IConflictService _conflictService;
         private HashSet<int> handleCollision = new HashSet<int>();
+        private HandleCollision collision = null;
 
         //TODO: Figure out why not executing quickly
         public HandlePosition(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
@@ -115,9 +116,12 @@ namespace Collision.Console
             }
             else
             {
-                var collision = new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities()),
-                        new ConflictService(new Sql.Ef.CollisionEntities()));
+                if (collision == null)
+                {
+                    collision = new HandleCollision(
+                            new PositionService(new Sql.Ef.CollisionEntities()),
+                            new ConflictService(new Sql.Ef.CollisionEntities()));
+                }
                 collision.HandleCollisions(position.Id);
                 handleCollision.Add(aircraft.Id);
             }
