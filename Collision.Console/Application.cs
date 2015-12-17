@@ -20,7 +20,7 @@ namespace Collision.Console
         private IPositionService _positionService;
         private IAircraftService _aircraftService;
         private IConflictService _conflictService;
-        private Dictionary<int, ThreadStart> handlePosition = new Dictionary<int, ThreadStart>();
+        private HashSet<int> handlePosition = new HashSet<int>();
 
         public Application(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
         {
@@ -41,7 +41,7 @@ namespace Collision.Console
             {
                 if (aircraft.IsActive)
                 {
-                    if (!handlePosition.ContainsKey(aircraft.Id))
+                    if (!handlePosition.Contains(aircraft.Id))
                     {                   
                         ThreadStart action = () =>
                         {
@@ -53,13 +53,13 @@ namespace Collision.Console
                         };
                         Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
                         thread.Start();
-                        handlePosition.Add(aircraft.Id, action);
+                        handlePosition.Add(aircraft.Id);
                     }
                 }
                 else
                 {
                     //Remove from handlePosition dictionary 
-                    if (handlePosition.ContainsKey(aircraft.Id))
+                    if (handlePosition.Contains(aircraft.Id))
                     {
                         handlePosition.Remove(aircraft.Id);
                     }

@@ -30,37 +30,36 @@ namespace Collision.Console
         //Handle bounding box (pill) collisions
         public void HandleCollisions(int positionId)
         {
-            var position1 = _positionService.Get(positionId);
-            if (!position1.IsActive)
+            do
             {
-                return;
-            }
-            System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
-            //Check preexisting collisions
-            var collisions = _conflictService.GetByPositionId1(position1.Id);
-            if (collisions != null)
-            {
-                foreach (var collision in collisions)
+                var position1 = _positionService.Get(positionId);
+                if (!position1.IsActive)
                 {
-                    HandleConflict(position1, collision.Position2);
+                    break;
                 }
-            }
+                System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
+                //Check preexisting collisions
+                var collisions = _conflictService.GetByPositionId1(position1.Id);
+                if (collisions != null)
+                {
+                    foreach (var collision in collisions)
+                    {
+                        HandleConflict(position1, collision.Position2);
+                    }
+                }
 
-            //Find positions within a 55.5 kilometer radius
-            var positions = _positionService.GetPositionsByQuadrant(position1);
+                //Find positions within a 55.5 kilometer radius
+                var positions = _positionService.GetPositionsByQuadrant(position1);
 
-            foreach (Position position2 in positions)
-            {
-                HandleConflict(position1, position2);
-            }
-            //Wait 30 seconds before evaluating this position for collisions again.
-            //_positionService = new PositionService(new Sql.Ef.CollisionEntities());
-            //_conflictService = new ConflictService(new Sql.Ef.CollisionEntities());
-            if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true)
-            {
+                foreach (Position position2 in positions)
+                {
+                    HandleConflict(position1, position2);
+                }
+                //Wait 30 seconds before evaluating this position for collisions again.
                 Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
                 HandleCollisions(positionId);
-            }
+            } while (true);
+            return;
         }
 
         public void HandleConflict(Position position1, Position position2)
@@ -178,6 +177,7 @@ namespace Collision.Console
             return true;
         }
 
+        #region ShortestPathBetweenLines
         //https://www.john.geek.nz/2009/03/code-shortest-distance-between-any-two-line-segments/
         private class point
         {
@@ -296,5 +296,6 @@ namespace Collision.Console
         {
             return Math.Sqrt(dot(c1, c1));
         }
+        #endregion
     }
 }
