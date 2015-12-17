@@ -31,6 +31,12 @@ namespace Collision.Console
         }
 
         //TODO: Fix mem leak in HandleCollision class somewhere.  All other classes seem fine.
+        /*TODO: Threads execution time needs to be synchronized so that we can an accurate projection.  
+                select max(ModifiedAtUtcTimeStamp) - min(ModifiedAtUtcTimeStamp) from Position where IsActive = 1
+                Right now seeing a differential of about 55 seconds.  THis is going to be a logic problem.
+                One potential solution here would be to have app running on multiple machines, 
+                and each app responsible for a range of flights.  
+        */
         public void Run()
         {
             //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago. 

@@ -93,8 +93,6 @@ namespace Collision.Console
                         }
                     }
                 }
-                //Wait 30 seconds before evaluating this flight again.
-                Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handlePositionTimeInterval"]));
             } while (true);
         }
 
