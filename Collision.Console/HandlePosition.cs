@@ -107,6 +107,7 @@ namespace Collision.Console
             collision.HandleCollisions(position);
         }
 
+        #region API 
         public bool UpdateFlightInformation(Aircraft aircraft, Position position)
         {     
             //Testing the application.
@@ -165,6 +166,7 @@ namespace Collision.Console
 
             return true;
         }
+        #endregion
 
         #region Helper        
         public static void NullifyPosition(Position position)

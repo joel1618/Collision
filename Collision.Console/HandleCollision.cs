@@ -26,8 +26,7 @@ namespace Collision.Console
             _positionService = positionService;
             _conflictService = conflictService;
         }
-
-        //Handle bounding box (pill) collisions
+        
         public void HandleCollisions(Position position1)
         {
             System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
@@ -90,6 +89,7 @@ namespace Collision.Console
             }
         }
 
+        #region Helper
         private void RemoveCollision(Position position1, Position position2)
         {
             var collisionExists = _conflictService.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
@@ -107,7 +107,9 @@ namespace Collision.Console
                 _conflictService.Delete(collision.Id);
             }
         }
+        #endregion
 
+        #region Validation
         //Make sure position1 and position2 are within 60 seconds of each other
         private bool ValidateTiming(Position position1, Position position2)
         {
@@ -164,8 +166,9 @@ namespace Collision.Console
             }
             return true;
         }
+        #endregion
 
-        #region ShortestPathBetweenLines
+        #region ShortestPathAlgorithm
         //https://www.john.geek.nz/2009/03/code-shortest-distance-between-any-two-line-segments/
         private class point
         {
