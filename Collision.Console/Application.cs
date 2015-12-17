@@ -31,11 +31,11 @@ namespace Collision.Console
         }
 
         //TODO: Fix mem leak in HandleCollision class somewhere.  All other classes seem fine.
-        /*TODO: Threads execution time needs to be synchronized so that we can an accurate projection.  
+        /*TODO: Threads execution time needs to be synchronized so that we can accurately project. 
                 select max(ModifiedAtUtcTimeStamp) - min(ModifiedAtUtcTimeStamp) from Position where IsActive = 1
-                Right now seeing a differential of about 55 seconds.  THis is going to be a logic problem.
+                Right now seeing a differential of about 55 seconds.
                 One potential solution here would be to have app running on multiple machines, 
-                and each app responsible for a range of flights.  
+                and each app responsible for a range of flights or faster machine.  CPU and IO are pegged.    
         */
         public void Run()
         {
