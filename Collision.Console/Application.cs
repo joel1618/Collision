@@ -39,7 +39,7 @@ namespace Collision.Console
         */
         public void Run()
         {
-            //Go get the list from flightstats where flight starttime > datetime.now - 24 hours ago. 
+            //TODO:  May have a problem bringing everything into mem here.  
             System.Console.WriteLine("Getting aircraft list.");
             List<List<Aircraft>> aircraftLists = splitList(_aircraftService.GetAllActive().ToList());
 
