@@ -19,8 +19,10 @@ namespace Collision.Console
         private IPositionService _positionService;
         private IAircraftService _aircraftService;
         private IConflictService _conflictService;
-        private HashSet<int> handleCollision = new HashSet<int>();
         private HandleCollision collision = null;
+        private string baseUrl = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/";
+        private string endUrl = "?appId=" + ConfigurationManager.AppSettings["appId"] + "&appKey=" + ConfigurationManager.AppSettings["appKey"] + "&utc=true&includeFlightPlan=false&maxPositions=2";
+        private dynamic flight = null;
 
         //TODO: Figure out why not executing quickly
         public HandlePosition(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
@@ -66,7 +68,7 @@ namespace Collision.Console
                             //Update position object in database
                             _position = _positionService.Update(_position.Id, _position);
                             //Call HandleCollisions to start evaluating this position for potential collisions
-                            HandleCollisionStart(aircraft, _position);
+                            HandleCollision(aircraft, _position);
                         }
                         else
                         {
@@ -83,7 +85,7 @@ namespace Collision.Console
                             //Update position object in database
                             _position = _positionService.Update(_position.Id, _position);
                             //Call HandleCollisions to start evaluating this position for potential collisions
-                            HandleCollisionStart(aircraft, _position);
+                            HandleCollision(aircraft, _position);
                         }
                         else
                         {
@@ -96,52 +98,19 @@ namespace Collision.Console
             } while (true);
         }
 
-        public void HandleCollisionStart(Aircraft aircraft, Position position)
+        public void HandleCollision(Aircraft aircraft, Position position)
         {
-            if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"]) == true)
+            if (collision == null)
             {
-                if (!handleCollision.Add(aircraft.Id))
-                {
-                    ThreadStart action = () =>
-                    {
-                        var handleCollision = new HandleCollision(
-                            new PositionService(new Sql.Ef.CollisionEntities()),
-                            new ConflictService(new Sql.Ef.CollisionEntities()));
-                        handleCollision.HandleCollisions(position.Id);
-                    };
-                    Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                    thread.Start();
-                    handleCollision.Add(aircraft.Id);
-                }
+                collision = new HandleCollision(
+                        new PositionService(new Sql.Ef.CollisionEntities()),
+                        new ConflictService(new Sql.Ef.CollisionEntities()));
             }
-            else
-            {
-                if (collision == null)
-                {
-                    collision = new HandleCollision(
-                            new PositionService(new Sql.Ef.CollisionEntities()),
-                            new ConflictService(new Sql.Ef.CollisionEntities()));
-                }
-                collision.HandleCollisions(position.Id);
-                handleCollision.Add(aircraft.Id);
-            }
+            collision.HandleCollisions(position);
         }
 
         public bool UpdateFlightInformation(Aircraft aircraft, Position position)
-        {
-            var baseUrl = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/";
-            var url =
-                baseUrl +
-                aircraft.Carrier +
-                "/" + aircraft.FlightNumber +
-                "/dep/" + DateTime.Now.Year +
-                "/" + DateTime.Now.Month +
-                "/" + DateTime.Now.Day +
-                "?appId=" + ConfigurationManager.AppSettings["appId"] +
-                "&appKey=" + ConfigurationManager.AppSettings["appKey"] +
-                "&utc=true&includeFlightPlan=false&maxPositions=2";
-
-            dynamic flight = null;
+        {     
             //Testing the application.
             if (bool.Parse(ConfigurationManager.AppSettings["mockData"]))
             {
@@ -151,7 +120,7 @@ namespace Collision.Console
             {
                 using (var syncClient = new WebClient())
                 {
-                    flight = JsonConvert.DeserializeObject(syncClient.DownloadString(url));
+                    flight = JsonConvert.DeserializeObject(syncClient.DownloadString(GetUrl(aircraft)));
                 }
             }
             if (flight.error != null)
@@ -245,6 +214,17 @@ namespace Collision.Console
             {
                 _conflictService.Delete(collision.Id);
             }
+        }
+        
+        private string GetUrl(Aircraft aircraft)
+        {
+            return baseUrl +
+                    aircraft.Carrier +
+                    "/" + aircraft.FlightNumber +
+                    "/dep/" + DateTime.Now.Year +
+                    "/" + DateTime.Now.Month +
+                    "/" + DateTime.Now.Day +
+                    endUrl;
         }
         #endregion
     }

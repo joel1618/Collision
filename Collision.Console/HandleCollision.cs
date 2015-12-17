@@ -28,44 +28,25 @@ namespace Collision.Console
         }
 
         //Handle bounding box (pill) collisions
-        public void HandleCollisions(int positionId)
+        public void HandleCollisions(Position position1)
         {
-            do
+            System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
+            //Check preexisting collisions
+            var collisions = _conflictService.GetByPositionId1(position1.Id);
+            if (collisions != null)
             {
-                var position1 = _positionService.Get(positionId);
-                if (!position1.IsActive)
+                foreach (var collision in collisions)
                 {
-                    break;
+                    HandleConflict(position1, collision.Position2);
                 }
-                System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
-                //Check preexisting collisions
-                var collisions = _conflictService.GetByPositionId1(position1.Id);
-                if (collisions != null)
-                {
-                    foreach (var collision in collisions)
-                    {
-                        HandleConflict(position1, collision.Position2);
-                    }
-                }
+            }
+            //Find positions within a 55.5 kilometer radius
+            var positions = _positionService.GetPositionsByQuadrant(position1);
 
-                //Find positions within a 55.5 kilometer radius
-                var positions = _positionService.GetPositionsByQuadrant(position1);
-
-                foreach (Position position2 in positions)
-                {
-                    HandleConflict(position1, position2);
-                }
-                //Wait 30 seconds before evaluating this position for collisions again.
-                if (bool.Parse(ConfigurationManager.AppSettings["threadCollisionEvaluation"])){
-                    Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleCollisionTimeInterval"]));
-                    HandleCollisions(positionId);
-                }
-                else
-                {
-                    break;
-                }
-            } while (true);
-            return;
+            foreach (Position position2 in positions)
+            {
+                HandleConflict(position1, position2);
+            }
         }
 
         public void HandleConflict(Position position1, Position position2)
