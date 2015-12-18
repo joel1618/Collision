@@ -29,14 +29,16 @@ namespace Collision.Console
             _aircraftService = aircraftService;
             _conflictService = conflictService;
         }
-
-        //TODO: Fix mem leak in HandleCollision class somewhere.  All other classes seem fine.
+         
         /*TODO: Threads execution time needs to be synchronized so that we can accurately project. 
                 select max(ModifiedAtUtcTimeStamp) - min(ModifiedAtUtcTimeStamp) from Position where IsActive = 1
                 Right now seeing a differential of about 55 seconds.
                 One potential solution here would be to have app running on multiple machines, 
                 and each app responsible for a range of flights or faster machine.  CPU and IO are pegged.    
         */
+        //TODO: May need to wrap the services using (var context = new MyDbContext(ConnectionString)) {} so that the connection isn't held onto.
+        //Right now after about 1 hour, the app has used 2Gb of memory and connections to database are consistent.  No crashes. GC seems to take care of things right before the 2Gb mark.  
+        //No substantial memory leak after that?  
         public void Run()
         {
             do

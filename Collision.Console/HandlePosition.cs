@@ -41,12 +41,7 @@ namespace Collision.Console
                     Position _position = null;
                     if (!aircraft.IsActive)
                     {
-                        _position = _positionService.GetByAircraftId(aircraft.Id);
-                        NullifyPosition(_position);
-                        //Remove collision potentials associated with this position
-                        RemoveCollisions(_position);
-                        _position.IsActive = false; _position.IsInFlight = false;
-                        _positionService.Update(_position.Id, _position);
+                        HandleInActivePosition(aircraft, _position);
                     }
                     else {
                         System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
@@ -105,6 +100,16 @@ namespace Collision.Console
                         new ConflictService(new Sql.Ef.CollisionEntities()));
             }
             collision.HandleCollisions(position);
+        }
+
+        public void HandleInActivePosition(Aircraft aircraft, Position positionn)
+        {
+            positionn = _positionService.GetByAircraftId(aircraft.Id);
+            NullifyPosition(positionn);
+            //Remove collision potentials associated with this position
+            RemoveCollisions(positionn);
+            positionn.IsActive = false; positionn.IsInFlight = false;
+            _positionService.Update(positionn.Id, positionn);
         }
 
         #region API 
