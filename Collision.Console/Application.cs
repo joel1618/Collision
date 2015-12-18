@@ -52,6 +52,9 @@ namespace Collision.Console
                 Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
                 thread.Start();
             }
+
+            //TODO: disable position if aircraft is disabled.
+
             //Sleep before getting the list again and going through it to see if any new flights have been added or a flight has been set to inactive.
             Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
             Run();
