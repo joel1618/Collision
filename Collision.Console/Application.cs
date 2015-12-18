@@ -74,6 +74,7 @@ namespace Collision.Console
 
         private void HandleInActiveAircraft()
         {
+            System.Console.WriteLine("Handling inactive aircraft.");
             List<Aircraft> inactiveAircraftList = _aircraftService.GetAllInActive().ToList();
             foreach (var aircraft in inactiveAircraftList)
             {
