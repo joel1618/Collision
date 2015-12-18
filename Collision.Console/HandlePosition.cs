@@ -38,35 +38,26 @@ namespace Collision.Console
             {
                 foreach (Aircraft aircraft in aircrafts)
                 {
-                    Position _position = null;
-                    if (!aircraft.IsActive)
-                    {
-                        System.Console.WriteLine("Handling inactive aircraft " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
-                        HandleInActiveAircraft(aircraft, _position);
-                    }
-                    else {
-                        System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
-                        _position = _positionService.GetByAircraftId(aircraft.Id);
-                    }
-
                     if (aircraft.IsActive)
                     {
-                        if (_position == null)
+                        System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
+                        var position = _positionService.GetByAircraftId(aircraft.Id);
+                        if (position == null)
                         {
                             //No position yet exists for this aircraft and we need to create a new one
-                            _position = new Position();
-                            _position.AircraftId = aircraft.Id;
+                            position = new Position();
+                            position.AircraftId = aircraft.Id;
                             //Call api for flight
-                            if (UpdateFlightInformation(aircraft, _position))
+                            if (UpdateFlightInformation(aircraft, position))
                             {
                                 //Create position in database
-                                _position = _positionService.Create(_position);
+                                position = _positionService.Create(position);
                                 //Calculate the positions bounds
-                                HandleBoundingBox.CalculateBoundingBox(_position);
+                                HandleBoundingBox.CalculateBoundingBox(position);
                                 //Update position object in database
-                                _position = _positionService.Update(_position.Id, _position);
+                                position = _positionService.Update(position.Id, position);
                                 //Call HandleCollisions to start evaluating this position for potential collisions
-                                HandleCollision(aircraft, _position);
+                                HandleCollision(aircraft, position);
                             }
                             else
                             {
@@ -76,14 +67,14 @@ namespace Collision.Console
                         else
                         {
                             //We found a position and need to update position from api and recalculate boundingbox
-                            if (UpdateFlightInformation(aircraft, _position))
+                            if (UpdateFlightInformation(aircraft, position))
                             {
                                 //Calculate the positions bounds
-                                HandleBoundingBox.CalculateBoundingBox(_position);
+                                HandleBoundingBox.CalculateBoundingBox(position);
                                 //Update position object in database
-                                _position = _positionService.Update(_position.Id, _position);
+                                position = _positionService.Update(position.Id, position);
                                 //Call HandleCollisions to start evaluating this position for potential collisions
-                                HandleCollision(aircraft, _position);
+                                HandleCollision(aircraft, position);
                             }
                             else
                             {
@@ -91,6 +82,12 @@ namespace Collision.Console
                             }
                         }
                     }
+                    else
+                    {
+                        System.Console.WriteLine("Handling inactive aircraft " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
+                        HandleInActiveAircraft(aircraft);
+                    }
+
                 }
             } while (true);
         }
@@ -106,9 +103,9 @@ namespace Collision.Console
             collision.HandleCollisions(position);
         }
 
-        public void HandleInActiveAircraft(Aircraft aircraft, Position position)
+        public void HandleInActiveAircraft(Aircraft aircraft)
         {
-            position = _positionService.GetByAircraftId(aircraft.Id);
+            var position = _positionService.GetByAircraftId(aircraft.Id);
             Helper.NullifyPosition(position);
             //Remove collision potentials associated with this position
             RemoveCollisions(position);
