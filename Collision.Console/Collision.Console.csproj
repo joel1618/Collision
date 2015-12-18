@@ -135,6 +135,7 @@
     <Compile Include="HandleBoundingBox.cs" />
     <Compile Include="HandleCollision.cs" />
     <Compile Include="HandlePosition.cs" />
+    <Compile Include="Helper\Helper.cs" />
     <Compile Include="Interfaces\IApplication.cs" />
     <Compile Include="MockData.cs" />
     <Compile Include="Program.cs" />

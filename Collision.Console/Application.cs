@@ -86,6 +86,7 @@ namespace Collision.Console
                         _conflictService.Delete(conflict.Id);
                     }
                     position.IsActive = false;
+                    Helper.NullifyPosition(position);
                     _positionService.Update(position.Id, position);
                 }
             }
