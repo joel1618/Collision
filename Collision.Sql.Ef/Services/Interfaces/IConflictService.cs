@@ -11,5 +11,6 @@ namespace Collision.Sql.Ef.Services.Interfaces
     {
         IEnumerable<CoreConflict> GetByPositionId1(int positionId1);
         CoreConflict GetByPositionId1AndPositionId2(int positionId1, int positionId2);
+        IEnumerable<CoreConflict> GetByPositionId1OrPositionId2(int positionId);
     }
 }

@@ -23,6 +23,7 @@ namespace Collision.Sql.Ef.Services
         {
             throw new NotImplementedException();
         }
+
         public IEnumerable<CorePosition> GetAll()
         {
             return _context.Positions.ToList().Select(x => x.ToCore());          

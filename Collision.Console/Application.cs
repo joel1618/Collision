@@ -39,39 +39,62 @@ namespace Collision.Console
         */
         public void Run()
         {
-            //TODO:  May have a problem bringing everything into mem here.  
-            System.Console.WriteLine("Getting aircraft list.");
-            List<List<Aircraft>> aircraftLists = splitList(_aircraftService.GetAllActive().ToList());
-
-            foreach(List<Aircraft> aircraftList in aircraftLists)
+            do
             {
-                ThreadStart action = () =>
+                //TODO:  May have a problem bringing everything into mem here.  
+                System.Console.WriteLine("Getting aircraft list.");
+
+                //Deactive positions and remove conflicts related to the position.
+                HandleInActiveAircraft();
+
+                List<List<Aircraft>> aircraftLists = splitList(_aircraftService.GetAllActive().ToList(), Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]));
+
+                foreach (List<Aircraft> aircraftList in aircraftLists)
                 {
-                    HandlePosition(aircraftList);
-                };
-                Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                thread.Start();
-            }
+                    ThreadStart action = () =>
+                    {
+                        HandlePosition(aircraftList);
+                    };
+                    Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
+                    thread.Start();
+                }
 
-            //TODO: disable position if aircraft is disabled.
-
-            //Sleep before getting the list again and going through it to see if any new flights have been added or a flight has been set to inactive.
-            Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
-            Run();
-        }        
-
+                //Sleep before getting the list again and going through it to see if any new flights have been added or a flight has been set to inactive.
+                Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
+            } while (true);
+        }         
+        
         private void HandlePosition(List<Aircraft> aircrafts)
         {
             var position = new HandlePosition(new PositionService(new Sql.Ef.CollisionEntities()),new AircraftService(new Sql.Ef.CollisionEntities()),new ConflictService(new Sql.Ef.CollisionEntities()));
             position.HandlePositions(aircrafts);
         }
 
-        private static List<List<Aircraft>> splitList(List<Aircraft> aircrafts, int nSize = 30)
+        private void HandleInActiveAircraft()
+        {
+            List<Aircraft> inactiveAircraftList = _aircraftService.GetAllInActive().ToList();
+            foreach (var aircraft in inactiveAircraftList)
+            {
+                var position = _positionService.GetByAircraftId(aircraft.Id);
+                if (position != null)
+                {
+                    var conflicts = _conflictService.GetByPositionId1OrPositionId2(position.Id);
+                    foreach (var conflict in conflicts)
+                    {
+                        _conflictService.Delete(conflict.Id);
+                    }
+                    position.IsActive = false;
+                    _positionService.Update(position.Id, position);
+                }
+            }
+        }
+
+        private static List<List<Aircraft>> splitList(List<Aircraft> aircrafts, int size)
         {
             var list = new List<List<Aircraft>>();
-            for (int i = 0; i < aircrafts.Count; i += nSize)
+            for (int i = 0; i < aircrafts.Count; i += size)
             {
-                list.Add(aircrafts.GetRange(i, Math.Min(nSize, aircrafts.Count - i)));
+                list.Add(aircrafts.GetRange(i, Math.Min(size, aircrafts.Count - i)));
             }
             return list;
         }

@@ -9,6 +9,7 @@ namespace Collision.Sql.Ef.Services.Interfaces
 {
     public interface IAircraftService : IService<CoreAircraft>
     {
+        IEnumerable<CoreAircraft> GetAllInActive();
         IEnumerable<CoreAircraft> GetAllActive();
     }
 }

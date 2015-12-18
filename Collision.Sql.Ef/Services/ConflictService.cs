@@ -38,6 +38,11 @@ namespace Collision.Sql.Ef.Services
             return _context.Conflicts.ToList().Where(e => e.PositionId1 == positionId1 && e.PositionId2 == positionId2).FirstOrDefault().ToCore();
         }
 
+        public IEnumerable<CoreConflict> GetByPositionId1OrPositionId2(int positionId)
+        {
+            return _context.Conflicts.ToList().Where(e => e.PositionId1 == positionId || e.PositionId2 == positionId).Select(x => x.ToCore());
+        }
+
         public CoreConflict Get(int id)
         {
             return _context.Conflicts.Find(id).ToCore();
