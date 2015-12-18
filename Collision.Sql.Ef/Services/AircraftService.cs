@@ -25,14 +25,6 @@ namespace Collision.Sql.Ef.Services
         {
             return _context.Aircraft.ToList().Select(x => x.ToCore());
         }
-        public IEnumerable<CoreAircraft> GetAllActive()
-        {
-            return _context.Aircraft.Where(e => e.IsActive == true).ToList().Select(x => x.ToCore());
-        }
-        public IEnumerable<CoreAircraft> GetAllInActive()
-        {
-            return _context.Aircraft.Where(e => e.IsActive == false).ToList().Select(x => x.ToCore());
-        }
         public CoreAircraft Get(int id)
         {
             return _context.Aircraft.Find(id).ToCore();

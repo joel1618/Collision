@@ -41,50 +41,54 @@ namespace Collision.Console
                     Position _position = null;
                     if (!aircraft.IsActive)
                     {
-                        HandleInActivePosition(aircraft, _position);
+                        System.Console.WriteLine("Handling inactive aircraft " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
+                        HandleInActiveAircraft(aircraft, _position);
                     }
                     else {
                         System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
                         _position = _positionService.GetByAircraftId(aircraft.Id);
                     }
 
-                    if (_position == null)
+                    if (aircraft.IsActive)
                     {
-                        //No position yet exists for this aircraft and we need to create a new one
-                        _position = new Position();
-                        _position.AircraftId = aircraft.Id;
-                        //Call api for flight
-                        if (UpdateFlightInformation(aircraft, _position))
+                        if (_position == null)
                         {
-                            //Create position in database
-                            _position = _positionService.Create(_position);
-                            //Calculate the positions bounds
-                            HandleBoundingBox.CalculateBoundingBox(_position);
-                            //Update position object in database
-                            _position = _positionService.Update(_position.Id, _position);
-                            //Call HandleCollisions to start evaluating this position for potential collisions
-                            HandleCollision(aircraft, _position);
+                            //No position yet exists for this aircraft and we need to create a new one
+                            _position = new Position();
+                            _position.AircraftId = aircraft.Id;
+                            //Call api for flight
+                            if (UpdateFlightInformation(aircraft, _position))
+                            {
+                                //Create position in database
+                                _position = _positionService.Create(_position);
+                                //Calculate the positions bounds
+                                HandleBoundingBox.CalculateBoundingBox(_position);
+                                //Update position object in database
+                                _position = _positionService.Update(_position.Id, _position);
+                                //Call HandleCollisions to start evaluating this position for potential collisions
+                                HandleCollision(aircraft, _position);
+                            }
+                            else
+                            {
+                                //There was an error from the API
+                            }
                         }
                         else
                         {
-                            //There was an error from the API
-                        }
-                    }
-                    else
-                    {
-                        //We found a position and need to update position from api and recalculate boundingbox
-                        if (UpdateFlightInformation(aircraft, _position))
-                        {
-                            //Calculate the positions bounds
-                            HandleBoundingBox.CalculateBoundingBox(_position);
-                            //Update position object in database
-                            _position = _positionService.Update(_position.Id, _position);
-                            //Call HandleCollisions to start evaluating this position for potential collisions
-                            HandleCollision(aircraft, _position);
-                        }
-                        else
-                        {
-                            //There was an error from the API
+                            //We found a position and need to update position from api and recalculate boundingbox
+                            if (UpdateFlightInformation(aircraft, _position))
+                            {
+                                //Calculate the positions bounds
+                                HandleBoundingBox.CalculateBoundingBox(_position);
+                                //Update position object in database
+                                _position = _positionService.Update(_position.Id, _position);
+                                //Call HandleCollisions to start evaluating this position for potential collisions
+                                HandleCollision(aircraft, _position);
+                            }
+                            else
+                            {
+                                //There was an error from the API
+                            }
                         }
                     }
                 }
@@ -102,14 +106,14 @@ namespace Collision.Console
             collision.HandleCollisions(position);
         }
 
-        public void HandleInActivePosition(Aircraft aircraft, Position positionn)
+        public void HandleInActiveAircraft(Aircraft aircraft, Position position)
         {
-            positionn = _positionService.GetByAircraftId(aircraft.Id);
-            Helper.NullifyPosition(positionn);
+            position = _positionService.GetByAircraftId(aircraft.Id);
+            Helper.NullifyPosition(position);
             //Remove collision potentials associated with this position
-            RemoveCollisions(positionn);
-            positionn.IsActive = false; positionn.IsInFlight = false;
-            _positionService.Update(positionn.Id, positionn);
+            RemoveCollisions(position);
+            position.IsActive = false; position.IsInFlight = false;
+            _positionService.Update(position.Id, position);
         }
 
         #region API 

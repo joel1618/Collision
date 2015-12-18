@@ -46,10 +46,7 @@ namespace Collision.Console
                 //TODO:  May have a problem bringing everything into mem here.  
                 System.Console.WriteLine("Getting aircraft list.");
 
-                //Deactive positions and remove conflicts related to the position.
-                HandleInActiveAircraft();
-
-                List<List<Aircraft>> aircraftLists = splitList(_aircraftService.GetAllActive().ToList(), Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]));
+                List<List<Aircraft>> aircraftLists = splitList(_aircraftService.GetAll().ToList(), Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]));
 
                 foreach (List<Aircraft> aircraftList in aircraftLists)
                 {
@@ -70,27 +67,6 @@ namespace Collision.Console
         {
             var position = new HandlePosition(new PositionService(new Sql.Ef.CollisionEntities()),new AircraftService(new Sql.Ef.CollisionEntities()),new ConflictService(new Sql.Ef.CollisionEntities()));
             position.HandlePositions(aircrafts);
-        }
-
-        private void HandleInActiveAircraft()
-        {
-            System.Console.WriteLine("Handling inactive aircraft.");
-            List<Aircraft> inactiveAircraftList = _aircraftService.GetAllInActive().ToList();
-            foreach (var aircraft in inactiveAircraftList)
-            {
-                var position = _positionService.GetByAircraftId(aircraft.Id);
-                if (position != null)
-                {
-                    var conflicts = _conflictService.GetByPositionId1OrPositionId2(position.Id);
-                    foreach (var conflict in conflicts)
-                    {
-                        _conflictService.Delete(conflict.Id);
-                    }
-                    position.IsActive = false;
-                    Helper.NullifyPosition(position);
-                    _positionService.Update(position.Id, position);
-                }
-            }
         }
 
         private static List<List<Aircraft>> splitList(List<Aircraft> aircrafts, int size)
