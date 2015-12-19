@@ -46,15 +46,8 @@ namespace Collision.Console
         public Flight Get()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
-            var isActive = random.Next(0, 100);
-            if (isActive > 0)
-            {
-                flight.appendix.airlines[0].active = true;
-            }
-            else
-            {
-                flight.appendix.airlines[0].active = false;
-            }
+
+            flight.appendix.airlines[0].active = true;
 
             var now = DateTime.UtcNow;
 
