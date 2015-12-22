@@ -18,8 +18,8 @@ namespace Collision.Sql.Ef.Migrations
                 {
                     context.Database.Create();
                     context.Database.Connection.Open();
-                    //AddAll(context);
-                    AddAircraft(context);
+                    AddAll(context);
+                    //AddAircraft(context);
                     context.SaveChanges();
                     context.Database.Connection.Close();
                 }
