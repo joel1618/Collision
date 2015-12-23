@@ -7,8 +7,8 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Practices.Unity;
-using Collision.Sql.Ef.Services.Interfaces;
-using Collision.Sql.Ef.Services;
+using Collision.Sql.Ef.Repositories.Interfaces;
+using Collision.Sql.Ef.Repositories;
 using Collision.Core.Models;
 using Newtonsoft.Json;
 
@@ -16,20 +16,20 @@ namespace Collision.Console
 {
     public class HandlePosition
     {
-        private IPositionService _positionService;
-        private IAircraftService _aircraftService;
-        private IConflictService _conflictService;
+        private IPositionRepository _positionRepository;
+        private IAircraftRepository _aircraftRepository;
+        private IConflictRepository _conflictRepository;
         private HandleCollision collision = null;
         private string baseUrl = "https://api.flightstats.com/flex/flightstatus/rest/v2/json/flight/tracks/";
         private string endUrl = "?appId=" + ConfigurationManager.AppSettings["appId"] + "&appKey=" + ConfigurationManager.AppSettings["appKey"] + "&utc=true&includeFlightPlan=false&maxPositions=2";
         private dynamic flight = null;
 
         //TODO: Figure out why not executing quickly
-        public HandlePosition(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
+        public HandlePosition(IPositionRepository positionRepository, IAircraftRepository aircraftRepository, IConflictRepository conflictRepository)
         {
-            _positionService = positionService;
-            _aircraftService = aircraftService;
-            _conflictService = conflictService;
+            _positionRepository = positionRepository;
+            _aircraftRepository = aircraftRepository;
+            _conflictRepository = conflictRepository;
         }
 
         public void HandlePositions(List<Aircraft> aircrafts)
@@ -41,7 +41,7 @@ namespace Collision.Console
                     if (aircraft.IsActive)
                     {
                         System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
-                        var position = _positionService.GetByAircraftId(aircraft.Id);
+                        var position = _positionRepository.GetByAircraftId(aircraft.Id);
                         if (position == null)
                         {
                             //No position yet exists for this aircraft and we need to create a new one
@@ -51,11 +51,11 @@ namespace Collision.Console
                             if (UpdateFlightInformation(aircraft, position))
                             {
                                 //Create position in database
-                                position = _positionService.Create(position);
+                                position = _positionRepository.Create(position);
                                 //Calculate the positions bounds
                                 HandleBoundingBox.CalculateBoundingBox(position);
                                 //Update position object in database
-                                position = _positionService.Update(position.Id, position);
+                                position = _positionRepository.Update(position.Id, position);
                                 //Call HandleCollisions to start evaluating this position for potential collisions
                                 HandleCollision(aircraft, position);
                             }
@@ -72,7 +72,7 @@ namespace Collision.Console
                                 //Calculate the positions bounds
                                 HandleBoundingBox.CalculateBoundingBox(position);
                                 //Update position object in database
-                                position = _positionService.Update(position.Id, position);
+                                position = _positionRepository.Update(position.Id, position);
                                 //Call HandleCollisions to start evaluating this position for potential collisions
                                 HandleCollision(aircraft, position);
                             }
@@ -97,20 +97,20 @@ namespace Collision.Console
             if (collision == null)
             {
                 collision = new HandleCollision(
-                        new PositionService(new Sql.Ef.CollisionEntities()),
-                        new ConflictService(new Sql.Ef.CollisionEntities()));
+                        new PositionRepository(new Sql.Ef.CollisionEntities()),
+                        new ConflictRepository(new Sql.Ef.CollisionEntities()));
             }
             collision.HandleCollisions(position);
         }
 
         public void HandleInActiveAircraft(Aircraft aircraft)
         {
-            var position = _positionService.GetByAircraftId(aircraft.Id);
+            var position = _positionRepository.GetByAircraftId(aircraft.Id);
             Helper.NullifyPosition(position);
             //Remove collision potentials associated with this position
             RemoveCollisions(position);
             position.IsActive = false; position.IsInFlight = false;
-            _positionService.Update(position.Id, position);
+            _positionRepository.Update(position.Id, position);
         }
 
         #region API 
@@ -136,7 +136,7 @@ namespace Collision.Console
                     //Remove collision potentials associated with this position
                     RemoveCollisions(position);
                     //Delete the position
-                    _positionService.Delete(position.Id);
+                    _positionRepository.Delete(position.Id);
                 }
                 return false;
             }
@@ -178,10 +178,10 @@ namespace Collision.Console
 
         private void RemoveCollisions(Position position)
         {
-            var collisions = _conflictService.GetByPositionId1(position.Id);
+            var collisions = _conflictRepository.GetByPositionId1(position.Id);
             foreach (var collision in collisions)
             {
-                _conflictService.Delete(collision.Id);
+                _conflictRepository.Delete(collision.Id);
             }
         }
         

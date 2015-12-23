@@ -5,17 +5,17 @@ using System.Web;
 using System.Web.Http;
 using System.Net;
 using System.Net.Http;
-using Collision.Sql.Ef.Services.Interfaces;
-using Collision.Sql.Ef.Services;
+using Collision.Sql.Ef.Repositories.Interfaces;
+using Collision.Sql.Ef.Repositories;
 
 namespace Collision.v1.API
 {
     public class ConflictController : ApiController
     {
-        private readonly IConflictService _conflictService;
-        public ConflictController(IConflictService conflictService)
+        private readonly IConflictRepository _conflictRepository;
+        public ConflictController(IConflictRepository conflictRepository)
         {
-            _conflictService = conflictService; 
+            _conflictRepository = conflictRepository; 
         }
 
         //public HttpResponseMessage Search()

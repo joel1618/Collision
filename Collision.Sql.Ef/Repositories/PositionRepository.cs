@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Collision.Sql.Ef.Extensions;
-using Collision.Sql.Ef.Services.Interfaces;
+using Collision.Sql.Ef.Repositories.Interfaces;
 using EfPosition = Collision.Sql.Ef.Position;
 using CorePosition = Collision.Core.Models.Position;
 
-namespace Collision.Sql.Ef.Services
+namespace Collision.Sql.Ef.Repositories
 {
-    public class PositionService : IPositionService
+    public class PositionRepository : IPositionRepository
     {
         private CollisionEntities _context;
 
-        public PositionService(CollisionEntities context)
+        public PositionRepository(CollisionEntities context)
         {
             _context = context;
         }

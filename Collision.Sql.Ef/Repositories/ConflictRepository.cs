@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Collision.Sql.Ef.Extensions;
-using Collision.Sql.Ef.Services.Interfaces;
+using Collision.Sql.Ef.Repositories.Interfaces;
 using EfConflict = Collision.Sql.Ef.Conflict;
 using CoreConflict = Collision.Core.Models.Conflict;
 
-namespace Collision.Sql.Ef.Services
+namespace Collision.Sql.Ef.Repositories
 {
-    public class ConflictService : IConflictService
+    public class ConflictRepository : IConflictRepository
     {
         private CollisionEntities _context;
 
-        public ConflictService(CollisionEntities context)
+        public ConflictRepository(CollisionEntities context)
         {
             _context = context;
         }

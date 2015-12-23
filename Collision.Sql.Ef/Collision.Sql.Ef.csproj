@@ -165,21 +165,21 @@
     <Compile Include="Conflict.cs">
       <DependentUpon>Collision.tt</DependentUpon>
     </Compile>
-    <Compile Include="Services\ConflictService.cs" />
-    <Compile Include="Services\Extensions\AircraftExtensions.cs" />
-    <Compile Include="Services\Extensions\ConflictExtensions.cs" />
-    <Compile Include="Services\Extensions\PositionExtensions.cs" />
+    <Compile Include="Repositories\ConflictRepository.cs" />
+    <Compile Include="Repositories\Extensions\AircraftExtensions.cs" />
+    <Compile Include="Repositories\Extensions\ConflictExtensions.cs" />
+    <Compile Include="Repositories\Extensions\PositionExtensions.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Position.cs">
       <DependentUpon>Collision.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AircraftService.cs" />
-    <Compile Include="Services\Interfaces\IAircraftService.cs" />
-    <Compile Include="Services\Interfaces\IConflictService.cs" />
-    <Compile Include="Services\Interfaces\IPositionService.cs" />
-    <Compile Include="Services\Interfaces\IService.cs" />
-    <Compile Include="Services\PositionService.cs" />
+    <Compile Include="Repositories\AircraftRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAircraftRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IConflictRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPositionRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="Repositories\PositionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Collision.edmx">

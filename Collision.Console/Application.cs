@@ -7,8 +7,8 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Practices.Unity;
-using Collision.Sql.Ef.Services.Interfaces;
-using Collision.Sql.Ef.Services;
+using Collision.Sql.Ef.Repositories.Interfaces;
+using Collision.Sql.Ef.Repositories;
 using Collision.Console.Interfaces;
 using Collision.Core.Models;
 using Newtonsoft.Json;
@@ -17,17 +17,17 @@ namespace Collision.Console
 {
     public class Application : IApplication
     {
-        private IPositionService _positionService;
-        private IAircraftService _aircraftService;
-        private IConflictService _conflictService;
+        private IPositionRepository _positionRepository;
+        private IAircraftRepository _aircraftRepository;
+        private IConflictRepository _conflictRepository;
         private HashSet<int> handlePosition = new HashSet<int>();
         private Queue<Aircraft> queueAircraft = new Queue<Aircraft>();
 
-        public Application(IPositionService positionService, IAircraftService aircraftService, IConflictService conflictService)
+        public Application(IPositionRepository positionRepository, IAircraftRepository aircraftRepository, IConflictRepository conflictRepository)
         {
-            _positionService = positionService;
-            _aircraftService = aircraftService;
-            _conflictService = conflictService;
+            _positionRepository = positionRepository;
+            _aircraftRepository = aircraftRepository;
+            _conflictRepository = conflictRepository;
         }
          
         /*TODO: Threads execution time needs to be synchronized so that we can accurately project. 
@@ -36,7 +36,7 @@ namespace Collision.Console
                 One potential solution here would be to have app running on multiple machines, 
                 and each app responsible for a range of flights or faster machine.  CPU and IO are pegged.    
         */
-        //TODO: May need to wrap the services using (var context = new MyDbContext(ConnectionString)) {} so that the connection isn't held onto.
+        //TODO: May need to wrap the Repositorys using (var context = new MyDbContext(ConnectionString)) {} so that the connection isn't held onto.
         //Right now after about 1 hour, the app has used 2Gb of memory and connections to database are consistent.  No crashes. GC seems to take care of things right before the 2Gb mark.  
         //No substantial memory leak after that?  
         public void Run()
@@ -46,7 +46,7 @@ namespace Collision.Console
                 //TODO:  May have a problem bringing everything into mem here.  
                 System.Console.WriteLine("Getting aircraft list.");
 
-                List<List<Aircraft>> aircraftLists = splitList(_aircraftService.GetAll().ToList(), Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]));
+                List<List<Aircraft>> aircraftLists = splitList(_aircraftRepository.GetAll().ToList(), Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]));
 
                 foreach (List<Aircraft> aircraftList in aircraftLists)
                 {
@@ -65,7 +65,7 @@ namespace Collision.Console
         
         private void HandlePosition(List<Aircraft> aircrafts)
         {
-            var position = new HandlePosition(new PositionService(new Sql.Ef.CollisionEntities()),new AircraftService(new Sql.Ef.CollisionEntities()),new ConflictService(new Sql.Ef.CollisionEntities()));
+            var position = new HandlePosition(new PositionRepository(new Sql.Ef.CollisionEntities()),new AircraftRepository(new Sql.Ef.CollisionEntities()),new ConflictRepository(new Sql.Ef.CollisionEntities()));
             position.HandlePositions(aircrafts);
         }
 

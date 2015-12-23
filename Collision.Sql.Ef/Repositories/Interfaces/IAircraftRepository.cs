@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using CoreAircraft = Collision.Core.Models.Aircraft;
 
-namespace Collision.Sql.Ef.Services.Interfaces
+namespace Collision.Sql.Ef.Repositories.Interfaces
 {
-    public interface IAircraftService : IService<CoreAircraft>
+    public interface IAircraftRepository : IRepository<CoreAircraft>
     {
     }
 }

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using CorePosition = Collision.Core.Models.Position;
 
-namespace Collision.Sql.Ef.Services.Interfaces
+namespace Collision.Sql.Ef.Repositories.Interfaces
 {
-    public interface IPositionService : IService<CorePosition>
+    public interface IPositionRepository : IRepository<CorePosition>
     {
         CorePosition GetByAircraftId(int id);
         IEnumerable<CorePosition> GetPositionsByQuadrant(CorePosition item);

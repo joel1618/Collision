@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Collision.Sql.Ef.Services.Interfaces;
+using Collision.Sql.Ef.Repositories.Interfaces;
 using Collision.Sql.Ef.Extensions;
 using CoreAircraft = Collision.Core.Models.Aircraft;
 
-namespace Collision.Sql.Ef.Services
+namespace Collision.Sql.Ef.Repositories
 {
-    public class AircraftService : IAircraftService
+    public class AircraftRepository : IAircraftRepository
     {
         private CollisionEntities _context;
 
-        public AircraftService(CollisionEntities context)
+        public AircraftRepository(CollisionEntities context)
         {
             _context = context;
         }
