@@ -8,6 +8,8 @@ using Collision.Sql.Ef.Repositories.Interfaces;
 using Collision.Models;
 using Collision.v1.API;
 using System.Data.Common;
+using System.Data.Entity;
+using Collision.Controllers;
 
 namespace Collision
 {
@@ -31,8 +33,11 @@ namespace Collision
             container.RegisterType<IConflictRepository, ConflictRepository>();
             container.RegisterType<ConflictController>();
 
+            //http://stackoverflow.com/questions/24731426/register-iauthenticationmanager-with-unity
             container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());
+            container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
+            container.RegisterType<AccountController>(new InjectionConstructor());
 
             return container;
         }
