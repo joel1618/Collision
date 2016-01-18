@@ -1,4 +1,17 @@
 ﻿@using Microsoft.AspNet.Identity
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/Content/assets/css/main.css" />
+    <!-- Scripts -->
+    <script src="~/Content/assets/js/skel.min.js"></script>
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <script src="~/Content/assets/js/jquery.scrollex.min.js"></script>
+    <script src="~/Content/assets/js/util.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script src="~/Content/assets/js/main.js"></script>
+
+</head>
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -15,8 +28,30 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
+    <!-- Header -->
+    <header id="header" class="alt">
+        <h1><a href="index.html">Collision</a></h1>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+	<!-- Menu -->
+        <nav id="menu">
+            <div class="inner">
+                <h2>Menu</h2>
+                <ul class="links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="generic.html">Generic</a></li>
+                    <li><a href="elements.html">Elements</a></li>
+                    <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                </ul>
+                <a href="#" class="close">Close</a>
+            </div>
+        </nav>
+    @*<ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    </ul>*@
 }
