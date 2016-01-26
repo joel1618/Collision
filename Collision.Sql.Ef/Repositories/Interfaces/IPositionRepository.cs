@@ -10,6 +10,6 @@ namespace Collision.Sql.Ef.Repositories.Interfaces
     public interface IPositionRepository : IRepository<CorePosition>
     {
         CorePosition GetByAircraftId(int id);
-        IEnumerable<CorePosition> GetPositionsByQuadrant(CorePosition item);
+        IEnumerable<CorePosition> GetByQuadrant(CorePosition item);
     }
 }

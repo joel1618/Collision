@@ -29,7 +29,7 @@ namespace Collision.Sql.Ef.Repositories
             return _context.Positions.ToList().Select(x => x.ToCore());          
         }
 
-        public IEnumerable<CorePosition> GetPositionsByQuadrant(CorePosition item)
+        public IEnumerable<CorePosition> GetByQuadrant(CorePosition item)
         {
             return _context.Positions.Where(
                x => x.Latitude2.Value > item.Latitude2.Value - (decimal).5

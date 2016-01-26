@@ -126,7 +126,6 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
-    <Compile Include="Extensions\PositionExtension.cs" />
     <Compile Include="Interfaces\IConnectionStringProvider.cs" />
     <Compile Include="Models\Aircraft.cs" />
     <Compile Include="Models\Conflict.cs" />

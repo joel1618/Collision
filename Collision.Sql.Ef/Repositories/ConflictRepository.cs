@@ -7,6 +7,7 @@ using Collision.Sql.Ef.Extensions;
 using Collision.Sql.Ef.Repositories.Interfaces;
 using EfConflict = Collision.Sql.Ef.Conflict;
 using CoreConflict = Collision.Core.Models.Conflict;
+using CorePosition = Collision.Core.Models.Position;
 
 namespace Collision.Sql.Ef.Repositories
 {
@@ -46,6 +47,23 @@ namespace Collision.Sql.Ef.Repositories
         public CoreConflict Get(int id)
         {
             return _context.Conflicts.Find(id).ToCore();
+        }
+
+        public IQueryable<CoreConflict> GetByQuadrant(CorePosition item)
+        {
+            return _context.Conflicts.Where(x => 
+            ((x.Position.Latitude2.Value > item.Latitude2.Value - (decimal).5
+            && x.Position.Latitude2.Value < item.Latitude2.Value + (decimal).5
+            && x.Position.Longitude2.Value > item.Longitude2.Value - (decimal).5
+            && x.Position.Longitude2.Value < item.Longitude2.Value + (decimal).5)
+            ||
+            (x.Position1.Latitude2.Value > item.Latitude2.Value - (decimal).5
+            && x.Position1.Latitude2.Value < item.Latitude2.Value + (decimal).5
+            && x.Position1.Longitude2.Value > item.Longitude2.Value - (decimal).5
+            && x.Position1.Longitude2.Value < item.Longitude2.Value + (decimal).5)
+            &&
+            (x.Position.IsActive == true && x.Position1.IsActive == true))
+            ).Select(x => x.ToCore());
         }
 
         public CoreConflict Create(CoreConflict item)
