@@ -1,6 +1,6 @@
 # Collision
 
-Collision is a C# MVC 5 application written to consume real time flight position, calculate a projected future position,
+Collision is a C# MVC 5 application written to consume real time flight position data, calculate a projected future position,
 and then collision test projected positions against each other in an attempt to find currently operating aircraft that are on
 a real time collision course with other currently operating aircraft.
 
