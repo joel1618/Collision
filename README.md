@@ -20,6 +20,6 @@ Prerequisites:
 <br/>7. The console should output indicating what is happening.
 <br/>8. The position table should be updated with the latest position information.
 
-<br/>The application by default emulates the aircraft data as a reliable api to receive this data from is limited and expensive.  
+<br/>The application by default emulates aircraft flight data using the same data type as flightstats.com api.  Flightstats.com's api is an expensive and limited api for real world application at this time.
 
 
