@@ -12,7 +12,7 @@ namespace Collision.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                return RedirectToAction("About", "Home");
+                return RedirectToAction("Index", "ControlPanel");
             }
             else
             {

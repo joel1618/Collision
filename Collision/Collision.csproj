@@ -211,6 +211,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ControlPanelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\v1\ConflictController.cs" />
@@ -226,6 +227,9 @@
     <Compile Include="ViewModels\PositionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\controlpanel\app.js" />
+    <Content Include="App\controlpanel\controllers\controlpanelcontroller.js" />
+    <Content Include="App\controlpanel\views\controlpanel.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -246,6 +250,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <None Include="Views\ControlPanel\Index.cshtml" />
     <Content Include="Views\Home\elements.html" />
     <Content Include="Views\Home\generic.html" />
     <None Include="Views\Home\Index.cshtml" />
@@ -285,6 +290,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App\controlpanel\services\" />
+    <Folder Include="App\services\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\assets\" />
     <Folder Include="Content\images\" />
