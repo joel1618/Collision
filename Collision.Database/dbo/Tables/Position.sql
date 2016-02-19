@@ -55,7 +55,7 @@ GO
 ALTER TABLE [dbo].[Position] ADD  CONSTRAINT [DF_Position_IsInFlight]  DEFAULT ((0)) FOR [IsInFlight]
 GO
 
-ALTER TABLE [dbo].[Position]  WITH CHECK ADD  CONSTRAINT [FK_Position_Aircraft] FOREIGN KEY([AircraftId])
+ALTER TABLE [dbo].[Position]  ADD  CONSTRAINT [FK_Position_Aircraft] FOREIGN KEY([AircraftId])
 REFERENCES [dbo].[Aircraft] ([Id])
 GO
 

@@ -33,11 +33,13 @@ namespace Collision.v1.API
                 var conflicts = _conflictRepository.GetByQuadrant(item.ToCore());
                 return Request.CreateResponse(HttpStatusCode.NotImplemented, conflicts/*TODO:.ToViewModel()*/);
             }
-            catch(Exception ex)
+            catch(Exception)// ex)
             {
                 //_loggingRepository.create(ex);
                 return Request.CreateErrorResponse((HttpStatusCode)500, "There was an error retrieving the conflicts");
             }
         }
+
+        
     }
 }
