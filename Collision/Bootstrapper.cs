@@ -9,6 +9,8 @@ using Collision.Models;
 using Collision.v1.API;
 using System.Data.Common;
 using System.Data.Entity;
+using Microsoft.Owin.Security;
+using System.Web;
 using Collision.Controllers;
 
 namespace Collision
@@ -38,6 +40,7 @@ namespace Collision
             container.RegisterType<UserManager<ApplicationUser>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
             container.RegisterType<AccountController>(new InjectionConstructor());
+            container.RegisterType<IAuthenticationManager>(new InjectionFactory(o => HttpContext.Current.GetOwinContext().Authentication));
 
             return container;
         }
