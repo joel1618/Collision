@@ -15,10 +15,10 @@ using Breeze.WebApi2;
 namespace Collision.Controllers.v1.breeze
 {
     [BreezeController]
-    public class BreezeConflictController
+    public class ConflictController
     {
         private readonly IConflictRepository _conflictRepository;
-        public BreezeConflictController(IConflictRepository conflictRepository)
+        public ConflictController(IConflictRepository conflictRepository)
         {
             _conflictRepository = conflictRepository;
         }

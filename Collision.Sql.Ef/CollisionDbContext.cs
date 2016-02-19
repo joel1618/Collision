@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
+using Collision.Core.Models;
 
 //http://stackoverflow.com/questions/20693542/breezejs-datamodal-using-ef-as-a-design-tool/20694398
 namespace Collision.Sql.Ef
@@ -23,15 +24,16 @@ namespace Collision.Sql.Ef
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.Configurations.Add(new ProviderDtoConfiguration());
+            //modelBuilder.Configurations.Add(new ConflictDtoConfiguration());
         }
 
+        public DbSet<Collision.Core.Models.Conflict> Conflicts { get; set; }
         //public DbSet<Provider> Providers { get; set; }
     }
 
-    //internal class ProviderDtoConfiguration : EntityTypeConfiguration<Provider>
+    //internal class ConflictDtoConfiguration : EntityTypeConfiguration<Conflict>
     //{
-    //    public ProviderDtoConfiguration()
+    //    public ConflictDtoConfiguration()
     //    {
     //        //Property(c => c.CompanyName).IsRequired().HasMaxLength(40);
     //    }

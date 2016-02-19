@@ -9,7 +9,7 @@ using Collision.Sql.Ef.Repositories.Interfaces;
 using Collision.ViewModels.Extensions;
 using Collision.Sql.Ef.Repositories;
 using PositionViewModel = Collision.ViewModels.PositionViewModel;
-namespace Collision.v1.API
+namespace Collision.Controllers.v1
 {
     public class ConflictController : ApiController
     {

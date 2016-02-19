@@ -6,7 +6,6 @@ using Microsoft.Practices.Unity.Mvc;
 using Collision.Sql.Ef.Repositories;
 using Collision.Sql.Ef.Repositories.Interfaces;
 using Collision.Models;
-using Collision.v1.API;
 using System.Data.Common;
 using System.Data.Entity;
 using Microsoft.Owin.Security;
@@ -32,8 +31,10 @@ namespace Collision
             var container = new UnityContainer();
 
             // register all your components with the container here
+            container.RegisterType<Collision.Sql.Ef.CollisionEntities>(new InjectionFactory(c => new Collision.Sql.Ef.CollisionEntities()));
             container.RegisterType<IConflictRepository, ConflictRepository>();
-            container.RegisterType<ConflictController>();
+            //container.RegisterType<Collision.Controllers.v1.breeze.ConflictController>(new ConflictRepository(new Sql.Ef.CollisionEntities()));
+            //container.RegisterType<Collision.Controllers.v1.ConflictController>();
 
             //http://stackoverflow.com/questions/24731426/register-iauthenticationmanager-with-unity
             container.RegisterType<DbContext, ApplicationDbContext>(new HierarchicalLifetimeManager());

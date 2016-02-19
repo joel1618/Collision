@@ -1,9 +1,9 @@
 ﻿(function () {
 
     angular.module('services').factory('breezeservice',
-    ['$http', '$q', '$timeout', 'breeze', breezeservice]);
+    ['$http', '$q', '$timeout', 'breeze', service]);
 
-    function breezeservice($http, $q, $timeout, breeze) {
+    function service($http, $q, $timeout, breeze) {
         var serviceName = 'breeze'; // route to the same origin Web Api controller
         var dataService = new breeze.DataService({
             serviceName: serviceName,
@@ -11,7 +11,7 @@
         });
         var metadataStore = new breeze.MetadataStore();
         //manager.enableSaveQueuing(true);
-        metadataStore.importMetadata(window.app.metadata);
+        metadataStore.importMetadata(window.breeze.metadata);
         //var masterManager = new breeze.EntityManager(serviceName);
         var manager = new breeze.EntityManager({
             dataService: dataService,

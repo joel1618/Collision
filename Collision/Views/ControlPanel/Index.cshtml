@@ -1,8 +1,11 @@
 ﻿<head>
     <title></title>
     <!--ANGULAR-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-route.js"></script>
+    <!--BREEZE ANGULAR-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/breezejs/1.5.5/breeze.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/breezejs/1.5.5/adapters/breeze.bridge.angular.js"></script>
     <!--UI.BOOTSTRAP-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap.js"></script>
     <!--UI.GRID-->
@@ -19,5 +22,7 @@
     <script src="~/App/controlpanel/controllers/controlpanelcontroller.js"></script>
 </head>
 <div ng-app="controlpanel">
-    <ng-view></ng-view>
+    <div ng-view>
+
+    </div>
 </div>

@@ -243,7 +243,7 @@
     <Compile Include="Controllers\ControlPanelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\v1\breeze\BreezeConflictController.cs" />
+    <Compile Include="Controllers\v1\breeze\ConflictController.cs" />
     <Compile Include="Controllers\v1\breeze\MetadataController.cs" />
     <Compile Include="Controllers\v1\ConflictController.cs" />
     <Compile Include="Global.asax.cs">
