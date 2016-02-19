@@ -19,9 +19,9 @@ namespace Collision.Sql.Ef.Repositories
             _context = context;
         }
 
-        public IEnumerable<CorePosition> Search()
+        public IQueryable<CorePosition> Search()
         {
-            throw new NotImplementedException();
+            return _context.Positions.Select(x => x.ToCore());
         }
 
         public IEnumerable<CorePosition> GetAll()

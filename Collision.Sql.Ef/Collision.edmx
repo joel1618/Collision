@@ -10,6 +10,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Iata" Type="nvarchar" MaxLength="50" />
+          <Property Name="Icao" Type="nvarchar" MaxLength="50" />
           <Property Name="Carrier" Type="nvarchar" MaxLength="50" />
           <Property Name="CarrierName" Type="nvarchar" MaxLength="50" />
           <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
@@ -379,6 +381,8 @@
           <Property Name="PlaneType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Positions" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Aircraft" ToRole="Position" />
+          <Property Name="Iata" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Icao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Conflict">
           <Key>
@@ -536,6 +540,8 @@
           <EntitySetMapping Name="Aircraft">
             <EntityTypeMapping TypeName="CollisionModel.Aircraft">
               <MappingFragment StoreEntitySet="Aircraft">
+                <ScalarProperty Name="Icao" ColumnName="Icao" />
+                <ScalarProperty Name="Iata" ColumnName="Iata" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="PlaneType" ColumnName="PlaneType" />
                 <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
