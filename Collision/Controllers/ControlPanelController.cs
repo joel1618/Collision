@@ -12,7 +12,8 @@ namespace Collision.Controllers
         {
             if (Request.IsAuthenticated)
             {
-                return View();
+                //return View();
+                return View("Index", "~/Views/Shared/_OriginalLayout.cshtml");
             }
             else
             {

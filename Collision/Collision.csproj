@@ -288,6 +288,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_OriginalLayout.cshtml" />
+    <Content Include="Views\Shared\_OriginalLoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\controlpanel\services\" />

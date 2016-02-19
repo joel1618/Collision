@@ -72,7 +72,8 @@ namespace Collision.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
-            return View(model);
+            //return View(model);
+            return View("Index", "~/Views/Shared/_OriginalLayout.cshtml", model);
         }
 
         //
