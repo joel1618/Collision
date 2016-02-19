@@ -17,7 +17,7 @@ namespace Collision.Controllers
             }
             else
             {
-                return RedirectToAction("About", "Home");
+                return RedirectToAction("Index", "Home");
             }
         }
     }
