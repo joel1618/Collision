@@ -13,6 +13,9 @@ namespace Collision.App_Start {
   public static class BreezeWebApiConfig {
 
     public static void RegisterBreezePreStart() {
+      //Write metadata file
+      MetadataScriptWriter.Write();
+
       GlobalConfiguration.Configuration.Routes.MapHttpRoute(
           name: "BreezeApi",
           routeTemplate: "breeze/{controller}/{action}"
