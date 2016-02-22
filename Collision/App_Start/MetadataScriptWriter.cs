@@ -20,7 +20,7 @@ namespace Collision.App_Start
             var fileName = HostingEnvironment.MapPath("~/App/services/breeze/metadata.js");
 
             // the same pre- and post-fix strings we used earlier
-            const string prefix = "window.breeze = window.breeze || {}; windows.breeze.metadata = JSON.stringify(";
+            const string prefix = "window.breeze = window.breeze || {}; window.breeze.metadata = JSON.stringify(";
 
             const string postfix = ");";
 
