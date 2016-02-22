@@ -15,16 +15,16 @@ using Breeze.WebApi2;
 namespace Collision.Controllers.v1.breeze
 {
     [BreezeController]
-    public class ConflictController
+    public class ConflictBreezeApiController : ApiController
     {
         private readonly IConflictRepository _conflictRepository;
-        public ConflictController(IConflictRepository conflictRepository)
+        public ConflictBreezeApiController(IConflictRepository conflictRepository)
         {
             _conflictRepository = conflictRepository;
         }
 
         [HttpGet]
-        public IQueryable<Conflict> Search()
+        public IEnumerable<Conflict> Search()
         {
             return _conflictRepository.Search();
         }

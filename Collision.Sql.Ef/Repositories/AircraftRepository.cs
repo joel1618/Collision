@@ -17,7 +17,7 @@ namespace Collision.Sql.Ef.Repositories
         {
             _context = context;
         }
-        public IQueryable<CoreAircraft> Search()
+        public IEnumerable<CoreAircraft> Search()
         {
             return _context.Aircraft.Select(x => x.ToCore());
         }

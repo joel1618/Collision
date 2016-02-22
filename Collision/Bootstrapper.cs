@@ -11,6 +11,7 @@ using System.Data.Entity;
 using Microsoft.Owin.Security;
 using System.Web;
 using Collision.Controllers;
+using System.Web.Http;
 
 namespace Collision
 {
@@ -22,7 +23,7 @@ namespace Collision
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 
-            //GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
             return container;
         }
 
@@ -33,7 +34,7 @@ namespace Collision
             // register all your components with the container here
             container.RegisterType<Collision.Sql.Ef.CollisionEntities>(new InjectionFactory(c => new Collision.Sql.Ef.CollisionEntities()));
             container.RegisterType<IConflictRepository, ConflictRepository>();
-            //container.RegisterType<Collision.Controllers.v1.breeze.ConflictController>(new ConflictRepository(new Sql.Ef.CollisionEntities()));
+            //container.RegisterType<Collision.Controllers.v1.breeze.ConflictBreezeApiController>();
             //container.RegisterType<Collision.Controllers.v1.ConflictController>();
 
             //http://stackoverflow.com/questions/24731426/register-iauthenticationmanager-with-unity

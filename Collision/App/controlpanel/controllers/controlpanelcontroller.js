@@ -5,7 +5,7 @@
     function controller($scope, $http, $timeout, breezeservice, breeze) {
         $scope.isLoading = true;
 
-        var query = breeze.EntityQuery.from('conflict/search');//.orderByDesc('Id');
+        var query = breeze.EntityQuery.from('conflictbreezeapi/search').orderByDesc('Id');
         var promise = breezeservice.executeQuery(query).then(function (data) {
             $scope.conflicts = data.results;
             $scope.isLoading = false;

@@ -20,9 +20,9 @@ namespace Collision.Sql.Ef.Repositories
             _context = context;
         }
 
-        public IQueryable<CoreConflict> Search()
+        public IEnumerable<CoreConflict> Search()
         {
-            return _context.Conflicts.Select(x => x.ToCore());
+            return _context.Conflicts.ToList().Select(x => x.ToCore());
         }
         public IEnumerable<CoreConflict> GetAll()
         {

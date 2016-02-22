@@ -19,7 +19,7 @@ namespace Collision.Sql.Ef.Repositories
             _context = context;
         }
 
-        public IQueryable<CorePosition> Search()
+        public IEnumerable<CorePosition> Search()
         {
             return _context.Positions.Select(x => x.ToCore());
         }
