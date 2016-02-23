@@ -8,14 +8,28 @@
         $scope.isLoading = true;
         $scope.camera = {};
         $scope.capsule = {};
-        $scope.camera.x = 0; $scope.camera.y = 2; $scope.camera.z = 25;
-        $scope.capsule.x = 1; $scope.capsule.y = 1; $scope.capsule.z = 1;
+        $scope.camera.xposition = 0; $scope.camera.yposition = 0; $scope.camera.zposition = 10;
+        $scope.camera.xrotation = 0; $scope.camera.yrotation = 0; $scope.camera.zrotation = 0;
+
+        $scope.capsule.xposition = 0; $scope.capsule.yposition = 0; $scope.capsule.zposition = 0;
+        $scope.capsule.xlength = 1; $scope.capsule.ylength = 1; $scope.capsule.zlength = 1;
+        $scope.capsule.xrotation = 0; $scope.capsule.yrotation = 0; $scope.capsule.zrotation = 0;
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            $scope.position = position;
+            //alert(position.coords.latitude);
+        });
 
         var query = breeze.EntityQuery.from('conflictbreezeapi/search').orderByDesc('Id');
-        var promise = breezeservice.executeQuery(query).then(function (data) {
+        var conflictPromise = breezeservice.executeQuery(query).then(function (data) {
             $scope.conflicts = data.results;
             $scope.isLoading = false;
             PlayCanvas($scope);
+        });
+    
+        query = breeze.EntityQuery.from('positionbreezeapi/search').orderByDesc('Id');
+        var positionPromise = breezeservice.executeQuery(query).then(function (data) {
+            $scope.positions = data.results;
         });
 
         $scope.change = function () {
@@ -25,8 +39,13 @@
             capsule.setLocalScale(1, 1, 1);
             capsule.setPosition(1, 1, 1);
             */
-            capsule.setLocalScale($scope.capsule.x, $scope.capsule.y, $scope.capsule.z);
-            camera.setPosition($scope.camera.x, $scope.camera.y, $scope.camera.z);
+            camera.setPosition($scope.camera.xposition, $scope.camera.yposition, $scope.camera.zposition);
+            camera.setEulerAngles($scope.camera.xrotation, $scope.camera.yrotation, $scope.camera.zrotation);
+
+            capsule.setLocalScale($scope.capsule.xlength, $scope.capsule.ylength, $scope.capsule.zlength);
+            capsule.setPosition($scope.capsule.xposition, $scope.capsule.yposition, $scope.capsule.zposition);
+            capsule.setEulerAngles($scope.capsule.xrotation, $scope.capsule.yrotation, $scope.capsule.zrotation);
+           
         }
     }]);
 
@@ -71,7 +90,6 @@
             radius: 0.5,
         });
 
-        capsule.setLocalScale($scope.capsule.x, $scope.capsule.y, $scope.capsule.z);
         //ROTATE
         capsule.setEulerAngles(0, 0, 0);
 
@@ -79,7 +97,7 @@
         capsule.model.material = createMaterial(new pc.Color(0, 0, 1));
 
         //POSITION
-        capsule.setPosition(0, 3, 0);
+        capsule.setPosition($scope.capsule.xposition, $scope.capsule.yposition, $scope.capsule.zposition);
 
         //TELEPORT
         //capsuleTemplate.rigidbody.teleport(-5, 0, 5);
@@ -91,7 +109,7 @@
         app.root.addChild(light);
 
         // Set up initial positions and orientations
-        camera.setPosition($scope.camera.x, $scope.camera.y, $scope.camera.z);
+        camera.setPosition($scope.camera.xposition, $scope.camera.yposition, $scope.camera.zposition);
         light.setEulerAngles(45, 0, 0);
         
         // Register an update event

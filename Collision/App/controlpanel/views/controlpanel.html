@@ -4,21 +4,42 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-4" ng-show="!isLoading">
+            <div class="col-md-2">
                 <label>Camera</label><br/>
-                <label>X</label>
-                <input ng-model="camera.x" ng-change="change()" /><br />
-                <label>Y</label>
-                <input ng-model="camera.y" ng-change="change()" /><br />
-                <label>Z</label>
-                <input ng-model="camera.z" ng-change="change()" /><br />
+                <label>x position</label>
+                <input ng-model="camera.xposition" ng-change="change()" /><br />
+                <label>y position</label>
+                <input ng-model="camera.yposition" ng-change="change()" /><br />
+                <label>z position</label>
+                <input ng-model="camera.zposition" ng-change="change()" /><br />
+                <label>x rotation</label>
+                <input ng-model="camera.xrotation" ng-change="change()" ng-model-options="{ debounce: 1000 }" /><br />
+                <label>y rotation</label>
+                <input ng-model="camera.yrotation" ng-change="change()" ng-model-options="{ debounce: 1000 }" /><br />
+                <label>z rotation</label>
+                <input ng-model="camera.zrotation" ng-change="change()" ng-model-options="{ debounce: 1000 }" /><br />
+            </div>
+            <div class="col-md-2">
                 <label>Capsule</label><br />
-                <label>X</label>
-                <input ng-model="capsule.x" ng-change="change()"/><br />
-                <label>Y</label>
-                <input ng-model="capsule.y" ng-change="change()" /><br />
-                <label>Z</label>
-                <input ng-model="capsule.z" ng-change="change()" /><br />
+                <label>x position</label>
+                <input ng-model="capsule.xposition" ng-change="change()" /><br />
+                <label>y position</label>
+                <input ng-model="capsule.yposition" ng-change="change()" /><br />
+                <label>z position</label>
+                <input ng-model="capsule.zposition" ng-change="change()" /><br />
+                <label>x length</label>
+                <input ng-model="capsule.xlength" ng-change="change()" /><br />
+                <label>y length</label>
+                <input ng-model="capsule.ylength" ng-change="change()" /><br />
+                <label>z length</label>
+                <input ng-model="capsule.zlength" ng-change="change()" /><br />
+
+                <label>x rotation</label>
+                <input ng-model="capsule.xrotation" ng-change="change()" ng-model-options="{ debounce: 1000 }" /><br />
+                <label>y rotation</label>
+                <input ng-model="capsule.yrotation" ng-change="change()" ng-model-options="{ debounce: 1000 }" /><br />
+                <label>z rotation</label>
+                <input ng-model="capsule.zrotation" ng-change="change()" ng-model-options="{ debounce: 1000 }" /><br />
             </div>
             <div class="col-md-8">
                 <div>
