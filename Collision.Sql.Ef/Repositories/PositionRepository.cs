@@ -29,6 +29,7 @@ namespace Collision.Sql.Ef.Repositories
             return _context.Positions.ToList().Select(x => x.ToCore());          
         }
 
+        //1 degree latitude and longitude is 69 miles
         public IEnumerable<CorePosition> GetByQuadrant(CorePosition item)
         {
             return _context.Positions.Where(
