@@ -15,73 +15,70 @@
 
     //http://developer.playcanvas.com/en/tutorials/beginner/manipulating-entities/
     function PlayCanvas() {
-        // Create a PlayCanvas application
+        //INITIALIZE
         var canvas = document.getElementById("application-canvas");
         var app = new pc.Application(canvas, {});
-
         app.start();
 
-        // Fill the available space at full resolution
         app.setCanvasFillMode(pc.FILLMODE_NONE, 800, 800);
         app.setCanvasResolution(pc.RESOLUTION_AUTO);
 
-        // Create box entity
-        var cube = new pc.Entity();
-        cube.addComponent('model', {
-            type: "box"
-        });
+        //GRAVITY
+        //app.systems.rigidbody.setGravity(0, -9.8, 0);
 
-        // Create camera entity
+        //CAMERA
         var camera = new pc.Entity();
         camera.addComponent('camera', {
             clearColor: new pc.Color(0.1, 0.2, 0.3)
         });
 
-        // Create directional light entity
+        //LIGHT
         var light = new pc.Entity();
         light.addComponent('light');
 
-        // A capsule...
-        var capsuleTemplate = new pc.Entity();
-        capsuleTemplate.addComponent("model", {
+        //CAPSULE
+        var capsule = new pc.Entity();
+        capsule.addComponent("model", {
             type: "capsule",
             castShadows: true,
-            height:200
+            height:2
         });
 
-        capsuleTemplate.addComponent("rigidbody", {
+        capsule.addComponent("rigidbody", {
             type: "dynamic",
             mass: 50,
             restitution: 0.5,
-            height: 200
+            height: 2
         });
 
-        capsuleTemplate.addComponent("collision", {
+        capsule.addComponent("collision", {
             type: "capsule",
             radius: 0.5,
-            height: 200
+            height: 2
         });
 
+        //ROTATE
+        capsule.setEulerAngles(0, 0, 90);
 
-        // make the capsule blue
-        var blue = createMaterial(new pc.Color(0, 0, 1));
-        capsuleTemplate.model.material = blue;
+        //COLOR
+        capsule.model.material = createMaterial(new pc.Color(0, 0, 1));
 
-        capsuleTemplate.setPosition(-5, 0, 5);
+        //POSITION
+        capsule.setPosition(0, 3, 0);
+
+        //TELEPORT
         //capsuleTemplate.rigidbody.teleport(-5, 0, 5);
-
 
         CreateFloor(app);
         // Add to hierarchy
-        //app.root.addChild(cube);
-        app.root.addChild(capsuleTemplate);
+        app.root.addChild(capsule);
         app.root.addChild(camera);
         app.root.addChild(light);
 
         // Set up initial positions and orientations
-        camera.setPosition(0, 3, 20);
+        camera.setPosition(0, 20, 75);
         light.setEulerAngles(45, 0, 0);
-
+        
         // Register an update event
         app.on("update", function (deltaTime) {
             //cube.rotate(10 * deltaTime, 20 * deltaTime, 30 * deltaTime);
@@ -108,7 +105,7 @@
         floor.model.material = green;
 
         // scale it
-        floor.setLocalScale(10, .1, 10);
+        floor.setLocalScale(50, .1, 50);
 
         // add a rigidbody component so that other objects collide with it
         floor.addComponent("rigidbody", {
@@ -119,7 +116,7 @@
         // add a collision component
         floor.addComponent("collision", {
             type: "box",
-            halfExtents: new pc.Vec3(5, 0.1, 5)
+            //halfExtents: new pc.Vec3(5, 0.1, 5)
         });
 
         // add the floor to the hierarchy
@@ -133,4 +130,5 @@
         material.update()
         return material;
     }
+
 })(moment);
