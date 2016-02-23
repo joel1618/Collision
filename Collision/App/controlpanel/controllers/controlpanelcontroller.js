@@ -1,20 +1,37 @@
 ﻿(function (moment) {
     "use strict";
 
+    var capsule;
+    var camera;
     angular.module('controlpanel').controller('controlpanelcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze',
     function controller($scope, $http, $timeout, breezeservice, breeze) {
         $scope.isLoading = true;
+        $scope.camera = {};
+        $scope.capsule = {};
+        $scope.camera.x = 0; $scope.camera.y = 2; $scope.camera.z = 25;
+        $scope.capsule.x = 1; $scope.capsule.y = 1; $scope.capsule.z = 1;
 
         var query = breeze.EntityQuery.from('conflictbreezeapi/search').orderByDesc('Id');
         var promise = breezeservice.executeQuery(query).then(function (data) {
             $scope.conflicts = data.results;
             $scope.isLoading = false;
-            PlayCanvas();
+            PlayCanvas($scope);
         });
+
+        $scope.change = function () {
+            //https://jsfiddle.net/end3r/auvcLoc4/?utm_source=website&utm_medium=embed&utm_campaign=auvcLoc4
+            /*
+            capsule.rotate(1, 1, 1);
+            capsule.setLocalScale(1, 1, 1);
+            capsule.setPosition(1, 1, 1);
+            */
+            capsule.setLocalScale($scope.capsule.x, $scope.capsule.y, $scope.capsule.z);
+            camera.setPosition($scope.camera.x, $scope.camera.y, $scope.camera.z);
+        }
     }]);
 
     //http://developer.playcanvas.com/en/tutorials/beginner/manipulating-entities/
-    function PlayCanvas() {
+    function PlayCanvas($scope) {
         //INITIALIZE
         var canvas = document.getElementById("application-canvas");
         var app = new pc.Application(canvas, {});
@@ -27,7 +44,7 @@
         //app.systems.rigidbody.setGravity(0, -9.8, 0);
 
         //CAMERA
-        var camera = new pc.Entity();
+        camera = new pc.Entity();
         camera.addComponent('camera', {
             clearColor: new pc.Color(0.1, 0.2, 0.3)
         });
@@ -37,28 +54,26 @@
         light.addComponent('light');
 
         //CAPSULE
-        var capsule = new pc.Entity();
+         capsule = new pc.Entity();
         capsule.addComponent("model", {
             type: "capsule",
             castShadows: true,
-            height:2
         });
 
         capsule.addComponent("rigidbody", {
-            type: "dynamic",
+            type: "capsule",
             mass: 50,
             restitution: 0.5,
-            height: 2
         });
 
         capsule.addComponent("collision", {
             type: "capsule",
             radius: 0.5,
-            height: 2
         });
 
+        capsule.setLocalScale($scope.capsule.x, $scope.capsule.y, $scope.capsule.z);
         //ROTATE
-        capsule.setEulerAngles(0, 0, 90);
+        capsule.setEulerAngles(0, 0, 0);
 
         //COLOR
         capsule.model.material = createMaterial(new pc.Color(0, 0, 1));
@@ -76,7 +91,7 @@
         app.root.addChild(light);
 
         // Set up initial positions and orientations
-        camera.setPosition(0, 20, 75);
+        camera.setPosition($scope.camera.x, $scope.camera.y, $scope.camera.z);
         light.setEulerAngles(45, 0, 0);
         
         // Register an update event
