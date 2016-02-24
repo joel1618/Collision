@@ -34,6 +34,7 @@ namespace Collision
             // register all your components with the container here
             container.RegisterType<Collision.Sql.Ef.CollisionEntities>(new InjectionFactory(c => new Collision.Sql.Ef.CollisionEntities()));
             container.RegisterType<IConflictRepository, ConflictRepository>();
+            container.RegisterType<IPositionRepository, PositionRepository>();
             //container.RegisterType<Collision.Controllers.v1.breeze.ConflictBreezeApiController>();
             //container.RegisterType<Collision.Controllers.v1.ConflictController>();
 
