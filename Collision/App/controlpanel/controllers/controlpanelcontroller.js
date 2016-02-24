@@ -72,6 +72,7 @@
         }
 
         $scope.selectPosition = function (position) {
+            $scope.selectedposition = position;
             var s = position;
             //find mid point between xyz1 and xyz2
             CalculateMidPoint(position);
@@ -148,7 +149,7 @@
         var app = new pc.Application(canvas, {});
         app.start();
 
-        app.setCanvasFillMode(pc.FILLMODE_NONE, 1024, 800);
+        app.setCanvasFillMode(pc.FILLMODE_NONE, window.outerWidth / 2.05, 800);
         app.setCanvasResolution(pc.RESOLUTION_AUTO);
 
         //GRAVITY
@@ -210,8 +211,12 @@
         });
 
         window.addEventListener('resize', function () {
-            app.resizeCanvas();
-            //app.resizeCanvas(500, 500);
+            if (window.outerWidth >= 992) {
+                app.resizeCanvas(window.outerWidth / 2.05, 800);
+            }
+            else {
+                app.resizeCanvas(window.outerWidth / 1.05, 800);
+            }
         });
     }
 
