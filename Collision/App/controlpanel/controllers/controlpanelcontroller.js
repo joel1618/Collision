@@ -112,6 +112,7 @@
 
     //TODO: Handle gimbal lock
     //http://stackoverflow.com/questions/18184848/calculate-pitch-and-yaw-between-two-unknown-points
+    //http://www.codeproject.com/Questions/324240/Determining-yaw-pitch-and-roll
     function CalculateEulerAngles(position) {
         var productX = (position.X2 - position.X1);
         var productY = (position.Y2 - position.Y1);
@@ -156,7 +157,7 @@
         var app = new pc.Application(canvas, {});
         app.start();
 
-        app.setCanvasFillMode(pc.FILLMODE_NONE, window.outerWidth / 1.9, 800);
+        app.setCanvasFillMode(pc.FILLMODE_NONE, window.outerWidth / 2.1, 800);
         app.setCanvasResolution(pc.RESOLUTION_AUTO);
 
         //GRAVITY
@@ -219,7 +220,7 @@
 
         window.addEventListener('resize', function () {
             if (window.outerWidth >= 992) {
-                app.resizeCanvas(window.outerWidth / 1.9, 800);
+                app.resizeCanvas(window.outerWidth / 2.1, 800);
             }
             else {
                 app.resizeCanvas(window.outerWidth / 1, 800);
