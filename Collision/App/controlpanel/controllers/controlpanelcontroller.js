@@ -149,7 +149,7 @@
         var app = new pc.Application(canvas, {});
         app.start();
 
-        app.setCanvasFillMode(pc.FILLMODE_NONE, window.outerWidth / 2.05, 800);
+        app.setCanvasFillMode(pc.FILLMODE_NONE, window.outerWidth / 1.9, 800);
         app.setCanvasResolution(pc.RESOLUTION_AUTO);
 
         //GRAVITY
@@ -212,10 +212,10 @@
 
         window.addEventListener('resize', function () {
             if (window.outerWidth >= 992) {
-                app.resizeCanvas(window.outerWidth / 2.05, 800);
+                app.resizeCanvas(window.outerWidth / 1.9, 800);
             }
             else {
-                app.resizeCanvas(window.outerWidth / 1.05, 800);
+                app.resizeCanvas(window.outerWidth / 1, 800);
             }
         });
     }
