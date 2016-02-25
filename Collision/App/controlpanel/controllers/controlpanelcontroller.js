@@ -111,6 +111,7 @@
     }
 
     //TODO: Handle gimbal lock
+    //http://stackoverflow.com/questions/18184848/calculate-pitch-and-yaw-between-two-unknown-points
     function CalculateEulerAngles(position) {
         var productX = (position.X2 - position.X1);
         var productY = (position.Y2 - position.Y1);
@@ -119,22 +120,28 @@
         var normalizedTotal = Math.sqrt(productX * productX + productY * productY + productZ * productZ);
 
         var unitVectorX, unitVectorY, unitVectorZ;
-        if(normalizedTotal == 0)
-        {
+        if (normalizedTotal == 0) {
             unitVectorX = productX;
             unitVectorY = productY;
             unitVectorZ = productZ;
         }
-        else
-        {
+        else {
             unitVectorX = productX / normalizedTotal;
             unitVectorY = productY / normalizedTotal;
             unitVectorZ = productZ / normalizedTotal;
         }
 
-        midpoint.rotation.x = unitVectorX;
-        midpoint.rotation.y = unitVectorY;
-        midpoint.rotation.z = unitVectorZ;
+        var dX = (position.X2 - position.X1);
+        var dY = (position.Y2 - position.Y1);
+        var dZ = (position.Z2 - position.Z1);
+
+        var pitch = Math.atan2(Math.sqrt(dZ * dZ + dX * dX), dY) + Math.PI;
+        var roll = 0;
+        var yaw = position.Heading2; //Math.atan2(dZ, dX);
+
+        midpoint.rotation.x = pitch;
+        midpoint.rotation.y = roll;
+        midpoint.rotation.z = yaw;
 
         //distance traveled at current speed for 60 seconds (can make this dynamic later)
         var distance = position.Speed2.Value / 60;
