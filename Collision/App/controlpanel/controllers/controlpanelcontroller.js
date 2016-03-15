@@ -14,6 +14,7 @@
     angular.module('controlpanel').controller('controlpanelcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze',
     function controller($scope, $http, $timeout, breezeservice, breeze) {
         $scope.isLoading = true;
+
         $scope.camera = {
             position: {
                 x: 0, y: 0, z: 10
@@ -55,7 +56,7 @@
         var conflictPromise = breezeservice.executeQuery(conflictQuery).then(function (data) {
             $scope.conflicts = data.httpResponse.data;
             $scope.isLoading = false;
-            PlayCanvas($scope);
+            //PlayCanvas($scope);
         });
 
         $scope.change = function () {

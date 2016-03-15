@@ -1,0 +1,328 @@
+{
+	"name": "Terrain",
+	"created": "2015-10-23T15:19:38.753Z",
+	"settings": {
+		"physics": {
+			"gravity": [0,
+			0,
+			0]
+		},
+		"render": {
+			"fog_end": 1000,
+			"fog_start": 1,
+			"skyboxIntensity": 1,
+			"global_ambient": [0.2,
+			0.2,
+			0.2],
+			"tonemapping": 0,
+			"fog_color": [0,
+			0,
+			0],
+			"skyboxMip": 0,
+			"fog": "none",
+			"skybox": 3574360,
+			"fog_density": 0.01,
+			"gamma_correction": 1,
+			"exposure": 1
+		}
+	},
+	"entities": {
+		"62ba62c2-7ebf-4547-a7bf-983aa67111e8": {
+			"scale": [1,
+			1,
+			1],
+			"name": "Terrain",
+			"parent": "bd57f506-757e-11e5-967c-22000ac52f27",
+			"resource_id": "62ba62c2-7ebf-4547-a7bf-983aa67111e8",
+			"enabled": true,
+			"components": {
+				"script": {
+					"enabled": true,
+					"scripts": [{
+						"url": "../Scripts/Terrain/terrain.js",
+						"attributes": {
+							"material": {
+								"displayName": "material",
+								"name": "material",
+								"defaultValue": [],
+								"value": 3574361,
+								"type": "asset",
+								"options": {
+									"max": 1,
+									"displayName": "material",
+									"type": "material"
+								}
+							},
+							"minHeight": {
+								"displayName": "minHeight",
+								"name": "minHeight",
+								"defaultValue": 0,
+								"value": 0,
+								"type": "number",
+								"options": {
+									
+								}
+							},
+							"subdivisions": {
+								"displayName": "subdivisions",
+								"name": "subdivisions",
+								"defaultValue": 250,
+								"value": 250,
+								"type": "number",
+								"options": {
+									
+								}
+							},
+							"maxHeight": {
+								"displayName": "maxHeight",
+								"name": "maxHeight",
+								"defaultValue": 10,
+								"value": 5,
+								"type": "number",
+								"options": {
+									
+								}
+							},
+							"heightMap": {
+								"displayName": "heightMap",
+								"name": "heightMap",
+								"defaultValue": [],
+								"value": 3574368,
+								"type": "asset",
+								"options": {
+									"max": 1,
+									"displayName": "heightMap",
+									"type": "texture"
+								}
+							},
+							"width": {
+								"displayName": "width",
+								"name": "width",
+								"defaultValue": 100,
+								"value": 100,
+								"type": "number",
+								"options": {
+									
+								}
+							},
+							"depth": {
+								"displayName": "depth",
+								"name": "depth",
+								"defaultValue": 100,
+								"value": 100,
+								"type": "number",
+								"options": {
+									
+								}
+							}
+						},
+						"name": "terrain",
+						"attributesOrder": ["heightMap",
+						"minHeight",
+						"maxHeight",
+						"width",
+						"depth",
+						"subdivisions",
+						"material"]
+					}]
+				}
+			},
+			"position": [0,
+			0,
+			0],
+			"rotation": [0,
+			0,
+			0],
+			"children": []
+		},
+		"bd57f506-757e-11e5-967c-22000ac52f27": {
+			"scale": [1,
+			1,
+			1],
+			"name": "Root",
+			"parent": null,
+			"resource_id": "bd57f506-757e-11e5-967c-22000ac52f27",
+			"components": {
+				
+			},
+			"labels": [],
+			"enabled": true,
+			"template": null,
+			"position": [0,
+			0,
+			0],
+			"rotation": [0,
+			0,
+			0],
+			"children": ["bd57f90c-757e-11e5-967c-22000ac52f27",
+			"62ba62c2-7ebf-4547-a7bf-983aa67111e8",
+			"fce0e6a7-5d59-4f0b-847d-bee43b36e428"]
+		},
+		"bd57f90c-757e-11e5-967c-22000ac52f27": {
+			"scale": [1,
+			1,
+			1],
+			"name": "DirectionalLight",
+			"parent": "bd57f506-757e-11e5-967c-22000ac52f27",
+			"resource_id": "bd57f90c-757e-11e5-967c-22000ac52f27",
+			"components": {
+				"light": {
+					"normalOffsetBias": 0,
+					"color": [1,
+					1,
+					1],
+					"type": "directional",
+					"shadowResolution": 1024,
+					"outerConeAngle": 45,
+					"enabled": true,
+					"range": 10,
+					"castShadows": false,
+					"intensity": 1,
+					"innerConeAngle": 40,
+					"shadowBias": 0.05,
+					"shadowDistance": 40,
+					"falloffMode": 0,
+					"bake": false,
+					"affectDynamic": true,
+					"affectLightmapped": false
+				}
+			},
+			"labels": [],
+			"enabled": true,
+			"template": null,
+			"position": [0,
+			10,
+			0],
+			"rotation": [-135,
+			-30.192148208618164,
+			-180],
+			"children": []
+		},
+		"bd57f72c-757e-11e5-967c-22000ac52f27": {
+			"scale": [1,
+			1,
+			1],
+			"name": "Camera",
+			"parent": "fce0e6a7-5d59-4f0b-847d-bee43b36e428",
+			"resource_id": "bd57f72c-757e-11e5-967c-22000ac52f27",
+			"components": {
+				"camera": {
+					"orthoHeight": 100,
+					"fov": 45,
+					"clearDepthBuffer": true,
+					"projection": 0,
+					"clearColor": [0.722,
+					0.722,
+					0.722,
+					1],
+					"enabled": true,
+					"priority": 0,
+					"farClip": 1000,
+					"nearClip": 0.3,
+					"clearColorBuffer": true,
+					"rect": [0,
+					0,
+					1,
+					1]
+				}
+			},
+			"labels": [],
+			"enabled": true,
+			"template": null,
+			"position": [0,
+			1,
+			0],
+			"rotation": [0,
+			0,
+			0.0000037353302104747854],
+			"children": []
+		},
+		"fce0e6a7-5d59-4f0b-847d-bee43b36e428": {
+			"name": "Player",
+			"enabled": true,
+			"resource_id": "fce0e6a7-5d59-4f0b-847d-bee43b36e428",
+			"parent": "bd57f506-757e-11e5-967c-22000ac52f27",
+			"children": ["bd57f72c-757e-11e5-967c-22000ac52f27"],
+			"position": [0,
+			3.4301528930664062,
+			0],
+			"rotation": [0,
+			0,
+			0],
+			"scale": [1,
+			1,
+			1],
+			"components": {
+				"collision": {
+					"enabled": true,
+					"type": "capsule",
+					"halfExtents": [0.5,
+					0.5,
+					0.5],
+					"radius": 0.5,
+					"axis": 1,
+					"height": 2,
+					"asset": null
+				},
+				"rigidbody": {
+					"enabled": true,
+					"type": "dynamic",
+					"mass": 80,
+					"linearDamping": 0.99,
+					"angularDamping": 0,
+					"linearFactor": [1,
+					1,
+					1],
+					"angularFactor": [0,
+					0,
+					0],
+					"friction": 0.8,
+					"restitution": 0
+				},
+				"script": {
+					"enabled": true,
+					"scripts": [{
+						"url": "../Scripts/Terrain/first_person_movement.js",
+						"name": "first_person_movement",
+						"attributes": {
+							"camera": {
+								"name": "camera",
+								"displayName": "camera",
+								"defaultValue": null,
+								"value": "bd57f72c-757e-11e5-967c-22000ac52f27",
+								"type": "entity",
+								"options": {
+									
+								}
+							},
+							"power": {
+								"name": "power",
+								"displayName": "power",
+								"defaultValue": 5000,
+								"value": 2500,
+								"type": "number",
+								"options": {
+									
+								}
+							},
+							"lookSpeed": {
+								"name": "lookSpeed",
+								"displayName": "lookSpeed",
+								"defaultValue": 0.5,
+								"value": 0.25,
+								"type": "number",
+								"options": {
+									
+								}
+							}
+						},
+						"attributesOrder": ["camera",
+						"power",
+						"lookSpeed"]
+					}]
+				}
+			}
+		}
+	},
+	"id": 412180
+}

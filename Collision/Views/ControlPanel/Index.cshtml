@@ -12,15 +12,25 @@
 <!--MOMENT-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
 <!--PLAY CANVAS-->
-<script src="~/Scripts/playcanvas-latest.js"></script>
+<script src="~/Scripts/Terrain/playcanvas-stable.min.js"></script>
 <!--SERVICES-->
 <script src="~/App/services/services.js"></script>
 <script src="~/App/services/breeze/breezeservice.js"></script>
 <script src="~/App/services/breeze/metadata.js"></script>
 <!--APP-->
+<link rel="stylesheet" type="text/css" href="../Scripts/Terrain/styles.css">
+<script>
+        SCENE_PATH = "../Scripts/Terrain/412180.json";
+        CONTEXT_OPTIONS = {
+            'alpha': false,
+            'preserveDrawingBuffer': false
+        };
+</script>
+<script src="~/Scripts/Terrain/__start__.js"></script>
+<script src="~/Scripts/Terrain/__loading__.js"></script>
+
 <script src="~/App/controlpanel/app.js"></script>
 <script src="~/App/controlpanel/controllers/controlpanelcontroller.js"></script>
-
 <div ng-app="controlpanel">
     <div ng-view>
 
