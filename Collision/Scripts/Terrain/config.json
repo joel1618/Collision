@@ -5,7 +5,7 @@
 		"fill_mode": "FILLMODE_NONE",
 		"height": 800,
 		"libraries": ["../Scripts/Terrain/ammo.443a8cf.js"],
-		"width": 800,
+		"width": 950,
 		"use_legacy_audio": true,
 		"resolution_mode": "AUTO"
 	},
