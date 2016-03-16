@@ -1,4 +1,6 @@
-﻿<!--ANGULAR-->
+﻿<!--JQUERY-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.js"></script>
+<!--ANGULAR-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.2/angular-route.js"></script>
 <!--BREEZE ANGULAR-->
@@ -26,8 +28,14 @@
             'preserveDrawingBuffer': false
         };
 </script>
-<script src="~/Scripts/Terrain/__start__.js"></script>
-<script src="~/Scripts/Terrain/__loading__.js"></script>
+@*<script src="~/Scripts/Terrain/__start__.js"></script>
+<script src="~/Scripts/Terrain/__loading__.js"></script>*@
+<script>
+    $(document).ready(function () {
+        $.getScript("../Scripts/Terrain/__start__.js");
+        $.getScript("../Scripts/Terrain/__loading__.js")
+    });
+</script>
 
 <script src="~/App/controlpanel/app.js"></script>
 <script src="~/App/controlpanel/controllers/controlpanelcontroller.js"></script>

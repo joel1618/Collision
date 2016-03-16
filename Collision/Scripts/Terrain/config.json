@@ -3,9 +3,9 @@
 		"loading_screen_script": null,
 		"use_device_pixel_ratio": false,
 		"fill_mode": "FILLMODE_NONE",
-		"height": 400,
+		"height": 800,
 		"libraries": ["../Scripts/Terrain/ammo.443a8cf.js"],
-		"width": 400,
+		"width": 800,
 		"use_legacy_audio": true,
 		"resolution_mode": "AUTO"
 	},

@@ -13,7 +13,8 @@
         // Disable I-bar cursor on click+drag
         canvas.onselectstart = function () { return false; };
 
-        document.body.appendChild(canvas);
+        document.getElementById("canvas").appendChild(canvas);
+        //document.body.appendChild(canvas);
 
         return canvas;
     };
