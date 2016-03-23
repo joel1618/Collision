@@ -104,7 +104,8 @@ pc.script.create('terrain', function (app) {
 
             var model = new pc.Model();
             model.graph = node;
-            model.meshInstances.push(meshInstance);
+            //disable the floor
+            //model.meshInstances.push(meshInstance);
             
             return model;
         },

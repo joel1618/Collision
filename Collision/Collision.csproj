@@ -266,6 +266,7 @@
   <ItemGroup>
     <Content Include="App\controlpanel\app.js" />
     <Content Include="App\controlpanel\controllers\controlpanelcontroller.js" />
+    <Content Include="App\controlpanel\services\aircraftservice.js" />
     <Content Include="App\controlpanel\views\controlpanel.html" />
     <Content Include="App\services\breeze\breezeservice.js" />
     <Content Include="App\services\breeze\metadata.js" />
@@ -358,7 +359,6 @@
     <Content Include="Views\Shared\_OriginalLoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App\controlpanel\services\" />
     <Folder Include="App_Data\" />
     <Folder Include="Content\assets\" />
     <Folder Include="Content\images\" />

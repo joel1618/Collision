@@ -1,4 +1,4 @@
-(function () {
+//(function () {
     var CONFIG_FILENAME = '../Scripts/Terrain/config.json';
     var CANVAS_ID = 'application-canvas';
 
@@ -109,7 +109,7 @@
             displayError('Could not initialize application. Error: ' + e);
         }
 
-        return;
+        //return;
     }
 
     app.configure(CONFIG_FILENAME, function (err) {
@@ -137,4 +137,4 @@
             });
         });
     });
-}());
+//}());
