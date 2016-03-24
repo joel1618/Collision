@@ -5,10 +5,13 @@
 
     function service($http, $q, $timeout, breeze, breezeservice) {
 
+        var aircraft1, aircraft2;
         var service = {
             GetConflicts: GetConflicts,
             GetPositions: GetPositions,
             AddAircraft: AddAircraft,
+            AddConflict: AddConflict,
+            Delete: Delete,
             CalculateMidPoint: CalculateMidPoint,
             CalculateEulerAngles: CalculateEulerAngles
         };
@@ -20,7 +23,6 @@
                 return data.httpResponse.data;
             });
         }
-
 
         function GetPositions(position) {
             var p1 = new breeze.Predicate('Latitude2', '>', position.coords.latitude - .5);
@@ -34,61 +36,62 @@
             });
         }
 
-        function AddAircraft(aircraft) {
+        function AddAircraft(position) {
+            Delete();
             //https://jsfiddle.net/end3r/auvcLoc4/?utm_source=website&utm_medium=embed&utm_campaign=auvcLoc4
-            /*
-            capsule.rotate(1, 1, 1);
-            */
             //CAPSULE
-            capsule = new pc.Entity();
-            capsule.addComponent("model", {
+            entity = new pc.Entity();
+            entity.addComponent("model", {
                 type: "capsule",
                 castShadows: true,
             });
 
-            capsule.addComponent("rigidbody", {
+            entity.addComponent("rigidbody", {
                 type: "capsule",
                 mass: 50,
                 restitution: 0.5,
             });
 
-            capsule.addComponent("collision", {
+            entity.addComponent("collision", {
                 type: "capsule",
                 radius: 0.5,
             });
 
-            //ROTATE
-            capsule.setEulerAngles(0, 0, 0);
-
             //COLOR
-            capsule.model.material = CreateMaterial(new pc.Color(1, 0, 0));
+            entity.model.material = CreateMaterial(new pc.Color(1, 0, 0));
+
+            //ROTATE
+            var angle = CalculateEulerAngles(position);
+            entity.setEulerAngles(angle.x, angle.y, angle.z);
 
             //POSITION
-            //capsule.setPosition($scope.capsule.position.x, $scope.capsule.position.y, $scope.capsule.position.z);
-            capsule.setPosition(20, 20, 20);
-            capsule.setLocalScale(1, 20, 1);
+            entity.setPosition(20, 20, 20);
 
-            //TELEPORT
-            //capsuleTemplate.rigidbody.teleport(-5, 0, 5);
-            //debugger;
+            //LENGTH, WIDTH, HEIGHT
+            entity.setLocalScale(1, CalculateLength(position), 1);
+
             // Add to hierarchy
-            app.root.addChild(capsule);
-            //camera.setPosition($scope.camera.position.x, $scope.camera.position.y, $scope.camera.position.z);
-            //camera.setEulerAngles($scope.camera.rotation.x, $scope.camera.rotation.y, $scope.camera.rotation.z);
-            //capsule.setLocalScale($scope.capsule.length.x, $scope.capsule.length.y, $scope.capsule.length.z);
-            //capsule.setPosition($scope.capsule.position.x, $scope.capsule.position.y, $scope.capsule.position.z);
-            //capsule.setEulerAngles($scope.capsule.rotation.x, $scope.capsule.rotation.y, $scope.capsule.rotation.z);
+            app.root.addChild(entity);
+            aircraft1 = entity;
+        }
+
+        function AddConflict(position1, position2) {
+
+        }
+        
+        function Delete() {
+            if (aircraft1 !== undefined && aircraft1 !== {}) {
+                aircraft1.destroy();
+            }
+            if (aircraft2 !== undefined && aircraft2 !== {}) {
+                aircraft2.destroy();
+            }
         }
 
 
         function CalculateMidPoint(position) {
             var midpoint = {
-                position: {
                     x: 0, y: 0, z: 10
-                },
-                rotation: {
-                    x: 0, y: 0, z: 0
-                }
             };
             midpoint.x = (position.X1 + position.X2) / 2;
             midpoint.y = (position.Y1 + position.Y2) / 2;
@@ -99,7 +102,10 @@
         //TODO: Handle gimbal lock
         //http://stackoverflow.com/questions/18184848/calculate-pitch-and-yaw-between-two-unknown-points
         //http://www.codeproject.com/Questions/324240/Determining-yaw-pitch-and-roll
-        function CalculateEulerAngles(position, midpoint) {
+        function CalculateEulerAngles(position) {
+            var angles = {
+                x: 0, y: 0, z: 0
+            };
             var productX = (position.X2 - position.X1);
             var productY = (position.Y2 - position.Y1);
             var productZ = (position.Z2 - position.Z1);
@@ -124,16 +130,18 @@
 
             var pitch = Math.atan2(Math.sqrt(dZ * dZ + dX * dX), dY) + Math.PI;
             var roll = 0;
-            var yaw = position.Heading2; //Math.atan2(dZ, dX);
+            var yaw = position.Heading2;
 
-            midpoint.rotation.x = pitch;
-            midpoint.rotation.y = roll;
-            midpoint.rotation.z = yaw;
+            angles.x = pitch;
+            angles.y = roll;
+            angles.z = yaw;
 
+            return angles
+        }
+
+        function CalculateLength(position) {
             //distance traveled at current speed for 60 seconds (can make this dynamic later)
-            var distance = position.Speed2.Value / 60;
-
-            return position
+            return position.Speed2 / 60;
         }
 
         function CreateMaterial(color) {
