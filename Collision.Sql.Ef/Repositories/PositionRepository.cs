@@ -21,7 +21,7 @@ namespace Collision.Sql.Ef.Repositories
 
         public IEnumerable<CorePosition> Search()
         {
-            return _context.Positions.ToList().Select(x => x.ToCore());
+            return _context.Positions.Select(x => x.ToCore());
         }
 
         public IEnumerable<CorePosition> GetAll()
