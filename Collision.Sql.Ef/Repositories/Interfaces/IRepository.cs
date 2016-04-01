@@ -8,8 +8,6 @@ namespace Collision.Sql.Ef.Repositories.Interfaces
 {
     public interface IRepository<TEntity>
     {
-        IEnumerable<TEntity> Search();
-        IEnumerable<TEntity> GetAll();
         TEntity Get(int id);
         TEntity Create(TEntity entity);
         TEntity Update(int id, TEntity entity);

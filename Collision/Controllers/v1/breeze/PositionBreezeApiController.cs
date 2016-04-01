@@ -11,6 +11,8 @@ using Collision.Sql.Ef.Repositories;
 using Collision.Core.Models;
 using Breeze.ContextProvider.EF6;
 using Breeze.WebApi2;
+using PositionEntity = Collision.Sql.Ef.Position;
+
 namespace Collision.Controllers.v1.breeze
 {
     [BreezeController]
@@ -23,9 +25,9 @@ namespace Collision.Controllers.v1.breeze
         }
 
         [HttpGet]
-        public IEnumerable<Position> Search()
+        public IEnumerable<PositionEntity> Search()
         {
-            return _positionRepository.Search();
+            return _positionRepository.BreezeSearch();
         }
     }
 }

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Collision.Sql.Ef.Extensions;
 using Collision.Sql.Ef.Repositories.Interfaces;
-using EfPosition = Collision.Sql.Ef.Position;
-using CorePosition = Collision.Core.Models.Position;
+using PositionEntity = Collision.Sql.Ef.Position;
+using PositionCore = Collision.Core.Models.Position;
+using System.Linq.Expressions;
 
 namespace Collision.Sql.Ef.Repositories
 {
@@ -19,18 +20,23 @@ namespace Collision.Sql.Ef.Repositories
             _context = context;
         }
 
-        public IEnumerable<CorePosition> Search()
+        public IEnumerable<PositionCore> Search(Expression<Func<PositionEntity, bool>> predicate, int page, int pageSize)
         {
-            return _context.Positions.Select(x => x.ToCore());
+            IQueryable<PositionEntity> records = _context.Positions;
+            if (predicate != null)
+            {
+                records = records.Where(predicate);
+            }
+            return records.OrderBy(e => e.Id).Skip(page * pageSize).Take(pageSize).ToList().Select(x => x.ToCore());
         }
 
-        public IEnumerable<CorePosition> GetAll()
+        public IEnumerable<PositionEntity> BreezeSearch()
         {
-            return _context.Positions.ToList().Select(x => x.ToCore());          
+            return _context.Positions;
         }
 
         //1 degree latitude and longitude is 69 miles
-        public IEnumerable<CorePosition> GetByQuadrant(CorePosition item)
+        public IEnumerable<PositionCore> GetByQuadrant(PositionCore item)
         {
             return _context.Positions.Where(
                x => x.Latitude2.Value > item.Latitude2.Value - (decimal).5
@@ -40,24 +46,19 @@ namespace Collision.Sql.Ef.Repositories
             && x.IsActive == true).ToList().Select(x => x.ToCore());
         }
 
-        public CorePosition Get(int id)
+        public PositionCore Get(int id)
         {
             return _context.Positions.Find(id).ToCore();
         }
 
-        public CorePosition GetByAircraftId(int id)
-        {
-            return _context.Positions.Where(x => x.AircraftId == id).FirstOrDefault().ToCore();
-        }
-
-        public CorePosition Create(CorePosition item)
+        public PositionCore Create(PositionCore item)
         {
             if (item == null)
             {
                 throw new ArgumentNullException("Core.Models.Position");
             }
             var now = DateTime.UtcNow;
-            var _item = new EfPosition()
+            var _item = new PositionEntity()
             {
                 Name = item.Name,
                 AircraftId = item.AircraftId,
@@ -97,7 +98,7 @@ namespace Collision.Sql.Ef.Repositories
             return _item.ToCore();
         }
 
-        public CorePosition Update(int id, CorePosition item)
+        public PositionCore Update(int id, PositionCore item)
         {
             if (item == null)
             {

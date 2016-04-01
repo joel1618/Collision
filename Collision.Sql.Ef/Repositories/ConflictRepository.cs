@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Collision.Sql.Ef.Extensions;
 using Collision.Sql.Ef.Repositories.Interfaces;
-using EfConflict = Collision.Sql.Ef.Conflict;
+using ConflictEntity = Collision.Sql.Ef.Conflict;
 using CoreConflict = Collision.Core.Models.Conflict;
 using CorePosition = Collision.Core.Models.Position;
+using System.Linq.Expressions;
 
 namespace Collision.Sql.Ef.Repositories
 {
@@ -19,51 +20,22 @@ namespace Collision.Sql.Ef.Repositories
         {
             _context = context;
         }
-
-        public IEnumerable<CoreConflict> Search()
+        public IEnumerable<CoreConflict> Search(Expression<Func<ConflictEntity, bool>> predicate, int page, int pageSize)
         {
-            return _context.Conflicts.ToList().Select(x => x.ToCore());
+            IQueryable<ConflictEntity> records = _context.Conflicts;
+            if (predicate != null)
+            {
+                records = records.Where(predicate);
+            }
+            return records.OrderBy(e => e.Id).Skip(page * pageSize).Take(pageSize).ToList().Select(x => x.ToCore());
         }
-        public IEnumerable<CoreConflict> GetAll()
+        public IEnumerable<ConflictEntity> BreezeSearch()
         {
-            return _context.Conflicts.ToList().Select(x => x.ToCore());
+            return _context.Conflicts;
         }
-
-        public IEnumerable<CoreConflict> GetByPositionId1(int positionId1)
-        {
-            return _context.Conflicts.ToList().Where(e => e.PositionId1 == positionId1).Select(x => x.ToCore());
-        }
-
-        public CoreConflict GetByPositionId1AndPositionId2(int positionId1, int positionId2)
-        {
-            return _context.Conflicts.ToList().Where(e => e.PositionId1 == positionId1 && e.PositionId2 == positionId2).FirstOrDefault().ToCore();
-        }
-
-        public IEnumerable<CoreConflict> GetByPositionId1OrPositionId2(int positionId)
-        {
-            return _context.Conflicts.ToList().Where(e => e.PositionId1 == positionId || e.PositionId2 == positionId).Select(x => x.ToCore());
-        }
-
         public CoreConflict Get(int id)
         {
             return _context.Conflicts.Find(id).ToCore();
-        }
-
-        public IQueryable<CoreConflict> GetByQuadrant(CorePosition item)
-        {
-            return _context.Conflicts.Where(x => 
-            ((x.Position.Latitude2.Value > item.Latitude2.Value - (decimal).5
-            && x.Position.Latitude2.Value < item.Latitude2.Value + (decimal).5
-            && x.Position.Longitude2.Value > item.Longitude2.Value - (decimal).5
-            && x.Position.Longitude2.Value < item.Longitude2.Value + (decimal).5)
-            ||
-            (x.Position1.Latitude2.Value > item.Latitude2.Value - (decimal).5
-            && x.Position1.Latitude2.Value < item.Latitude2.Value + (decimal).5
-            && x.Position1.Longitude2.Value > item.Longitude2.Value - (decimal).5
-            && x.Position1.Longitude2.Value < item.Longitude2.Value + (decimal).5)
-            &&
-            (x.Position.IsActive == true && x.Position1.IsActive == true))
-            ).Select(x => x.ToCore());
         }
 
         public CoreConflict Create(CoreConflict item)
@@ -73,7 +45,7 @@ namespace Collision.Sql.Ef.Repositories
                 throw new ArgumentNullException("Core.Models.Position");
             }
             var now = DateTime.UtcNow;
-            var _item = new EfConflict()
+            var _item = new ConflictEntity()
             {
                 PositionId1 = item.PositionId1,
                 PositionId2 = item.PositionId2,

@@ -41,7 +41,7 @@ namespace Collision.Console
                     if (aircraft.IsActive)
                     {
                         System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
-                        var position = _positionRepository.GetByAircraftId(aircraft.Id);
+                        var position = _positionRepository.Search(e => e.AircraftId == aircraft.Id, 0, 1).FirstOrDefault();
                         if (position == null)
                         {
                             //No position yet exists for this aircraft and we need to create a new one
@@ -96,16 +96,14 @@ namespace Collision.Console
         {
             if (collision == null)
             {
-                collision = new HandleCollision(
-                        new PositionRepository(new Sql.Ef.CollisionEntities()),
-                        new ConflictRepository(new Sql.Ef.CollisionEntities()));
+                collision = new HandleCollision(_positionRepository, _conflictRepository);
             }
             collision.HandleCollisions(position);
         }
 
         public void HandleInActiveAircraft(Aircraft aircraft)
         {
-            var position = _positionRepository.GetByAircraftId(aircraft.Id);
+            var position = _positionRepository.Search(e => e.AircraftId == aircraft.Id, 0, 1).FirstOrDefault();
             Helper.NullifyPosition(position);
             //Remove collision potentials associated with this position
             RemoveCollisions(position);
@@ -116,6 +114,7 @@ namespace Collision.Console
         #region API 
         public bool UpdateFlightInformation(Aircraft aircraft, Position position)
         {     
+            //TODO: Move this method into a service
             //Testing the application.
             if (bool.Parse(ConfigurationManager.AppSettings["mockData"]))
             {
@@ -178,7 +177,7 @@ namespace Collision.Console
 
         private void RemoveCollisions(Position position)
         {
-            var collisions = _conflictRepository.GetByPositionId1(position.Id);
+            var collisions = _conflictRepository.Search(e => e.PositionId1 == position.Id, 0, 100);
             foreach (var collision in collisions)
             {
                 _conflictRepository.Delete(collision.Id);

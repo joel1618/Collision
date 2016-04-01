@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Collision.Sql.Ef.Repositories.Interfaces;
 using Collision.Sql.Ef.Extensions;
-using CoreAircraft = Collision.Core.Models.Aircraft;
+using System.Linq.Expressions;
+using AircraftCore = Collision.Core.Models.Aircraft;
+using AircraftEntity = Collision.Sql.Ef.Aircraft;
 
 namespace Collision.Sql.Ef.Repositories
 {
@@ -17,23 +19,28 @@ namespace Collision.Sql.Ef.Repositories
         {
             _context = context;
         }
-        public IEnumerable<CoreAircraft> Search()
+        public IEnumerable<AircraftCore> Search(Expression<Func<AircraftEntity, bool>> predicate, int page, int pageSize)
         {
-            return _context.Aircraft.Select(x => x.ToCore());
+            IQueryable<AircraftEntity> records = _context.Aircraft;
+            if (predicate != null)
+            {
+                records = records.Where(predicate);
+            }
+            return records.OrderBy(e => e.Id).Skip(page * pageSize).Take(pageSize).ToList().Select(x => x.ToCore());
         }
-        public IEnumerable<CoreAircraft> GetAll()
+        public IEnumerable<AircraftEntity> BreezeSearch()
         {
-            return _context.Aircraft.ToList().Select(x => x.ToCore());
+            return _context.Aircraft;
         }
-        public CoreAircraft Get(int id)
+        public AircraftCore Get(int id)
         {
             return _context.Aircraft.Find(id).ToCore();
         }
-        public CoreAircraft Create(CoreAircraft item)
+        public AircraftCore Create(AircraftCore item)
         {
             throw new NotImplementedException();
         }
-        public CoreAircraft Update(int id, CoreAircraft item)
+        public AircraftCore Update(int id, AircraftCore item)
         {
             throw new NotImplementedException();
         }

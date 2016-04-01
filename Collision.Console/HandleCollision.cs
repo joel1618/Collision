@@ -31,7 +31,7 @@ namespace Collision.Console
         {
             System.Console.WriteLine("Evaluating collisions for " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber);
             //Check preexisting collisions
-            var collisions = _conflictRepository.GetByPositionId1(position1.Id);
+            var collisions = _conflictRepository.Search(e => e.PositionId1 == position1.Id, 0, 100);
             if (collisions != null)
             {
                 foreach (var collision in collisions)
@@ -40,6 +40,7 @@ namespace Collision.Console
                 }
             }
             //Find positions within a 55.5 kilometer radius
+            //TODO: Move GetByQuadrant into a service which uses the search repo method to find the subsequent positions
             var positions = _positionRepository.GetByQuadrant(position1);
 
             foreach (Position position2 in positions)
@@ -60,7 +61,7 @@ namespace Collision.Console
                 //If the distance is < position1.radius + position2.radius then we have a collision.
                 if (distance < (double)(position1.Radius + position2.Radius))
                 {
-                    var conflict = _conflictRepository.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
+                    var conflict = _conflictRepository.Search(e => e.PositionId1 == position1.Id && e.PositionId2 == position2.Id, 0, 1).FirstOrDefault();
                     if (conflict == null)
                     {
                         System.Console.WriteLine("Collision found between " + position1.Aircraft.CarrierName + " flight " + position1.Aircraft.FlightNumber + " and " + position2.Aircraft.CarrierName + " flight " + position2.Aircraft.FlightNumber);
@@ -92,7 +93,7 @@ namespace Collision.Console
         #region Helper
         private void RemoveCollision(Position position1, Position position2)
         {
-            var collisionExists = _conflictRepository.GetByPositionId1AndPositionId2(position1.Id, position2.Id);
+            var collisionExists = _conflictRepository.Search(e => e.PositionId1 == position1.Id && e.PositionId2 == position2.Id, 0, 1).FirstOrDefault();
             if (collisionExists != null)
             {
                 _conflictRepository.Delete(collisionExists.Id);
@@ -101,7 +102,7 @@ namespace Collision.Console
 
         private void RemoveCollisions(Position position)
         {
-            var collisions = _conflictRepository.GetByPositionId1(position.Id);
+            var collisions = _conflictRepository.Search(e => e.PositionId1 == position.Id, 0, 100);
             foreach (var collision in collisions)
             {
                 _conflictRepository.Delete(collision.Id);
