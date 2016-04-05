@@ -18,8 +18,8 @@ namespace Collision.Sql.Ef.Migrations
                 {
                     context.Database.Create();
                     context.Database.Connection.Open();
-                    //AddAll(context);
-                    AddAircraft(context);
+                    AddAll(context);
+                    //AddAircraft(context);
                     context.SaveChanges();
                     context.Database.Connection.Close();
                 }
@@ -28,7 +28,7 @@ namespace Collision.Sql.Ef.Migrations
 
         public void AddAll(CollisionEntities context)
         {
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 context.Aircraft.AddOrUpdate(x => x.Id,
                 new Aircraft()
@@ -38,6 +38,7 @@ namespace Collision.Sql.Ef.Migrations
                     FlightNumber = i.ToString(),
                     IsActive = true
                 });
+                context.SaveChanges();
             }
         }
         
