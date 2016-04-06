@@ -301,7 +301,7 @@
       <DependentUpon>Collision.edmx</DependentUpon>
       <LastGenOutput>Collision.cs</LastGenOutput>
     </Content>
-    <Content Include="content\breeze.directives.css" />
+    <Content Include="Content\breeze.directives.css" />
     <Content Include="Scripts\breeze.bridge.angular.js" />
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.directives.js" />

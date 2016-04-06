@@ -18,7 +18,7 @@
         return service;
 
         function GetConflicts() {
-            var conflictQuery = breeze.EntityQuery.from('conflictbreezeapi/search').orderByDesc('Id');
+            var conflictQuery = breeze.EntityQuery.from('conflictbreezeapi/search').orderByDesc('Id').skip(0).take(20);
             return conflictPromise = breezeservice.executeQuery(conflictQuery).then(function (data) {
                 return data.httpResponse.data;
             });
@@ -30,7 +30,7 @@
             var p3 = new breeze.Predicate('Longitude2', '>', position.coords.longitude - .5);
             var p4 = new breeze.Predicate('Longitude2', '<', position.coords.longitude + .5);
             var pred = new breeze.Predicate.and([p1, p2, p3, p4]);
-            var positionQuery = breeze.EntityQuery.from('positionbreezeapi/search').orderByDesc('Id');//.where(pred).take(10);
+            var positionQuery = breeze.EntityQuery.from('positionbreezeapi/search')/*.where(pred)*/.orderByDesc('Id').skip(0).take(20);
             return positionPromise = breezeservice.executeQuery(positionQuery).then(function (data) {
                 return data.httpResponse.data;
             });
