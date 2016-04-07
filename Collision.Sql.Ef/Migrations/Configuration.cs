@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Data;
 using System.Data.Entity.Migrations;
+using System.Configuration;
+using Dapper;
 
 namespace Collision.Sql.Ef.Migrations
 {
@@ -18,32 +21,38 @@ namespace Collision.Sql.Ef.Migrations
                 {
                     context.Database.Create();
                     context.Database.Connection.Open();
-                    //AddAll(context);
-                    AddAircraft(context);
+                    if (bool.Parse(ConfigurationManager.AppSettings["mockData"]))
+                    {
+                        AddMockAircraft(context);
+                    }
+                    else
+                    {
+                        AddRealAircraft(context);
+                    }
                     context.SaveChanges();
                     context.Database.Connection.Close();
                 }
             }
         }
 
-        public void AddAll(CollisionEntities context)
-        {
-            for (int i = 0; i < 1000; i++)
+        public void AddMockAircraft(CollisionEntities context)
+        {            
+            using(IDbConnection connection = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["IdentityConnection"].ToString()))
             {
-                context.Aircraft.AddOrUpdate(x => x.Id,
-                new Aircraft()
-                {
-                    Carrier = "AA",
-                    CarrierName = "American Airlines",
-                    FlightNumber = i.ToString(),
-                    IsActive = true
-                });
-                context.SaveChanges();
+                const string query =
+                    "declare @id int " +
+                    "select @id = 1 " +
+                    "while @id >=1 and @id <= 30000 " +
+                    "begin " +
+                    "insert into Aircraft (Carrier, CarrierName, FlightNumber, IsActive) values ('AA', 'American Airlines', @id, 'true') " +
+                    "select @id = @id + 1 " +
+                    "end";
+                connection.Query<Aircraft>(query);
             }
-        }
-        
+                       
+        }        
 
-        public void AddAircraft(CollisionEntities context)
+        public void AddRealAircraft(CollisionEntities context)
         {
             context.Aircraft.AddOrUpdate(x => x.Id,
                 new Aircraft()
