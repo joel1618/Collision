@@ -29,7 +29,7 @@ namespace Collision.Sql.Ef.Repositories
             }
             return records.OrderBy(e => e.Id).Skip(page * pageSize).Take(pageSize).ToList().Select(x => x.ToCore());
         }
-        public IEnumerable<ConflictEntity> BreezeSearch()
+        public IQueryable<ConflictEntity> BreezeSearch()
         {
             return _context.Conflicts;
         }

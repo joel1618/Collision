@@ -28,7 +28,7 @@ namespace Collision.Sql.Ef.Repositories
             }
             return records.OrderBy(e => e.Id).Skip(page * pageSize).Take(pageSize).ToList().Select(x => x.ToCore());
         }
-        public IEnumerable<AircraftEntity> BreezeSearch()
+        public IQueryable<AircraftEntity> BreezeSearch()
         {
             return _context.Aircraft;
         }

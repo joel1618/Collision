@@ -13,6 +13,6 @@ namespace Collision.Sql.Ef.Repositories.Interfaces
     public interface IConflictRepository : IRepository<CoreConflict>
     {
         IEnumerable<CoreConflict> Search(Expression<Func<ConflictEntity, bool>> predicate, int page, int pageSize);
-        IEnumerable<ConflictEntity> BreezeSearch();
+        IQueryable<ConflictEntity> BreezeSearch();
     }
 }

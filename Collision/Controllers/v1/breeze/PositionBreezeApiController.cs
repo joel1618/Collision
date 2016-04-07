@@ -25,7 +25,7 @@ namespace Collision.Controllers.v1.breeze
         }
 
         [HttpGet]
-        public IEnumerable<PositionEntity> Search()
+        public IQueryable<PositionEntity> Search()
         {
             return _positionRepository.BreezeSearch();
         }

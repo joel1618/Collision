@@ -30,7 +30,7 @@ namespace Collision.Sql.Ef.Repositories
             return records.OrderBy(e => e.Id).Skip(page * pageSize).Take(pageSize).ToList().Select(x => x.ToCore());
         }
 
-        public IEnumerable<PositionEntity> BreezeSearch()
+        public IQueryable<PositionEntity> BreezeSearch()
         {
             return _context.Positions;
         }

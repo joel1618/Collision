@@ -12,6 +12,6 @@ namespace Collision.Sql.Ef.Repositories.Interfaces
     public interface IAircraftRepository : IRepository<CoreAircraft>
     {
         IEnumerable<CoreAircraft> Search(Expression<Func<AircraftEntity, bool>> predicate, int page, int pageSize);
-        IEnumerable<AircraftEntity> BreezeSearch();
+        IQueryable<AircraftEntity> BreezeSearch();
     }
 }

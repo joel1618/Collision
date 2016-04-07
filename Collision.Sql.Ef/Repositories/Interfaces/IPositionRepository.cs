@@ -12,7 +12,7 @@ namespace Collision.Sql.Ef.Repositories.Interfaces
     public interface IPositionRepository : IRepository<CorePosition>
     {
         IEnumerable<CorePosition> Search(Expression<Func<PositionEntity, bool>> predicate, int page, int pageSize);
-        IEnumerable<PositionEntity> BreezeSearch();
+        IQueryable<PositionEntity> BreezeSearch();
         IEnumerable<CorePosition> GetByQuadrant(CorePosition item);
     }
 }
