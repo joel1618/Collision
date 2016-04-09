@@ -13,7 +13,7 @@ namespace Collision.Sql.Ef.Migrations
 {
     public class Configuration : IDatabaseInitializer<CollisionEntities>
     {
-        public void InitializeDatabase(CollisionEntities context)
+        public void InitializeDatabase(CollisionEntities context )
         {
             using (context = new CollisionEntities())
             {
