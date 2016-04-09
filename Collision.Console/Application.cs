@@ -37,11 +37,10 @@ namespace Collision.Console
                 One potential solution here would be to have app running on multiple machines, 
                 and each app responsible for a range of flights or faster machine.  CPU and IO are pegged.    
         */
-        //TODO: May need to wrap the Repositorys using (var context = new MyDbContext(ConnectionString)) {} so that the connection isn't held onto.
         public void Run()
         {
-            do
-            { 
+            //do
+            //{ 
                 System.Console.WriteLine("Getting aircraft list.");
 
                 List<AircraftCore> aircraftList = null;
@@ -63,18 +62,18 @@ namespace Collision.Console
                     }
                     page++;
                 } while (aircraftList.Count() == pageSize);
-
-                //Sleep before getting the list again and going through it to see if any new flights have been added or a flight has been set to inactive.
-                Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
-            } while (true);
+                System.Console.ReadLine();
+            //TODO: This logic needs to be revisited.  Need to kill the currently running threads to make sure records aren't being processed a second time.
+            //    Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
+            //} while (true);
         }         
         
         private void HandlePosition(List<AircraftCore> aircrafts)
         {
             position = new HandlePosition(
-                    new PositionRepository(new Sql.Ef.CollisionEntities()),
-                    new AircraftRepository(new Sql.Ef.CollisionEntities()),
-                    new ConflictRepository(new Sql.Ef.CollisionEntities()));
+                    new PositionRepository(),
+                    new AircraftRepository(),
+                    new ConflictRepository());
             position.HandlePositions(aircrafts);
         }
 

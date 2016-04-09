@@ -87,8 +87,8 @@ namespace Collision.Console
                         System.Console.WriteLine("Handling inactive aircraft " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
                         HandleInActiveAircraft(aircraft);
                     }
-
                 }
+                Thread.Sleep(10000);
             } while (true);
         }
 

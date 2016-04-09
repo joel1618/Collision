@@ -11,15 +11,8 @@ using System.Linq.Expressions;
 
 namespace Collision.Sql.Ef.Repositories
 {
-    public class PositionRepository : IPositionRepository
+    public class PositionRepository : BaseRepository, IPositionRepository
     {
-        private CollisionEntities _context;
-
-        public PositionRepository(CollisionEntities context)
-        {
-            _context = context;
-        }
-
         public IEnumerable<PositionCore> Search(Expression<Func<PositionEntity, bool>> predicate, int page, int pageSize)
         {
             IQueryable<PositionEntity> records = _context.Positions;

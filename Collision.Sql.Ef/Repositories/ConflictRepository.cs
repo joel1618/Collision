@@ -12,14 +12,8 @@ using System.Linq.Expressions;
 
 namespace Collision.Sql.Ef.Repositories
 {
-    public class ConflictRepository : IConflictRepository
+    public class ConflictRepository : BaseRepository, IConflictRepository
     {
-        private CollisionEntities _context;
-
-        public ConflictRepository(CollisionEntities context)
-        {
-            _context = context;
-        }
         public IEnumerable<CoreConflict> Search(Expression<Func<ConflictEntity, bool>> predicate, int page, int pageSize)
         {
             IQueryable<ConflictEntity> records = _context.Conflicts;

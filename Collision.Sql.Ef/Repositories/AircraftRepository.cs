@@ -11,14 +11,8 @@ using AircraftEntity = Collision.Sql.Ef.Aircraft;
 
 namespace Collision.Sql.Ef.Repositories
 {
-    public class AircraftRepository : IAircraftRepository
+    public class AircraftRepository : BaseRepository, IAircraftRepository
     {
-        private CollisionEntities _context;
-
-        public AircraftRepository(CollisionEntities context)
-        {
-            _context = context;
-        }
         public IEnumerable<AircraftCore> Search(Expression<Func<AircraftEntity, bool>> predicate, int page, int pageSize)
         {
             IQueryable<AircraftEntity> records = _context.Aircraft;

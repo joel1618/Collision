@@ -267,6 +267,7 @@
     <Compile Include="Repositories\Interfaces\IPositionRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\PositionRepository.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Collision.edmx">
