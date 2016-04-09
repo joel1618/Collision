@@ -41,6 +41,8 @@
                                         </div>
                                         <div ng-repeat="conflict in conflicts">
                                             <button class="btn-primary small" ng-click="selectConflict(conflict)">Select</button>
+                                            {{conflict.Position.Aircraft.CarrierName}} - {{conflict.Position.Aircraft.FlightNumber}} vs
+                                            {{conflict.Position1.Aircraft.CarrierName}} - {{conflict.Position1.Aircraft.FlightNumber}}
                                         </div>
                                     </div>
                                 </div>
