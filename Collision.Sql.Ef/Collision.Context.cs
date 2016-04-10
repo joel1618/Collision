@@ -32,5 +32,6 @@ namespace Collision.Sql.Ef
         public virtual DbSet<Aircraft> Aircraft { get; set; }
         public virtual DbSet<Conflict> Conflicts { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<UserSetting> UserSettings { get; set; }
     }
 }

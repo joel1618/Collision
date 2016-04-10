@@ -255,7 +255,9 @@
     <Compile Include="Controllers\v1\breeze\ConflictBreezeApiController.cs" />
     <Compile Include="Controllers\v1\breeze\MetadataController.cs" />
     <Compile Include="Controllers\v1\breeze\PositionBreezeApiController.cs" />
+    <Compile Include="Controllers\v1\breeze\UserSettingsBreezeApiController.cs" />
     <Compile Include="Controllers\v1\ConflictController.cs" />
+    <Compile Include="Controllers\v1\UserSettingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -270,6 +272,7 @@
   <ItemGroup>
     <Content Include="App\controlpanel\app.js" />
     <Content Include="App\controlpanel\controllers\controlpanelcontroller.js" />
+    <Content Include="App\controlpanel\controllers\controlpanelsettingscontroller.js" />
     <Content Include="App\controlpanel\services\aircraftservice.js" />
     <Content Include="App\controlpanel\views\controlpanel.html" />
     <Content Include="App\services\breeze\breezeservice.js" />

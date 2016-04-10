@@ -19,15 +19,15 @@ namespace Collision.Sql.Ef
         {
             this.Positions = new HashSet<Position>();
         }
-
+    
         public int Id { get; set; }
-        public string Iata { get; set; }
-        public string Icao { get; set; }
         public string Carrier { get; set; }
         public string CarrierName { get; set; }
         public string FlightNumber { get; set; }
         public string PlaneType { get; set; }
         public bool IsActive { get; set; }
+        public string Iata { get; set; }
+        public string Icao { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Position> Positions { get; set; }
