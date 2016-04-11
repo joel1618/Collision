@@ -11,10 +11,10 @@ using Collision.Sql.Ef.Repositories;
 using PositionViewModel = Collision.ViewModels.PositionViewModel;
 namespace Collision.Controllers.v1
 {
-    public class ConflictController : ApiController
+    public class ConflictApiController : ApiController
     {
         private readonly IConflictRepository _conflictRepository;
-        public ConflictController(IConflictRepository conflictRepository)
+        public ConflictApiController(IConflictRepository conflictRepository)
         {
             _conflictRepository = conflictRepository; 
         }        

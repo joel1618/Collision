@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Collision.Controllers
 {
-    public class ControlPanelController : Controller
+    public class UserSettingsController : Controller
     {
         public ActionResult Index()
         {

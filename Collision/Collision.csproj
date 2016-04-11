@@ -252,12 +252,13 @@
     <Compile Include="Controllers\ControlPanelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UserSettingsController.cs" />
     <Compile Include="Controllers\v1\breeze\ConflictBreezeApiController.cs" />
     <Compile Include="Controllers\v1\breeze\MetadataController.cs" />
     <Compile Include="Controllers\v1\breeze\PositionBreezeApiController.cs" />
     <Compile Include="Controllers\v1\breeze\UserSettingsBreezeApiController.cs" />
-    <Compile Include="Controllers\v1\ConflictController.cs" />
-    <Compile Include="Controllers\v1\UserSettingsController.cs" />
+    <Compile Include="Controllers\v1\ConflictApiController.cs" />
+    <Compile Include="Controllers\v1\UserSettingsApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -272,12 +273,14 @@
   <ItemGroup>
     <Content Include="App\controlpanel\app.js" />
     <Content Include="App\controlpanel\controllers\controlpanelcontroller.js" />
-    <Content Include="App\controlpanel\controllers\controlpanelsettingscontroller.js" />
     <Content Include="App\controlpanel\services\aircraftservice.js" />
     <Content Include="App\controlpanel\views\controlpanel.html" />
     <Content Include="App\services\breeze\breezeservice.js" />
     <Content Include="App\services\breeze\metadata.js" />
     <Content Include="App\services\services.js" />
+    <Content Include="App\usersettings\app.js" />
+    <Content Include="App\usersettings\controllers\usersettingscontroller.js" />
+    <Content Include="App\usersettings\views\usersettings.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\breeze.directives.css" />
@@ -364,6 +367,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_OriginalLayout.cshtml" />
     <Content Include="Views\Shared\_OriginalLoginPartial.cshtml" />
+    <Content Include="Views\UserSettings\Index.cshtml" />
     <None Include="Web.Base.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

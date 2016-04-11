@@ -13,10 +13,10 @@ using UserSettingCore = Collision.Core.Models.UserSetting;
 
 namespace Collision.Controllers.v1
 {
-    public class UserSettingsController : ApiController
+    public class UserSettingsApiController : ApiController
     {
         private readonly IUserSettingsRepository _userSettingsRepository;
-        public UserSettingsController(IUserSettingsRepository userSettingsRepository)
+        public UserSettingsApiController(IUserSettingsRepository userSettingsRepository)
         {
             _userSettingsRepository = userSettingsRepository;
         }
