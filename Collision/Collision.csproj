@@ -258,6 +258,7 @@
     <Compile Include="Controllers\v1\breeze\PositionBreezeApiController.cs" />
     <Compile Include="Controllers\v1\breeze\UserSettingsBreezeApiController.cs" />
     <Compile Include="Controllers\v1\ConflictApiController.cs" />
+    <Compile Include="Controllers\v1\UserApiController.cs" />
     <Compile Include="Controllers\v1\UserSettingsApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
