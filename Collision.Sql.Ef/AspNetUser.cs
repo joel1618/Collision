@@ -11,7 +11,7 @@ namespace Collision.Sql.Ef
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class AspNetUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,7 +22,7 @@ namespace Collision.Sql.Ef
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.UserSettings = new HashSet<UserSetting>();
         }
-    
+        
         public string Id { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }

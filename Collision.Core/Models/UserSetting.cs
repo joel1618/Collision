@@ -10,6 +10,7 @@ namespace Collision.Core.Models
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public string Distance { get; set; }
+        public string DistanceOfSearch { get; set; }
+        public bool IsDistanceOfSearchInKilometers { get; set; }
     }
 }

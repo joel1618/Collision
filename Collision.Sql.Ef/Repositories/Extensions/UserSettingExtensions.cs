@@ -22,7 +22,8 @@ namespace Collision.Sql.Ef.Repositories.Extensions
             {
                 Id = item.Id,
                 UserId = new Guid(item.UserId),
-                Distance = item.Distance
+                DistanceOfSearch = item.DistanceOfSearch,
+                IsDistanceOfSearchInKilometers = item.IsDistanceOfSearchInKilometers
             };
         }
 
@@ -37,7 +38,8 @@ namespace Collision.Sql.Ef.Repositories.Extensions
             {
                 Id = item.Id,
                 UserId = item.UserId.ToString(),
-                Distance = item.Distance
+                DistanceOfSearch = item.DistanceOfSearch,
+                IsDistanceOfSearchInKilometers = item.IsDistanceOfSearchInKilometers
             };
         }
     }

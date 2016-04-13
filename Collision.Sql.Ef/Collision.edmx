@@ -128,7 +128,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Distance" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DistanceOfSearch" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="IsDistanceOfSearchInKilometers" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Conflict_Position1">
           <End Role="Position" Type="Self.Position" Multiplicity="1" />
@@ -515,7 +516,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Distance" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DistanceOfSearch" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IsDistanceOfSearchInKilometers" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="CollisionModel.FK_UserSettings_AspNetUsers" FromRole="UserSetting" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="FK_UserSettings_AspNetUsers">
@@ -661,7 +663,8 @@
           <EntitySetMapping Name="UserSettings">
             <EntityTypeMapping TypeName="CollisionModel.UserSetting">
               <MappingFragment StoreEntitySet="UserSettings">
-                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="IsDistanceOfSearchInKilometers" ColumnName="IsDistanceOfSearchInKilometers" />
+                <ScalarProperty Name="DistanceOfSearch" ColumnName="DistanceOfSearch" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -32,7 +32,21 @@ namespace Collision.Sql.Ef.Repositories
         }
         public UserSettingCore Create(UserSettingCore item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+            {
+                throw new ArgumentNullException("Core.Models.Position");
+            }
+            var now = DateTime.UtcNow;
+            var _item = new UserSettingEntity()
+            {
+                UserId = item.UserId.ToString(),
+                DistanceOfSearch = "1",
+                IsDistanceOfSearchInKilometers = true
+            };
+
+            _context.UserSettings.Add(_item);
+            _context.SaveChanges();
+            return _item.ToCore();
         }
         public UserSettingCore Update(int id, UserSettingCore item)
         {

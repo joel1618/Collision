@@ -14,6 +14,7 @@ namespace Collision.Sql.Ef
     
     public partial class AspNetUserLogin
     {
+        public string Id { get; set; }
         public string LoginProvider { get; set; }
         public string ProviderKey { get; set; }
         public string UserId { get; set; }

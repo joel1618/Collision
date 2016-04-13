@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Collision.Models;
+using System.Transactions;
+using Collision.Sql.Ef.Repositories;
 
 namespace Collision.Controllers
 {
@@ -22,7 +24,7 @@ namespace Collision.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -152,7 +154,10 @@ namespace Collision.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                IdentityResult result = null;
+                //TODO: Wrap in transaction                
+                result = await UserManager.CreateAsync(user, model.Password);
+                new UserSettingsRepository().Create(new Core.Models.UserSetting() { UserId = new Guid(user.Id) });
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
