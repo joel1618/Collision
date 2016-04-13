@@ -21,8 +21,8 @@
                 query = query.where(predicate);
             }
             query = query.orderByDesc('Id').skip(page * pageSize).take(pageSize);
-            
-            return positionPromise = breezeservice.executeQuery(query).then(function (data) {
+                        
+            breezeservice.executeQuery(query).then(function (data) {
                 deferred.resolve(data.httpResponse.data);
                 _self.deferredRequest = null;
             }, function (msg, code) {
