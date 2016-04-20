@@ -7,10 +7,11 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Practices.Unity;
-using Collision.Sql.Ef.Repositories.Interfaces;
-using Collision.Sql.Ef.Repositories;
+using Collision.Data.Repositories.Interfaces;
+using Collision.Data.Repositories;
 using Collision.Console.Interfaces;
 using Collision.Core.Models;
+using Collision.Business.Services;
 using Newtonsoft.Json;
 
 namespace Collision.Console
@@ -37,8 +38,6 @@ namespace Collision.Console
                 and each app responsible for a range of flights or faster machine.  CPU and IO are pegged.    
         */
         //TODO: May need to wrap the Repositorys using (var context = new MyDbContext(ConnectionString)) {} so that the connection isn't held onto.
-        //Right now after about 1 hour, the app has used 2Gb of memory and connections to database are consistent.  No crashes. GC seems to take care of things right before the 2Gb mark.  
-        //No substantial memory leak after that?  
         public void Run()
         {
             do
@@ -65,7 +64,15 @@ namespace Collision.Console
         
         private void HandlePosition(List<Aircraft> aircrafts)
         {
-            var position = new HandlePosition(new PositionRepository(new Sql.Ef.CollisionEntities()),new AircraftRepository(new Sql.Ef.CollisionEntities()),new ConflictRepository(new Sql.Ef.CollisionEntities()));
+            var positionRepository = new PositionRepository(new Data.CollisionEntities());
+            var aircraftRepository = new AircraftRepository(new Data.CollisionEntities());
+            var conflictRepository = new ConflictRepository(new Data.CollisionEntities());
+            var flightStatsRepository = new FlightStatsRepository();
+            var flightStatsMockRepository = new FlightStatsMockRepository();
+
+            var positionService = new PositionService(flightStatsRepository, flightStatsMockRepository, positionRepository, conflictRepository);
+
+            var position = new HandlePosition(positionRepository, aircraftRepository, conflictRepository, positionService);
             position.HandlePositions(aircrafts);
         }
 

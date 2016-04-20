@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{81120D91-CAB2-4DCA-A141-D2CFA64D6EE6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{2694BEB6-F330-4D4C-A2F1-741E50266DCE}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Collision.Console</RootNamespace>
-    <AssemblyName>Collision.Console</AssemblyName>
+    <RootNamespace>Collision.Data</RootNamespace>
+    <AssemblyName>Collision.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,7 +37,6 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -49,7 +46,6 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -59,7 +55,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug2|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -69,7 +64,6 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Base|AnyCPU'">
     <OutputPath>bin\Base\</OutputPath>
@@ -79,7 +73,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Base|x64'">
     <OutputPath>bin\x64\Base\</OutputPath>
@@ -89,9 +82,12 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Breeze.ContextProvider, Version=1.5.5.0, Culture=neutral, PublicKeyToken=f6085f1a45e2ac59, processorArchitecture=MSIL">
       <HintPath>..\packages\Breeze.Server.ContextProvider.1.5.5\lib\Breeze.ContextProvider.dll</HintPath>
       <Private>True</Private>
@@ -156,6 +152,8 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -213,37 +211,101 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application.cs" />
+    <Compile Include="Aircraft.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BreezeWebApiConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
-    <Compile Include="HandleBoundingBox.cs" />
-    <Compile Include="HandleCollision.cs" />
-    <Compile Include="HandlePosition.cs" />
-    <Compile Include="Helper\Helper.cs" />
-    <Compile Include="Interfaces\IApplication.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Collision.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Collision.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Collision.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Collision.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Collision.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CollisionDbContext.cs" />
+    <Compile Include="Conflict.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\ConflictRepository.cs" />
+    <Compile Include="Repositories\Extensions\AircraftExtensions.cs" />
+    <Compile Include="Repositories\Extensions\ConflictExtensions.cs" />
+    <Compile Include="Repositories\Extensions\PositionExtensions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Position.cs">
+      <DependentUpon>Collision.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AircraftRepository.cs" />
+    <Compile Include="Repositories\FlightStatsMockRepository.cs" />
+    <Compile Include="Repositories\FlightStatsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAircraftRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IConflictRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IFlightStatsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IFlightStatsMockRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPositionRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRepository.cs" />
+    <Compile Include="Repositories\PositionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <EntityDeploy Include="Collision.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Collision.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Base.Config">
+      <DependentUpon>App.Config</DependentUpon>
+    </None>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.Debug.Config">
+      <DependentUpon>App.Config</DependentUpon>
+    </None>
+    <None Include="App.Debug2.Config">
+      <DependentUpon>App.Config</DependentUpon>
+    </None>
+    <None Include="App.Release.Config">
+      <DependentUpon>App.Config</DependentUpon>
+    </None>
+    <None Include="Collision.edmx.diagram">
+      <DependentUpon>Collision.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Collision.Business\Collision.Business.csproj">
-      <Project>{d83b9deb-3eef-45c4-b5d0-8330cd650ced}</Project>
-      <Name>Collision.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Collision.Core\Collision.Core.csproj">
-      <Project>{a0ce6e33-f118-450f-b017-0d7cc11afacb}</Project>
-      <Name>Collision.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Collision.Data\Collision.Data.csproj">
-      <Project>{2694beb6-f330-4d4c-a2f1-741e50266dce}</Project>
-      <Name>Collision.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Collision.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Collision.edmx</DependentUpon>
+      <LastGenOutput>Collision.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Collision.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Collision.edmx</DependentUpon>
+      <LastGenOutput>Collision.cs</LastGenOutput>
+    </Content>
     <Content Include="content\breeze.directives.css" />
     <Content Include="Scripts\breeze.bridge.angular.js" />
     <Content Include="Scripts\breeze.debug.js" />
@@ -252,6 +314,16 @@
     <Content Include="Scripts\q.js" />
     <Content Include="Scripts\q.min.js" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Collision.Core\Collision.Core.csproj">
+      <Project>{a0ce6e33-f118-450f-b017-0d7cc11afacb}</Project>
+      <Name>Collision.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -260,4 +332,28 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="AfterCompile" Condition="Exists('App.$(Configuration).Config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="App.Config" Destination="$(IntermediateOutputPath)$(TargetFileName).Config" Transform="App.$(Configuration).Config" />
+    <!--Force build process to use the transformed configuration file from now on.-->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="App.Config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).Config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+  <!--Override After Publish to support ClickOnce AfterPublish. Target replaces the untransformed config file copied to the deployment directory with the transformed one.-->
+  <Target Name="AfterPublish">
+    <PropertyGroup>
+      <DeployedConfig>$(_DeploymentApplicationDir)$(TargetName)$(TargetExt).config$(_DeploymentFileMappingExtension)</DeployedConfig>
+    </PropertyGroup>
+    <!--Publish copies the untransformed App.config to deployment directory so overwrite it-->
+    <Copy Condition="Exists('$(DeployedConfig)')" SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFiles="$(DeployedConfig)" />
+  </Target>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" />
+  <Target Name="BeforeBuild" Condition="'$(PublishProfileName)' == '' And '$(WebPublishProfileFile)' == ''">
+    <TransformXml Source="App.Base.config" Transform="App.$(Configuration).config" Destination="App.config" />
+  </Target>
 </Project>
