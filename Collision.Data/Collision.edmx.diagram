@@ -19,6 +19,8 @@
         <AssociationConnector Association="CollisionModel.FK_Position_Aircraft" />
         <AssociationConnector Association="CollisionModel.FK_Conflict_Position1" />
         <AssociationConnector Association="CollisionModel.FK_Conflict_Position2" />
+        <EntityTypeShape EntityType="CollisionModel.UserSetting" Width="1.5" PointX="5.25" PointY="6.375" />
+        <AssociationConnector Association="CollisionModel.FK_UserSettings_AspNetUsers" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

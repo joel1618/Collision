@@ -2,44 +2,48 @@
     <div ng-show="isLoading">
         Loading...
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-12">
-                    <br />
-                    <label>Current Position</label><br />
-                    &nbsp;Latitude: {{position.coords.latitude}}<br />
-                    &nbsp;Longitude: {{position.coords.longitude}}
-                    <hr />
-                </div>
-                <div class="col-md-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" data-toggle="collapse" data-target="#collapsePositions">Positions</div>
-                        <div id="collapsePositions" class="panel-collapse collapse in">
-                            <div class="panel-body">
-                                <div class="col-md-12">
-                                    <div ng-show="positions.length <= 0">
-                                        <label>No aircraft positions found.</label>
-                                    </div>
-                                    <div ng-repeat="position in positions">
-                                        <button class="btn-primary small" ng-click="selectPosition(position)">Select</button> {{position.Aircraft.CarrierName}} - {{position.Aircraft.FlightNumber}}
+    <div class="container-fluid">
+        <div class="row" style="height:800px;">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <label>Current Position</label><br />
+                        &nbsp;Latitude: {{position.coords.latitude}}<br />
+                        &nbsp;Longitude: {{position.coords.longitude}}
+                        <hr />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#collapsePositions">Positions</div>
+                            <div id="collapsePositions" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <div ng-show="positions.length <= 0">
+                                            <label>No aircraft positions found.</label>
+                                        </div>
+                                        <div ng-repeat="position in positions">
+                                            <button class="btn-primary small" ng-click="selectPosition(position)">Select</button> {{position.Aircraft.CarrierName}} - {{position.Aircraft.FlightNumber}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" data-toggle="collapse" data-target="#collapseConflicts">Conflicts</div>
-                        <div id="collapseConflicts" class="panel-collapse collapse in">
-                            <div class="panel-body">
-                                <div class="col-md-12">
-                                    <div ng-show="conflicts.length <= 0">
-                                        <label>No aircraft conflicts found.</label>
-                                    </div>
-                                    <div ng-repeat="conflict in conflicts">
-                                        <button class="btn-primary small" ng-click="selectConflict(conflict)">Select</button>
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#collapseConflicts">Conflicts</div>
+                            <div id="collapseConflicts" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <div ng-show="conflicts.length <= 0">
+                                            <label>No aircraft conflicts found.</label>
+                                        </div>
+                                        <div ng-repeat="conflict in conflicts">
+                                            <button class="btn-primary small" ng-click="selectConflict(conflict)">Select</button>
+                                            {{conflict.Position.Aircraft.CarrierName}} - {{conflict.Position.Aircraft.FlightNumber}} vs
+                                            {{conflict.Position1.Aircraft.CarrierName}} - {{conflict.Position1.Aircraft.FlightNumber}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -47,19 +51,19 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div>
-                <br />
-                <div id="canvas" style="height:800px;">
+            <div class="col-md-6">
+                <div>
+                    <br />
+                    <div id="canvas" style="height:800px;">
 
+                    </div>
+                    <br />
+                    <label>Latitude:</label> {{selectedposition.Latitude2}}
+                    <label>Longtiude:</label> {{selectedposition.Longitude2}}
+                    <label>Time:</label> {{selectedposition.UtcTimeStamp2}}
+                    <label>Speed (km/s):</label> {{selectedposition.Speed2}}
+                    <label>Heading:</label> {{selectedposition.Heading2}}
                 </div>
-                <br />
-                <label>Latitude:</label> {{selectedposition.Latitude2}}
-                <label>Longtiude:</label> {{selectedposition.Longitude2}}
-                <label>Time:</label> {{selectedposition.UtcTimeStamp2}}
-                <label>Speed (km/s):</label> {{selectedposition.Speed2}}
-                <label>Heading:</label> {{selectedposition.Heading2}}
             </div>
         </div>
     </div>

@@ -13,6 +13,8 @@ using Collision.Console.Interfaces;
 using Collision.Core.Models;
 using Collision.Business.Services;
 using Newtonsoft.Json;
+using AircraftEntity = Collision.Sql.Ef.Aircraft;
+using AircraftCore = Collision.Core.Models.Aircraft;
 
 namespace Collision.Console
 {
@@ -21,8 +23,7 @@ namespace Collision.Console
         private IPositionRepository _positionRepository;
         private IAircraftRepository _aircraftRepository;
         private IConflictRepository _conflictRepository;
-        private HashSet<int> handlePosition = new HashSet<int>();
-        private Queue<Aircraft> queueAircraft = new Queue<Aircraft>();
+        private HandlePosition position = null;
 
         public Application(IPositionRepository positionRepository, IAircraftRepository aircraftRepository, IConflictRepository conflictRepository)
         {
@@ -37,32 +38,38 @@ namespace Collision.Console
                 One potential solution here would be to have app running on multiple machines, 
                 and each app responsible for a range of flights or faster machine.  CPU and IO are pegged.    
         */
-        //TODO: May need to wrap the Repositorys using (var context = new MyDbContext(ConnectionString)) {} so that the connection isn't held onto.
         public void Run()
         {
-            do
-            {
-                //TODO:  May have a problem bringing everything into mem here.  
+            //do
+            //{ 
                 System.Console.WriteLine("Getting aircraft list.");
 
-                List<List<Aircraft>> aircraftLists = splitList(_aircraftRepository.GetAll().ToList(), Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]));
+                List<AircraftCore> aircraftList = null;
+                int page = 0;
+                int pageSize = Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]);
 
-                foreach (List<Aircraft> aircraftList in aircraftLists)
+                do {
+                    aircraftList = _aircraftRepository.Search(null, page, pageSize).ToList();
+
+                    if (aircraftList.Count() > 0)
                 {
+                        var tempAircraftList = aircraftList;
                     ThreadStart action = () =>
                     {
-                        HandlePosition(aircraftList);
+                            HandlePosition(tempAircraftList);
                     };
                     Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
                     thread.Start();
                 }
-
-                //Sleep before getting the list again and going through it to see if any new flights have been added or a flight has been set to inactive.
-                Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
-            } while (true);
+                    page++;
+                } while (aircraftList.Count() == pageSize);
+                System.Console.ReadLine();
+            //TODO: This logic needs to be revisited.  Need to kill the currently running threads to make sure records aren't being processed a second time.
+            //    Thread.Sleep(Int32.Parse(ConfigurationManager.AppSettings["handleAircraftTimeInterval"]));
+            //} while (true);
         }         
         
-        private void HandlePosition(List<Aircraft> aircrafts)
+        private void HandlePosition(List<AircraftCore> aircrafts)
         {
             var positionRepository = new PositionRepository(new Data.CollisionEntities());
             var aircraftRepository = new AircraftRepository(new Data.CollisionEntities());
@@ -76,9 +83,9 @@ namespace Collision.Console
             position.HandlePositions(aircrafts);
         }
 
-        private static List<List<Aircraft>> splitList(List<Aircraft> aircrafts, int size)
+        private static List<List<AircraftCore>> splitList(List<AircraftCore> aircrafts, int size)
         {
-            var list = new List<List<Aircraft>>();
+            var list = new List<List<AircraftCore>>();
             for (int i = 0; i < aircrafts.Count; i += size)
             {
                 list.Add(aircrafts.GetRange(i, Math.Min(size, aircrafts.Count - i)));

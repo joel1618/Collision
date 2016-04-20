@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
+using Collision.Sql.Ef.Repositories.Interfaces;
+using Collision.Sql.Ef.Repositories;
 
 namespace Collision.App_Start
 {
@@ -37,6 +39,7 @@ namespace Collision.App_Start
 
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
+            container.RegisterType<IUserSettingsRepository, UserSettingsRepository>();
         }
     }
 }

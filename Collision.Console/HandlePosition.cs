@@ -42,7 +42,7 @@ namespace Collision.Console
                     if (aircraft.IsActive)
                     {
                         System.Console.WriteLine("Handling position for " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
-                        var position = positionRepository.GetByAircraftId(aircraft.Id);
+                        var position = _positionRepository.Search(e => e.AircraftId == aircraft.Id, 0, 1).FirstOrDefault();
                         if (position == null)
                         {
                             //No position yet exists for this aircraft and we need to create a new one
@@ -88,8 +88,8 @@ namespace Collision.Console
                         System.Console.WriteLine("Handling inactive aircraft " + aircraft.CarrierName + " flight " + aircraft.FlightNumber);
                         HandleInActiveAircraft(aircraft);
                     }
-
                 }
+                Thread.Sleep(10000);
             } while (true);
         }
 
@@ -97,30 +97,28 @@ namespace Collision.Console
         {
             if (collision == null)
             {
-                collision = new HandleCollision(
-                        new PositionRepository(new Data.CollisionEntities()),
-                        new ConflictRepository(new Data.CollisionEntities()));
+                collision = new HandleCollision(positionRepository, conflictRepository);
             }
             collision.HandleCollisions(position);
         }
 
         private void HandleInActiveAircraft(Aircraft aircraft)
         {
-            var position = positionRepository.GetByAircraftId(aircraft.Id);
+            var position = positionRepository.Search(e => e.AircraftId == aircraft.Id, 0, 1).FirstOrDefault();
             positionService.NullifyPosition(position);
             //Remove collision potentials associated with this position
             RemoveCollisions(position);
             position.IsActive = false; position.IsInFlight = false;
             positionRepository.Update(position.Id, position);
-        }
+                }
 
         private void RemoveCollisions(Position position)
         {
-            var collisions = conflictRepository.GetByPositionId1(position.Id);
+            var collisions = _conflictRepository.Search(e => e.PositionId1 == position.Id, 0, 100);
             foreach (var collision in collisions)
             {
                 conflictRepository.Delete(collision.Id);
-            }
+        }
         }
     }
 }
