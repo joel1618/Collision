@@ -7,10 +7,11 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Practices.Unity;
-using Collision.Sql.Ef.Repositories.Interfaces;
-using Collision.Sql.Ef.Repositories;
+using Collision.Data.Repositories.Interfaces;
+using Collision.Data.Repositories;
 using Collision.Console.Interfaces;
 using Collision.Core.Models;
+using Collision.Business.Services;
 using Newtonsoft.Json;
 using AircraftEntity = Collision.Sql.Ef.Aircraft;
 using AircraftCore = Collision.Core.Models.Aircraft;
@@ -51,15 +52,15 @@ namespace Collision.Console
                     aircraftList = _aircraftRepository.Search(null, page, pageSize).ToList();
 
                     if (aircraftList.Count() > 0)
-                    {
+                {
                         var tempAircraftList = aircraftList;
-                        ThreadStart action = () =>
-                        {
+                    ThreadStart action = () =>
+                    {
                             HandlePosition(tempAircraftList);
-                        };
-                        Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
-                        thread.Start();
-                    }
+                    };
+                    Thread thread = new Thread(action, Int32.Parse(ConfigurationManager.AppSettings["threadStackSize"])) { IsBackground = true };
+                    thread.Start();
+                }
                     page++;
                 } while (aircraftList.Count() == pageSize);
                 System.Console.ReadLine();
@@ -70,10 +71,15 @@ namespace Collision.Console
         
         private void HandlePosition(List<AircraftCore> aircrafts)
         {
-            position = new HandlePosition(
-                    new PositionRepository(),
-                    new AircraftRepository(),
-                    new ConflictRepository());
+            var positionRepository = new PositionRepository(new Data.CollisionEntities());
+            var aircraftRepository = new AircraftRepository(new Data.CollisionEntities());
+            var conflictRepository = new ConflictRepository(new Data.CollisionEntities());
+            var flightStatsRepository = new FlightStatsRepository();
+            var flightStatsMockRepository = new FlightStatsMockRepository();
+
+            var positionService = new PositionService(flightStatsRepository, flightStatsMockRepository, positionRepository, conflictRepository);
+
+            var position = new HandlePosition(positionRepository, aircraftRepository, conflictRepository, positionService);
             position.HandlePositions(aircrafts);
         }
 

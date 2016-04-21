@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using Collision.Console.Interfaces;
 using Microsoft.Practices.Unity;
-using Collision.Sql.Ef.Repositories.Interfaces;
-using Collision.Sql.Ef.Repositories;
+using Collision.Data.Repositories.Interfaces;
+using Collision.Data.Repositories;
 using Collision.Core.Models;
 using Newtonsoft.Json;
 
