@@ -3,19 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision.Web", "Collision.Web\Collision.Web.csproj", "{27AE4258-D5FE-4AC3-8513-ABA1F78B51EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision", "Collision\Collision.csproj", "{27AE4258-D5FE-4AC3-8513-ABA1F78B51EB}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Collision.Database", "Collision.Database\Collision.Database.sqlproj", "{F714D5D1-E5E4-4C8E-82A6-3B594341297D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision.Console", "Collision.Console\Collision.Console.csproj", "{81120D91-CAB2-4DCA-A141-D2CFA64D6EE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision.Data", "Collision.Data\Collision.Data.csproj", "{2694BEB6-F330-4D4C-A2F1-741E50266DCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision.Sql.Ef", "Collision.Sql.Ef\Collision.Sql.Ef.csproj", "{2694BEB6-F330-4D4C-A2F1-741E50266DCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision.Core", "Collision.Core\Collision.Core.csproj", "{A0CE6E33-F118-450F-B017-0D7CC11AFACB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{989F5F85-0279-4D6D-BF21-31992CF6F309}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collision.Business", "Collision.Business\Collision.Business.csproj", "{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,18 +115,6 @@ Global
 		{A0CE6E33-F118-450F-B017-0D7CC11AFACB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0CE6E33-F118-450F-B017-0D7CC11AFACB}.Release|x64.ActiveCfg = Release|x64
 		{A0CE6E33-F118-450F-B017-0D7CC11AFACB}.Release|x64.Build.0 = Release|x64
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Base|Any CPU.ActiveCfg = Release|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Base|Any CPU.Build.0 = Release|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Base|x64.ActiveCfg = Release|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Debug2|Any CPU.ActiveCfg = Debug|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Debug2|Any CPU.Build.0 = Debug|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Debug2|x64.ActiveCfg = Debug|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D83B9DEB-3EEF-45C4-B5D0-8330CD650CED}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

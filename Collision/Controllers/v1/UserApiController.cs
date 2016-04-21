@@ -20,7 +20,7 @@ namespace Collision.Controllers.v1
             _userRepository = userRepository;
         }
 
-        public UserCore Get()
+        public UserCore GetCurrent()
         {
             return new UserCore()
             {

@@ -16,8 +16,7 @@ namespace Collision.Sql.Ef
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string DistanceOfSearch { get; set; }
-        public bool IsDistanceOfSearchInKilometers { get; set; }
+        public string Distance { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
     }

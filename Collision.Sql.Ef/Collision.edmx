@@ -1,0 +1,693 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CollisionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Aircraft">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Iata" Type="nvarchar" MaxLength="50" />
+          <Property Name="Icao" Type="nvarchar" MaxLength="50" />
+          <Property Name="Carrier" Type="nvarchar" MaxLength="50" />
+          <Property Name="CarrierName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FlightNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="PlaneType" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Conflict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionId1" Type="int" Nullable="false" />
+          <Property Name="PositionId2" Type="int" Nullable="false" />
+          <Property Name="ModifiedAtUtcTimeStamp" Type="datetime" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="AircraftId" Type="int" Nullable="false" />
+          <Property Name="FlightId" Type="nvarchar" MaxLength="500" />
+          <Property Name="FlightIdentity" Type="nvarchar" MaxLength="500" />
+          <Property Name="Latitude1" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude1" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Speed1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Heading1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="UtcTimeStamp1" Type="datetime" />
+          <Property Name="Latitude2" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude2" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Speed2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Heading2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="UtcTimeStamp2" Type="datetime" />
+          <Property Name="Latitude3" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude3" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Speed3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Heading3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="UtcTimeStamp3" Type="datetime" />
+          <Property Name="X1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Y1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Z1" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="X2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Y2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Z2" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="X3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Y3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Z3" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="Radius" Type="decimal" Precision="18" Scale="8" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedAtUtcTimeStamp" Type="datetime" />
+          <Property Name="IsInFlight" Type="bit" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserSettings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Distance" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Conflict_Position1">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Conflict" Type="Self.Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conflict_Position2">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Conflict" Type="Self.Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Aircraft">
+          <End Role="Aircraft" Type="Self.Aircraft" Multiplicity="1" />
+          <End Role="Position" Type="Self.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aircraft">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="AircraftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSettings_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserSettings" Type="Self.UserSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSettings">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CollisionModelStoreContainer">
+          <EntitySet Name="Aircraft" EntityType="Self.Aircraft" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conflict" EntityType="Self.Conflict" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSettings" EntityType="Self.UserSettings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Conflict_Position1" Association="Self.FK_Conflict_Position1">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Conflict" EntitySet="Conflict" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conflict_Position2" Association="Self.FK_Conflict_Position2">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Conflict" EntitySet="Conflict" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Aircraft" Association="Self.FK_Position_Aircraft">
+            <End Role="Aircraft" EntitySet="Aircraft" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSettings_AspNetUsers" Association="Self.FK_UserSettings_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserSettings" EntitySet="UserSettings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CollisionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="UserSettings" Relationship="CollisionModel.FK_UserSettings_AspNetUsers" FromRole="AspNetUser" ToRole="UserSetting" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CollisionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="Aircraft" EntityType="CollisionModel.Aircraft" />
+          <EntitySet Name="Conflicts" EntityType="CollisionModel.Conflict" />
+          <EntitySet Name="Positions" EntityType="CollisionModel.Position" />
+          <AssociationSet Name="FK_Position_Aircraft" Association="CollisionModel.FK_Position_Aircraft">
+            <End Role="Aircraft" EntitySet="Aircraft" />
+            <End Role="Position" EntitySet="Positions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conflict_Position1" Association="CollisionModel.FK_Conflict_Position1">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Conflict" EntitySet="Conflicts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conflict_Position2" Association="CollisionModel.FK_Conflict_Position2">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Conflict" EntitySet="Conflicts" />
+          </AssociationSet>
+          <EntitySet Name="UserSettings" EntityType="CollisionModel.UserSetting" />
+          <AssociationSet Name="FK_UserSettings_AspNetUsers" Association="CollisionModel.FK_UserSettings_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserSetting" EntitySet="UserSettings" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Aircraft">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Carrier" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CarrierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FlightNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PlaneType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Positions" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Aircraft" ToRole="Position" />
+          <Property Name="Iata" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Icao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Conflict">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionId1" Type="Int32" Nullable="false" />
+          <Property Name="PositionId2" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAtUtcTimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Position" Relationship="CollisionModel.FK_Conflict_Position1" FromRole="Conflict" ToRole="Position" />
+          <NavigationProperty Name="Position1" Relationship="CollisionModel.FK_Conflict_Position2" FromRole="Conflict" ToRole="Position" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AircraftId" Type="Int32" Nullable="false" />
+          <Property Name="FlightId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FlightIdentity" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Latitude1" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude1" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Speed1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Heading1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="UtcTimeStamp1" Type="DateTime" Precision="3" />
+          <Property Name="Latitude2" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude2" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Speed2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Heading2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="UtcTimeStamp2" Type="DateTime" Precision="3" />
+          <Property Name="Latitude3" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude3" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Altitude3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Speed3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Heading3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="UtcTimeStamp3" Type="DateTime" Precision="3" />
+          <Property Name="X1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Y1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Z1" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="X2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Y2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Z2" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="X3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Y3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Z3" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="Radius" Type="Decimal" Precision="18" Scale="8" />
+          <Property Name="CreatedAtUtcTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedAtUtcTimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="IsInFlight" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Aircraft" Relationship="CollisionModel.FK_Position_Aircraft" FromRole="Position" ToRole="Aircraft" />
+          <NavigationProperty Name="Conflicts" Relationship="CollisionModel.FK_Conflict_Position1" FromRole="Position" ToRole="Conflict" />
+          <NavigationProperty Name="Conflicts1" Relationship="CollisionModel.FK_Conflict_Position2" FromRole="Position" ToRole="Conflict" />
+        </EntityType>
+        <Association Name="FK_Position_Aircraft">
+          <End Type="CollisionModel.Aircraft" Role="Aircraft" Multiplicity="1" />
+          <End Type="CollisionModel.Position" Role="Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aircraft">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="AircraftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conflict_Position1">
+          <End Type="CollisionModel.Position" Role="Position" Multiplicity="1" />
+          <End Type="CollisionModel.Conflict" Role="Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conflict_Position2">
+          <End Type="CollisionModel.Position" Role="Position" Multiplicity="1" />
+          <End Type="CollisionModel.Conflict" Role="Conflict" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conflict">
+              <PropertyRef Name="PositionId2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Distance" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="CollisionModel.FK_UserSettings_AspNetUsers" FromRole="UserSetting" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_UserSettings_AspNetUsers">
+          <End Type="CollisionModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="CollisionModel.UserSetting" Role="UserSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSetting">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CollisionModelStoreContainer" CdmEntityContainer="CollisionEntities">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="CollisionModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="CollisionModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="CollisionModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="CollisionModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="CollisionModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Aircraft">
+            <EntityTypeMapping TypeName="CollisionModel.Aircraft">
+              <MappingFragment StoreEntitySet="Aircraft">
+                <ScalarProperty Name="Icao" ColumnName="Icao" />
+                <ScalarProperty Name="Iata" ColumnName="Iata" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PlaneType" ColumnName="PlaneType" />
+                <ScalarProperty Name="FlightNumber" ColumnName="FlightNumber" />
+                <ScalarProperty Name="CarrierName" ColumnName="CarrierName" />
+                <ScalarProperty Name="Carrier" ColumnName="Carrier" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conflicts">
+            <EntityTypeMapping TypeName="CollisionModel.Conflict">
+              <MappingFragment StoreEntitySet="Conflict">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAtUtcTimeStamp" ColumnName="CreatedAtUtcTimeStamp" />
+                <ScalarProperty Name="ModifiedAtUtcTimeStamp" ColumnName="ModifiedAtUtcTimeStamp" />
+                <ScalarProperty Name="PositionId2" ColumnName="PositionId2" />
+                <ScalarProperty Name="PositionId1" ColumnName="PositionId1" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="CollisionModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsInFlight" ColumnName="IsInFlight" />
+                <ScalarProperty Name="ModifiedAtUtcTimeStamp" ColumnName="ModifiedAtUtcTimeStamp" />
+                <ScalarProperty Name="CreatedAtUtcTimeStamp" ColumnName="CreatedAtUtcTimeStamp" />
+                <ScalarProperty Name="Radius" ColumnName="Radius" />
+                <ScalarProperty Name="Z3" ColumnName="Z3" />
+                <ScalarProperty Name="Y3" ColumnName="Y3" />
+                <ScalarProperty Name="X3" ColumnName="X3" />
+                <ScalarProperty Name="Z2" ColumnName="Z2" />
+                <ScalarProperty Name="Y2" ColumnName="Y2" />
+                <ScalarProperty Name="X2" ColumnName="X2" />
+                <ScalarProperty Name="Z1" ColumnName="Z1" />
+                <ScalarProperty Name="Y1" ColumnName="Y1" />
+                <ScalarProperty Name="X1" ColumnName="X1" />
+                <ScalarProperty Name="UtcTimeStamp3" ColumnName="UtcTimeStamp3" />
+                <ScalarProperty Name="Heading3" ColumnName="Heading3" />
+                <ScalarProperty Name="Speed3" ColumnName="Speed3" />
+                <ScalarProperty Name="Altitude3" ColumnName="Altitude3" />
+                <ScalarProperty Name="Longitude3" ColumnName="Longitude3" />
+                <ScalarProperty Name="Latitude3" ColumnName="Latitude3" />
+                <ScalarProperty Name="UtcTimeStamp2" ColumnName="UtcTimeStamp2" />
+                <ScalarProperty Name="Heading2" ColumnName="Heading2" />
+                <ScalarProperty Name="Speed2" ColumnName="Speed2" />
+                <ScalarProperty Name="Altitude2" ColumnName="Altitude2" />
+                <ScalarProperty Name="Longitude2" ColumnName="Longitude2" />
+                <ScalarProperty Name="Latitude2" ColumnName="Latitude2" />
+                <ScalarProperty Name="UtcTimeStamp1" ColumnName="UtcTimeStamp1" />
+                <ScalarProperty Name="Heading1" ColumnName="Heading1" />
+                <ScalarProperty Name="Speed1" ColumnName="Speed1" />
+                <ScalarProperty Name="Altitude1" ColumnName="Altitude1" />
+                <ScalarProperty Name="Longitude1" ColumnName="Longitude1" />
+                <ScalarProperty Name="Latitude1" ColumnName="Latitude1" />
+                <ScalarProperty Name="FlightIdentity" ColumnName="FlightIdentity" />
+                <ScalarProperty Name="FlightId" ColumnName="FlightId" />
+                <ScalarProperty Name="AircraftId" ColumnName="AircraftId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSettings">
+            <EntityTypeMapping TypeName="CollisionModel.UserSetting">
+              <MappingFragment StoreEntitySet="UserSettings">
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector Position) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -9,9 +9,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Collision.Console</RootNamespace>
     <AssemblyName>Collision.Console</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -223,27 +222,22 @@
     <Compile Include="HandlePosition.cs" />
     <Compile Include="Helper\Helper.cs" />
     <Compile Include="Interfaces\IApplication.cs" />
+    <Compile Include="MockData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Collision.Business\Collision.Business.csproj">
-      <Project>{d83b9deb-3eef-45c4-b5d0-8330cd650ced}</Project>
-      <Name>Collision.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Collision.Core\Collision.Core.csproj">
       <Project>{a0ce6e33-f118-450f-b017-0d7cc11afacb}</Project>
       <Name>Collision.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Collision.Data\Collision.Data.csproj">
+    <ProjectReference Include="..\Collision.Sql.Ef\Collision.Sql.Ef.csproj">
       <Project>{2694beb6-f330-4d4c-a2f1-741e50266dce}</Project>
-      <Name>Collision.Data</Name>
+      <Name>Collision.Sql.Ef</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

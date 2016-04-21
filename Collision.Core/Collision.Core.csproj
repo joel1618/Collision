@@ -210,7 +210,7 @@
     <Compile Include="Interfaces\IConnectionStringProvider.cs" />
     <Compile Include="Models\Aircraft.cs" />
     <Compile Include="Models\Conflict.cs" />
-    <Compile Include="Models\FlightStats\Flight.cs" />
+    <Compile Include="Models\Mock\Flight.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserSetting.cs" />
