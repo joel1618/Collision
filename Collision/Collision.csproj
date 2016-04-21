@@ -386,6 +386,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\assets\" />
     <Folder Include="Content\images\" />
+    <Folder Include="Content\videos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
