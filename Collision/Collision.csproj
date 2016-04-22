@@ -258,6 +258,7 @@
     <Compile Include="Controllers\v1\breeze\PositionBreezeApiController.cs" />
     <Compile Include="Controllers\v1\breeze\UserSettingsBreezeApiController.cs" />
     <Compile Include="Controllers\v1\ConflictApiController.cs" />
+    <Compile Include="Controllers\v1\PositionApiController.cs" />
     <Compile Include="Controllers\v1\UserApiController.cs" />
     <Compile Include="Controllers\v1\UserSettingsApiController.cs" />
     <Compile Include="Global.asax.cs">
@@ -278,7 +279,10 @@
     <Content Include="App\controlpanel\views\controlpanel.html" />
     <Content Include="App\services\breeze\breezeservice.js" />
     <Content Include="App\services\breeze\metadata.js" />
+    <Content Include="App\services\conflictservice.js" />
+    <Content Include="App\services\positionservice.js" />
     <Content Include="App\services\services.js" />
+    <Content Include="App\services\usersettingservice.js" />
     <Content Include="App\usersettings\app.js" />
     <Content Include="App\usersettings\controllers\usersettingscontroller.js" />
     <Content Include="App\usersettings\views\usersettings.html" />
