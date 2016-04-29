@@ -7,7 +7,6 @@
     angular.module('controlpanel').controller('controlpanelcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze', 'aircraftservice',
     function controller($scope, $http, $timeout, breezeservice, breeze, aircraftservice) {
         $scope.isLoading = true;
-        var entities = [];
         navigator.geolocation.getCurrentPosition(function (position) {
             $scope.position = position;
             aircraftservice.GetPositions($scope.position).then(function (data) {

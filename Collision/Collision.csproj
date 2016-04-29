@@ -254,6 +254,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserSettingsController.cs" />
     <Compile Include="Controllers\v1\breeze\ConflictBreezeApiController.cs" />
+    <Compile Include="Controllers\v1\breeze\RadarBreezeApiController.cs" />
     <Compile Include="Controllers\v1\breeze\MetadataController.cs" />
     <Compile Include="Controllers\v1\breeze\PositionBreezeApiController.cs" />
     <Compile Include="Controllers\v1\breeze\UserSettingsBreezeApiController.cs" />
@@ -275,12 +276,15 @@
   <ItemGroup>
     <Content Include="App\controlpanel\app.js" />
     <Content Include="App\controlpanel\controllers\controlpanelcontroller.js" />
+    <Content Include="App\controlpanel\controllers\radarcontroller.js" />
     <Content Include="App\controlpanel\services\aircraftservice.js" />
     <Content Include="App\controlpanel\views\controlpanel.html" />
+    <Content Include="App\controlpanel\views\radar.html" />
     <Content Include="App\services\breeze\breezeservice.js" />
     <Content Include="App\services\breeze\metadata.js" />
     <Content Include="App\services\conflictservice.js" />
     <Content Include="App\services\positionservice.js" />
+    <Content Include="App\services\radarservice.js" />
     <Content Include="App\services\services.js" />
     <Content Include="App\services\usersettingservice.js" />
     <Content Include="App\usersettings\app.js" />
@@ -289,6 +293,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\breeze.directives.css" />
+    <Content Include="Content\images\planeblack.png" />
+    <Content Include="Content\images\planered.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -383,7 +389,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\assets\" />
-    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

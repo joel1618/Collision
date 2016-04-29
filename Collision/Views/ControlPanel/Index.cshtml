@@ -15,11 +15,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
 <!--PLAY CANVAS-->
 <script src="~/Scripts/Terrain/playcanvas-stable.min.js"></script>
+<!--ANGULAR GOOGLE MAPS-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+<script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
 <!--SERVICES-->
 <script src="~/App/services/services.js"></script>
 <script src="~/App/services/breeze/breezeservice.js"></script>
 <script src="~/App/services/breeze/metadata.js"></script>
+<script src="~/App/services/radarservice.js"></script>
 <!--APP-->
+<script src="http://maps.googleapis.com/maps/api/js"></script>
 <script src="~/App/controlpanel/services/aircraftservice.js"></script>
 <link rel="stylesheet" type="text/css" href="../Scripts/Terrain/styles.css">
 <script>
@@ -31,13 +36,14 @@
 </script>
 <script>
     $(document).ready(function () {
-        $.getScript("../Scripts/Terrain/__start__.js");
-        $.getScript("../Scripts/Terrain/__loading__.js")
+        //$.getScript("../Scripts/Terrain/__start__.js");
+        //$.getScript("../Scripts/Terrain/__loading__.js")
     });
 </script>
 
 <script src="~/App/controlpanel/app.js"></script>
 <script src="~/App/controlpanel/controllers/controlpanelcontroller.js"></script>
+<script src="~/App/controlpanel/controllers/radarcontroller.js"></script>
 <div ng-app="controlpanel">
     <div ng-view>
 

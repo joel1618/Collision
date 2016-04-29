@@ -31,6 +31,7 @@ namespace Collision.Sql.Ef
         public DbSet<Collision.Sql.Ef.Conflict> Conflicts { get; set; }
         public DbSet<Collision.Sql.Ef.Position> Positions { get; set; }
         public DbSet<Collision.Sql.Ef.UserSetting> UserSettings { get; set; }
+        public DbSet<Collision.Sql.Ef.Models.RadarFlight> RadarFlights { get; set; }
         //public DbSet<Provider> Providers { get; set; }
     }
 

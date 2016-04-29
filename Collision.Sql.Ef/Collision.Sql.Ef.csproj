@@ -252,6 +252,7 @@
     <Compile Include="Conflict.cs">
       <DependentUpon>Collision.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RadarFlight.cs" />
     <Compile Include="Repositories\ConflictRepository.cs" />
     <Compile Include="Repositories\Extensions\AircraftExtensions.cs" />
     <Compile Include="Repositories\Extensions\ConflictExtensions.cs" />
@@ -266,10 +267,12 @@
     <Compile Include="Repositories\Interfaces\IAircraftRepository.cs" />
     <Compile Include="Repositories\Interfaces\IConflictRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPositionRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRadarRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserSettingsRepository.cs" />
     <Compile Include="Repositories\PositionRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\RadarRepository.cs" />
     <Compile Include="Repositories\UserSettingsRepository.cs" />
     <Compile Include="UserSetting.cs">
       <DependentUpon>Collision.tt</DependentUpon>
