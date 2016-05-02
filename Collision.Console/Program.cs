@@ -12,6 +12,7 @@ using Collision.Sql.Ef.Repositories.Interfaces;
 using Collision.Sql.Ef.Repositories;
 using Collision.Core.Models;
 using Newtonsoft.Json;
+using System.Data.Entity;
 
 namespace Collision.Console
 {
@@ -19,6 +20,12 @@ namespace Collision.Console
     {
         static void Main(string[] args)
         {
+            #if DEBUG
+            Database.SetInitializer(new Collision.Sql.Ef.Migrations.Configuration());
+            Collision.Sql.Ef.CollisionEntities db = new Collision.Sql.Ef.CollisionEntities();
+            db.Database.Initialize(true);
+            #endif
+
             var container = new UnityContainer();
             container.RegisterType<IPositionRepository, PositionRepository>();
             container.RegisterType<IAircraftRepository, AircraftRepository>();

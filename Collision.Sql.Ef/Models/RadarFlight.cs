@@ -13,12 +13,13 @@ namespace Collision.Sql.Ef.Models
         public string Carrier { get; set; }
         public string CarrierName { get; set; }
         public string FlightNumber { get; set; }
-        public decimal? Latitude2 { get; set; }
-        public decimal? Longitude2 { get; set; }
-        public decimal? Altitude2 { get; set; }
-        public decimal? Speed2 { get; set; }
-        public decimal? Heading2 { get; set; }
+        public double? Latitude2 { get; set; }
+        public double? Longitude2 { get; set; }
+        public double? Altitude2 { get; set; }
+        public double? Speed2 { get; set; }
+        public double? Heading2 { get; set; }
         public DateTime? CreatedAtUtcTimeStamp { get; set; }
         public DateTime? ModifiedAtUtcTimeStamp { get; set; }
+        public bool IsConflict { get; set; }
     }
 }

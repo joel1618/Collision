@@ -34,7 +34,7 @@ namespace Collision.Sql.Ef.Repositories
                     "Heading2, " +
                     "Position.CreatedAtUtcTimeStamp, " +
                     "Position.ModifiedAtUtcTimeStamp, " +
-                    "case Conflict.CreatedAtUtcTimeStamp when null then 0 else 1 end as IsConflict " +
+                    "case when Conflict.CreatedAtUtcTimeStamp is null then 0 else 1 end as IsConflict " +
                     "from Position " +
                     "left join Aircraft " +
                     "on Position.AircraftId = Aircraft.Id " +
