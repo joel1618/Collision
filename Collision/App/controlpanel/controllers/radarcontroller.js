@@ -5,12 +5,12 @@
         id: null, entity: null
     };
     var entities = [];
-    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze', 'radarservice','uiGmapGoogleMapApi',
+    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze', 'radarservice', 'uiGmapGoogleMapApi',
     function controller($scope, $http, $timeout, breezeservice, breeze, radarservice, uiGmapGoogleMapApi) {
         $scope.isLoading = true;
         $scope.map = {
             center: { latitude: "", longitude: "" },
-            zoom: 14,
+            zoom: 10,
             bounds: {}
         };
         var entities = [];
@@ -20,13 +20,13 @@
             $scope.map.center = { latitude: position.coords.latitude, longitude: position.coords.longitude };
         });
 
-        $scope.$watch(function () { return $scope.map.bounds }, function(newValue, oldValue) {
+        $scope.$watch(function () { return $scope.map.bounds }, function (newValue, oldValue) {
             if (newValue !== oldValue && !angular.equals({}, oldValue)) {
                 $scope.markers = [];
                 $scope.GetFlights($scope.map.bounds);
             }
         }, true);
-        
+
         $scope.isLoading = false;
 
         $scope.GetFlights = function () {
@@ -35,7 +35,7 @@
             var p3 = new breeze.Predicate('Latitude2', '>', parseFloat($scope.map.bounds.southwest.latitude.toFixed(6) + "M"));
             var p4 = new breeze.Predicate('Longitude2', '>', parseFloat($scope.map.bounds.southwest.longitude.toFixed(6) + "M"));
             var predicate = new breeze.Predicate.and([p1, p2, p3, p4]);
-            radarservice.search(predicate, 0, 100, false).then(function (data) {            
+            radarservice.search(predicate, 0, 100, false).then(function (data) {
                 entities = data;
                 ManageMarkers($scope.markers, entities);
             });
@@ -61,21 +61,31 @@
     }
 
     function CreateMarker(markers, item) {
-        
+
         var marker = {
             id: item.Id,
             latitude: item.Latitude2,
             longitude: item.Longitude2,
-            title: item.CarrierName + ' ' + item.FlightNumber,
+            title:
+                item.CarrierName + ' ' +
+                item.FlightNumber + "<br />" + 
+                '<div class="col-md-8">' +
+                "Speed: " + item.Speed2.toFixed(0) + ' km/h' + '<br />' +
+                "Altitude: " + item.Altitude2.toFixed(2) + ' km' + '<br />' +
+                "Heading: " + item.Heading2 + ' degrees<br />' +
+                '</div>' +
+                '<div class="col-md-4">' +
+                '<button class="btn btn-primary btn-sm ">Open</button>' +         
+                '</div>',
             icon: GetIconUrl(item),
             options: {
                 labelClass: 'marker_labels',
                 labelAnchor: '0 0',
-                fit: "true",
-                labelContent:
-                    '<div ng-show="map.zoom <= 4">' +
-                    item.CarrierName + ' ' + item.FlightNumber + "<br />" + "Speed: " + item.Speed2 + ' km/h' + '<br />' + "Altitude: " + item.Altitude2 + ' km' + '<br />' + "Heading: " + item.Heading2 +
-                    "</div>"
+                fit: "true"//,
+                //labelContent:
+                //    '<div ng-show="map.zoom <= 4">' +
+                //    item.CarrierName + ' ' + item.FlightNumber + "<br />" + "Speed: " + item.Speed2 + ' km/h' + '<br />' + "Altitude: " + item.Altitude2 + ' km' + '<br />' + "Heading: " + item.Heading2 +
+                //    "</div>"
             }
         };
         markers.push(marker);
@@ -89,13 +99,26 @@
         markers.splice(markers.indexOf(item), 1);
     }
     //HELPERS
+    //TODO: Have different images for the differnt rotations and supply the location depending on the heading of the flight.
     function GetIconUrl(item) {
+        var url = "/Content/images/controlpanel/radar/plane";
         if (!item.IsConflict || item.IsConflict == null) {
-            return "/Content/images/planeblacksmall.png";
+            url += "blacksmall";
         }
         else {
-            return "/Content/images/planeredsmall.png"
+            url += "redsmall";
         }
+
+        if (item.Heading2 >= 337.5 && item.Heading2 <= 22.5) { url += ".png"; }
+        else if (item.Heading2 >= 22.5 && item.Heading2 <= 67.5) { url += "45.png"; }
+        else if (item.Heading2 >= 67.5 && item.Heading2 <= 112.5) { url += "90.png"; }
+        else if (item.Heading2 >= 112.5 && item.Heading2 <= 157.5) { url += "135.png"; }
+        else if (item.Heading2 >= 157.5 && item.Heading2 <= 202.5) { url += "180.png"; }
+        else if (item.Heading2 >= 202.5 && item.Heading2 <= 247.5) { url += "225.png"; }
+        else if (item.Heading2 >= 247.5 && item.Heading2 <= 292.5) { url += "270.png"; }
+        else if (item.Heading2 >= 292.5 && item.Heading2 <= 337.5) { url += "315.png"; }
+        else { url += ".png"; }
+        return url;
     }
 
     function MapFromArray(array, property) {

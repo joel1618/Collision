@@ -24,6 +24,11 @@
             <div class="col-md-12">
                 <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options" bounds="map.bounds">
                     <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" options="'options'">
+                        <ui-gmap-windows show="'showWindow'" closeClick="'closeClick'" ng-cloak>
+                            <div data-ui-sref="display">
+                                <span data-ng-non-bindable>{{title}}</span>
+                            </div>
+                        </ui-gmap-windows>
                     </ui-gmap-markers>
                 </ui-gmap-google-map>
             </div>

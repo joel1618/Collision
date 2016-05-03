@@ -20,6 +20,7 @@ namespace Collision.Sql.Ef.Repositories
             {
                 Id = e.Id, AircraftId = e.AircraftId, Carrier = e.Aircraft.Carrier,
                 CarrierName = e.Aircraft.CarrierName,
+                FlightNumber = e.Aircraft.FlightNumber,
                 Latitude2 = (double)e.Latitude2.Value,
                 Longitude2 = (double)e.Longitude2.Value,
                 Altitude2 = (double)e.Altitude2.Value,
