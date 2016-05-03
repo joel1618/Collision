@@ -48,8 +48,7 @@ namespace Collision.Sql.Ef.Migrations
                     "select @id = @id + 1 " +
                     "end";
                 connection.Query<Aircraft>(query);
-            }
-                       
+            }                       
         }        
 
         public void AddRealAircraft(CollisionEntities context)

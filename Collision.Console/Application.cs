@@ -48,7 +48,7 @@ namespace Collision.Console
                 int pageSize = Int32.Parse(ConfigurationManager.AppSettings["aircraftPerThread"]);
 
                 do {
-                    aircraftList = _aircraftRepository.Search(null, page, pageSize).ToList();
+                    aircraftList = _aircraftRepository.Search(e => e.IsActive == true, page, pageSize).ToList();
 
                     if (aircraftList.Count() > 0)
                     {

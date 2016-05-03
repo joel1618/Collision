@@ -10,7 +10,7 @@
         $scope.isLoading = true;
         $scope.map = {
             center: { latitude: "", longitude: "" },
-            zoom: 4,
+            zoom: 14,
             bounds: {}
         };
         var entities = [];
@@ -67,16 +67,16 @@
             latitude: item.Latitude2,
             longitude: item.Longitude2,
             title: item.CarrierName + ' ' + item.FlightNumber,
-            icon: GetIconUrl(item)//,
-            //options: {
-            //    labelClass: 'marker_labels',
-            //    labelAnchor: '0 0',
-            //    fit: "true",
-            //    labelContent:
-            //        "<div ng-show='map.zoom <= 4'>" +
-            //        item.CarrierName + ' ' + item.FlightNumber + "<br />" + "Speed: " + item.Speed2 + '<br />' + "Altitude: " + item.Altitude2 + '<br />' + "Heading: " + item.Heading2 +
-            //        "</div>"
-            //}
+            icon: GetIconUrl(item),
+            options: {
+                labelClass: 'marker_labels',
+                labelAnchor: '0 0',
+                fit: "true",
+                labelContent:
+                    '<div ng-show="map.zoom <= 4">' +
+                    item.CarrierName + ' ' + item.FlightNumber + "<br />" + "Speed: " + item.Speed2 + ' km/h' + '<br />' + "Altitude: " + item.Altitude2 + ' km' + '<br />' + "Heading: " + item.Heading2 +
+                    "</div>"
+            }
         };
         markers.push(marker);
     }
