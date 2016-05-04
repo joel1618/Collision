@@ -40,6 +40,10 @@
                 ManageMarkers($scope.markers, entities);
             });
         }
+
+        $scope.redirect = function (id) {
+            alert(id);
+        }
     }]);
 
     //http://stackoverflow.com/questions/14966207/javascript-sync-two-arrays-of-objects-find-delta
@@ -69,13 +73,10 @@
             title:
                 item.CarrierName + ' ' +
                 item.FlightNumber + "<br />" + 
-                '<div class="col-md-8">' +
+                '<div class="col-md-12">' +
                 "Speed: " + item.Speed2.toFixed(0) + ' km/h' + '<br />' +
                 "Altitude: " + item.Altitude2.toFixed(2) + ' km' + '<br />' +
                 "Heading: " + item.Heading2 + ' degrees<br />' +
-                '</div>' +
-                '<div class="col-md-4">' +
-                '<button class="btn btn-primary btn-sm ">Open</button>' +         
                 '</div>',
             icon: GetIconUrl(item),
             options: {

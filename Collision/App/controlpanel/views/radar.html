@@ -26,7 +26,9 @@
                     <ui-gmap-markers models="markers" coords="'self'" icon="'icon'" options="'options'">
                         <ui-gmap-windows show="'showWindow'" closeClick="'closeClick'" ng-cloak>
                             <div data-ui-sref="display">
-                                <span data-ng-non-bindable>{{title}}</span>
+                                <span data-ng-non-bindable>                                    
+                                    <button class="btn btn-primary btn-sm" ng-click="$parent.redirect({{id}})">{{title}}</button>
+                                </span>
                             </div>
                         </ui-gmap-windows>
                     </ui-gmap-markers>

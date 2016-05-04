@@ -4,24 +4,14 @@
         id: null, entity: null
     };
     var entities = [];
-    angular.module('controlpanel').controller('controlpanelcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze', 'aircraftservice',
-    function controller($scope, $http, $timeout, breezeservice, breeze, aircraftservice) {
+    angular.module('controlpanel').controller('controlpanelcontroller', ['$scope', '$routeParams', '$http', '$timeout', 'breezeservice', 'breeze', 'aircraftservice', 'positionservice',
+    function controller($scope, $routeParams, $http, $timeout, breezeservice, breeze, aircraftservice, positionservice) {
         $scope.isLoading = true;
-        navigator.geolocation.getCurrentPosition(function (position) {
-            $scope.position = position;
-            aircraftservice.GetPositions($scope.position).then(function (data) {
-                $scope.positions = data;
-            });
-            aircraftservice.GetConflicts().then(function (data) {
-                $scope.conflicts = data;
-            });
+        debugger;
+        positionservice.get($routeParams.id).then(function (data) {
+            aircraftservice.AddAircraft(position);
             $scope.isLoading = false;
         });
-
-        $scope.selectPosition = function (position) {
-            $scope.selectedposition = position;
-            aircraftservice.AddAircraft(position);
-        }
 
         $scope.selectConflict = function (conflict) {
 
