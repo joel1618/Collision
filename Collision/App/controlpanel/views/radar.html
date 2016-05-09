@@ -13,7 +13,7 @@
                 <label>Time at position: </label>{{marker.ModifiedAtUtcTimeStamp}}
             </div>
             <div class="col-md-10">
-                <ng-map zoom="4" center="current-location" style="height: 85vh;">
+                <ng-map zoom="8" center="current-location" style="height: 85vh;">
                     <info-window id="myInfoWindow">
                         <div ng-non-bindable>
                             {{marker.CarrierName}} {{marker.FlightNumber}}

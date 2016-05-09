@@ -40,7 +40,7 @@
 
         $scope.GetIcon = function (marker) {
             var customIcon = {
-                "scaledSize": [20, 20],
+                //"scaledSize": [20, 20],
                 "url": GetIconUrl(marker)
             };
             return customIcon;
@@ -84,6 +84,8 @@
     }
 
     function CreateMarker(markers, item) {
+        item.ModifiedAtUtcTimeStamp = moment(item.ModifiedAtUtcTimeStamp).format('MMMM Do YYYY, h:mm:ss a');
+        item.Speed2 = item.Speed2.toFixed(0);
         markers.push(item);
     }
 
