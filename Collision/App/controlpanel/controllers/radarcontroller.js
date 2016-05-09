@@ -1,49 +1,59 @@
 ﻿//TODO: Update markers based on time but not by deleting all the markers first
 (function (moment) {
     "use strict";
-    var entity = {
-        id: null, entity: null
-    };
-    var entities = [];
-    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze', 'radarservice', 'uiGmapGoogleMapApi',
-    function controller($scope, $http, $timeout, breezeservice, breeze, radarservice, uiGmapGoogleMapApi) {
+    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze', 'radarservice', 'NgMap',
+    function controller($scope, $http, $timeout, breezeservice, breeze, radarservice, NgMap) {
         $scope.isLoading = true;
-        $scope.map = {
-            center: { latitude: "", longitude: "" },
-            zoom: 10,
-            bounds: {}
-        };
-        var entities = [];
         $scope.markers = [];
-        $scope.randomMarkers = [];
-        navigator.geolocation.getCurrentPosition(function (position) {
-            $scope.map.center = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-        });
-
-        $scope.$watch(function () { return $scope.map.bounds }, function (newValue, oldValue) {
-            if (newValue !== oldValue && !angular.equals({}, oldValue)) {
-                $scope.markers = [];
-                $scope.GetFlights($scope.map.bounds);
+        $scope.bounds = {
+            northeast: {
+                latitude: null,
+                longitude: null
+            },
+            southwest: {
+                latitude: null,
+                longitude: null
             }
-        }, true);
-
-        $scope.isLoading = false;
-
+        }
         $scope.GetFlights = function () {
-            var p1 = new breeze.Predicate('Latitude2', '<', parseFloat($scope.map.bounds.northeast.latitude.toFixed(6) + "M"));
-            var p2 = new breeze.Predicate('Longitude2', '<', parseFloat($scope.map.bounds.northeast.longitude.toFixed(6) + "M"));
-            var p3 = new breeze.Predicate('Latitude2', '>', parseFloat($scope.map.bounds.southwest.latitude.toFixed(6) + "M"));
-            var p4 = new breeze.Predicate('Longitude2', '>', parseFloat($scope.map.bounds.southwest.longitude.toFixed(6) + "M"));
+            var p1 = new breeze.Predicate('Latitude2', '<', parseFloat($scope.bounds.northeast.latitude.toFixed(6) + "M"));
+            var p2 = new breeze.Predicate('Longitude2', '<', parseFloat($scope.bounds.northeast.longitude.toFixed(6) + "M"));
+            var p3 = new breeze.Predicate('Latitude2', '>', parseFloat($scope.bounds.southwest.latitude.toFixed(6) + "M"));
+            var p4 = new breeze.Predicate('Longitude2', '>', parseFloat($scope.bounds.southwest.longitude.toFixed(6) + "M"));
             var predicate = new breeze.Predicate.and([p1, p2, p3, p4]);
             radarservice.search(predicate, 0, 100, false).then(function (data) {
-                entities = data;
-                ManageMarkers($scope.markers, entities);
+                ManageMarkers($scope.markers, data);
             });
         }
+        NgMap.getMap().then(function (map) {
+            $scope.SetBounds(map);
+            map.addListener('idle', function () {
+                $scope.markers = [];
+                $scope.SetBounds(map);
+                $scope.GetFlights();
+            });
+            $scope.GetFlights();
+        });
+        $scope.isLoading = false;
 
-        $scope.redirect = function (id) {
-            alert(id);
+        $scope.SetBounds = function (map) {
+            $scope.bounds.northeast.latitude = map.getBounds().H.j;
+            $scope.bounds.northeast.longitude = map.getBounds().j.H;
+            $scope.bounds.southwest.latitude = map.getBounds().H.H;
+            $scope.bounds.southwest.longitude = map.getBounds().j.j;
         }
+
+        $scope.GetIcon = function (marker) {
+            var customIcon = {
+                "scaledSize": [20, 20],
+                "url": GetIconUrl(marker)
+            };
+            return customIcon;
+        }
+        $scope.ShowMarkerWindow = function (event, marker) {
+            $scope.marker = marker;
+            $scope.map.showInfoWindow('myInfoWindow', this);
+        };
     }]);
 
     //http://stackoverflow.com/questions/14966207/javascript-sync-two-arrays-of-objects-find-delta
@@ -65,31 +75,7 @@
     }
 
     function CreateMarker(markers, item) {
-
-        var marker = {
-            id: item.Id,
-            latitude: item.Latitude2,
-            longitude: item.Longitude2,
-            title:
-                item.CarrierName + ' ' +
-                item.FlightNumber + "<br />" + 
-                '<div class="col-md-12">' +
-                "Speed: " + item.Speed2.toFixed(0) + ' km/h' + '<br />' +
-                "Altitude: " + item.Altitude2.toFixed(2) + ' km' + '<br />' +
-                "Heading: " + item.Heading2 + ' degrees<br />' +
-                '</div>',
-            icon: GetIconUrl(item),
-            options: {
-                labelClass: 'marker_labels',
-                labelAnchor: '0 0',
-                fit: "true"//,
-                //labelContent:
-                //    '<div ng-show="map.zoom <= 4">' +
-                //    item.CarrierName + ' ' + item.FlightNumber + "<br />" + "Speed: " + item.Speed2 + ' km/h' + '<br />' + "Altitude: " + item.Altitude2 + ' km' + '<br />' + "Heading: " + item.Heading2 +
-                //    "</div>"
-            }
-        };
-        markers.push(marker);
+        markers.push(item);
     }
 
     function UpdateMarker(currentItem, newItem) {
