@@ -6,11 +6,30 @@
     <div ng-show="!isLoading">
         <div class="row">
             <div class="col-md-2">
-                <br/>
-                <label>{{marker.CarrierName}} {{marker.FlightNumber}}</label><br/>
-                <label>Speed: </label>{{marker.Speed2}} Kph<br/>
-                <label>Heading: </label>{{marker.Heading2}} Degrees<br/>
-                <label>Time at position: </label>{{marker.ModifiedAtUtcTimeStamp}}
+                <div ng-show="marker != null">
+                    <br />
+                    <label>{{marker.CarrierName}} Flight {{marker.FlightNumber}}</label><br />
+                    <label>Speed: </label> {{marker.Speed2}} kph<br />
+                    <label>Heading: </label> {{marker.Heading2}} degrees<br />
+                    <label>Time at position: </label> {{marker.ModifiedAtUtcTimeStamp}}<br />
+                    <button ng-class="isTracking ? 'btn btn-danger pull-right' : 'btn btn-primary pull-right'"
+                            ng-model="isTracking" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                        <div ng-show="!isTracking">
+                            Track
+                        </div>
+                        <div ng-show="isTracking">
+                            Untrack
+                        </div>
+                    </button>
+                    <br/>
+                    <hr />
+                </div>
+                <div ng-show="(markers | filter: { IsConflict : true}).length">
+                    <label>Collisions</label><br/>
+                    <div ng-repeat="collision in markers | filter : { IsConflict : true}">
+                        <button class="btn btn-primary btn-sm">Find</button> {{collision.CarrierName}} Flight {{collision.FlightNumber}}
+                    </div>
+                </div>
             </div>
             <div class="col-md-10">
                 <ng-map zoom="8" center="current-location" style="height: 85vh;">

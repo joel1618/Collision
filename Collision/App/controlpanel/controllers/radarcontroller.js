@@ -4,6 +4,7 @@
     angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', '$interval', 'breezeservice', 'breeze', 'radarservice', 'NgMap',
     function controller($scope, $http, $timeout, $interval, breezeservice, breeze, radarservice, NgMap) {
         $scope.isLoading = true;
+        $scope.isTracking = false;
         $scope.markers = [];
         $scope.bounds = {
             northeast: {
