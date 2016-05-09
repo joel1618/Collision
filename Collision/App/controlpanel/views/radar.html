@@ -5,19 +5,15 @@
     </div>
     <div ng-show="!isLoading">
         <div class="row">
-            <div class="col-md-4">
-                {{title}}
+            <div class="col-md-2">
+                <br/>
+                <label>{{marker.CarrierName}} {{marker.FlightNumber}}</label><br/>
+                <label>Speed: </label>{{marker.Speed2}} Kph<br/>
+                <label>Heading: </label>{{marker.Heading2}} Degrees<br/>
+                <label>Time at position: </label>{{marker.ModifiedAtUtcTimeStamp}}
             </div>
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <ng-map zoom="4" center="current-location" style="height: 85vh;">
-                    <!--<custom-marker ng-repeat="p in vm.positions track by $index"
-                                   id="custom-marker-{{$index}}"
-                                   on-click="vm.map.showInfoWindow('foo', 'custom-marker-'+$index)"
-                                   position="{{p.pos}}">
-                        <div>
-                            position {{p.name}}: {{p.pos[0]}}, {{p.pos[1]}}
-                        </div>
-                    </custom-marker>-->
                     <info-window id="myInfoWindow">
                         <div ng-non-bindable>
                             {{marker.CarrierName}} {{marker.FlightNumber}}

@@ -1,8 +1,8 @@
 ﻿//TODO: Update markers based on time but not by deleting all the markers first
 (function (moment) {
     "use strict";
-    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', 'breezeservice', 'breeze', 'radarservice', 'NgMap',
-    function controller($scope, $http, $timeout, breezeservice, breeze, radarservice, NgMap) {
+    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', '$interval', 'breezeservice', 'breeze', 'radarservice', 'NgMap',
+    function controller($scope, $http, $timeout, $interval, breezeservice, breeze, radarservice, NgMap) {
         $scope.isLoading = true;
         $scope.markers = [];
         $scope.bounds = {
@@ -15,25 +15,20 @@
                 longitude: null
             }
         }
-        $scope.GetFlights = function () {
-            var p1 = new breeze.Predicate('Latitude2', '<', parseFloat($scope.bounds.northeast.latitude.toFixed(6) + "M"));
-            var p2 = new breeze.Predicate('Longitude2', '<', parseFloat($scope.bounds.northeast.longitude.toFixed(6) + "M"));
-            var p3 = new breeze.Predicate('Latitude2', '>', parseFloat($scope.bounds.southwest.latitude.toFixed(6) + "M"));
-            var p4 = new breeze.Predicate('Longitude2', '>', parseFloat($scope.bounds.southwest.longitude.toFixed(6) + "M"));
-            var predicate = new breeze.Predicate.and([p1, p2, p3, p4]);
-            radarservice.search(predicate, 0, 100, false).then(function (data) {
-                ManageMarkers($scope.markers, data);
-            });
-        }
         NgMap.getMap().then(function (map) {
             $scope.SetBounds(map);
             map.addListener('idle', function () {
-                $scope.markers = [];
                 $scope.SetBounds(map);
-                $scope.GetFlights();
+                GetFlights($scope, radarservice);
             });
-            $scope.GetFlights();
+            $timeout(function() {                
+                $interval($scope.GetFlights(), 3000);
+            }, 1000);
         });
+
+        $scope.GetFlights = function () {
+            GetFlights($scope, radarservice);
+        }
         $scope.isLoading = false;
 
         $scope.SetBounds = function (map) {
@@ -53,8 +48,22 @@
         $scope.ShowMarkerWindow = function (event, marker) {
             $scope.marker = marker;
             $scope.map.showInfoWindow('myInfoWindow', this);
-        };
+        };    
     }]);
+
+    
+
+    function GetFlights($scope, radarservice) {
+        var p1 = new breeze.Predicate('Latitude2', '<', parseFloat($scope.bounds.northeast.latitude.toFixed(6) + "M"));
+        var p2 = new breeze.Predicate('Longitude2', '<', parseFloat($scope.bounds.northeast.longitude.toFixed(6) + "M"));
+        var p3 = new breeze.Predicate('Latitude2', '>', parseFloat($scope.bounds.southwest.latitude.toFixed(6) + "M"));
+        var p4 = new breeze.Predicate('Longitude2', '>', parseFloat($scope.bounds.southwest.longitude.toFixed(6) + "M"));
+        var predicate = new breeze.Predicate.and([p1, p2, p3, p4]);
+        radarservice.search(predicate, 0, 100, false).then(function (data) {
+            ManageMarkers($scope.markers, data);
+        });
+    }
+
 
     //http://stackoverflow.com/questions/14966207/javascript-sync-two-arrays-of-objects-find-delta
     function ManageMarkers(markers, data) {
@@ -63,7 +72,7 @@
         for (var id in mapMap) {
             if (!mapData.hasOwnProperty(id)) {
                 DeleteMarker(markers, mapMap[id]);
-            } else if (isEqual(mapData[id], mapMap[id])) {
+            } else if (IsEqual(mapData[id], mapMap[id])) {
                 UpdateMarker(mapMap[id], mapData[id]);
             }
         }
@@ -117,7 +126,7 @@
         return map;
     }
 
-    function isEqual(a, b) {
+    function IsEqual(a, b) {
         return a.Id === b.Id;
     }
 
