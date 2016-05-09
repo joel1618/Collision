@@ -1,8 +1,8 @@
 ﻿//TODO: Update markers based on time but not by deleting all the markers first
 (function (moment) {
     "use strict";
-    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', '$interval', 'breezeservice', 'breeze', 'radarservice', 'NgMap',
-    function controller($scope, $http, $timeout, $interval, breezeservice, breeze, radarservice, NgMap) {
+    angular.module('controlpanel').controller('radarcontroller', ['$scope', '$http', '$timeout', '$interval', '$location', 'breezeservice', 'breeze', 'radarservice', 'NgMap',
+    function controller($scope, $http, $timeout, $interval, $location, breezeservice, breeze, radarservice, NgMap) {
         $scope.isLoading = true;
         $scope.isTracking = false;
         $scope.markers = [];
@@ -17,12 +17,12 @@
             }
         }
         NgMap.getMap().then(function (map) {
-            $scope.SetBounds(map);
             map.addListener('idle', function () {
                 $scope.SetBounds(map);
                 GetFlights($scope, radarservice);
             });
-            $timeout(function() {                
+            $timeout(function() {              
+                $scope.SetBounds(map);
                 $interval($scope.GetFlights(), 3000);
             }, 1000);
         });
@@ -50,6 +50,15 @@
             $scope.marker = marker;
             $scope.map.showInfoWindow('myInfoWindow', this);
         };    
+
+        $scope.Find = function(collision) {
+            $scope.map.panTo({ lat: collision.Latitude2, lng: collision.Longitude2 });
+            $scope.map.setZoom(10);
+        }
+
+        $scope.Show = function (marker) {
+            $location.path('/controlpanel/' + marker.Id);
+        }
     }]);
 
     

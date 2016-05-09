@@ -13,6 +13,8 @@ namespace Collision.Sql.Ef.Models
         public string Carrier { get; set; }
         public string CarrierName { get; set; }
         public string FlightNumber { get; set; }
+        public double? Latitude1 { get; set; }
+        public double? Longitude1 { get; set; }
         public double? Latitude2 { get; set; }
         public double? Longitude2 { get; set; }
         public double? Altitude2 { get; set; }

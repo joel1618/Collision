@@ -5,7 +5,7 @@ controlpanel.config(['$routeProvider', function ($routeProvider) {
         .when('/', {           
             templateUrl: '../App/controlpanel/views/radar.html'
         })
-        .when('/controlpanel', {
+        .when('/controlpanel/:id', {
             templateUrl: '../App/controlpanel/views/controlpanel.html'
         })
         .otherwise({

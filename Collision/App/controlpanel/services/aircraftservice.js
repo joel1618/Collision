@@ -7,8 +7,6 @@
 
         var aircraft1, aircraft2;
         var service = {
-            GetConflicts: GetConflicts,
-            GetPositions: GetPositions,
             AddAircraft: AddAircraft,
             AddConflict: AddConflict,
             Delete: Delete,
@@ -16,25 +14,6 @@
             CalculateEulerAngles: CalculateEulerAngles
         };
         return service;
-
-        function GetConflicts() {
-            var conflictQuery = breeze.EntityQuery.from('conflictbreezeapi/search').orderByDesc('Id').skip(0).take(20);
-            return conflictPromise = breezeservice.executeQuery(conflictQuery).then(function (data) {
-                return data.httpResponse.data;
-            });
-        }
-
-        function GetPositions(position) {
-            var p1 = new breeze.Predicate('Latitude2', '>', position.coords.latitude - .5);
-            var p2 = new breeze.Predicate('Latitude2', '<', position.coords.latitude + .5);
-            var p3 = new breeze.Predicate('Longitude2', '>', position.coords.longitude - .5);
-            var p4 = new breeze.Predicate('Longitude2', '<', position.coords.longitude + .5);
-            var pred = new breeze.Predicate.and([p1, p2, p3, p4]);
-            var positionQuery = breeze.EntityQuery.from('positionbreezeapi/search')/*.where(pred)*/.orderByDesc('Id').skip(0).take(20);
-            return positionPromise = breezeservice.executeQuery(positionQuery).then(function (data) {
-                return data.httpResponse.data;
-            });
-        }
 
         function AddAircraft(position) {
             Delete();
@@ -103,6 +82,7 @@
         //http://stackoverflow.com/questions/18184848/calculate-pitch-and-yaw-between-two-unknown-points
         //http://www.codeproject.com/Questions/324240/Determining-yaw-pitch-and-roll
         function CalculateEulerAngles(position) {
+            debugger;
             var angles = {
                 x: 0, y: 0, z: 0
             };

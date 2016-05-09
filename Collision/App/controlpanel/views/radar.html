@@ -12,7 +12,7 @@
                     <label>Speed: </label> {{marker.Speed2}} kph<br />
                     <label>Heading: </label> {{marker.Heading2}} degrees<br />
                     <label>Time at position: </label> {{marker.ModifiedAtUtcTimeStamp}}<br />
-                    <button ng-class="isTracking ? 'btn btn-danger pull-right' : 'btn btn-primary pull-right'"
+                    <button ng-class="isTracking ? 'btn btn-danger btn-sm pull-right' : 'btn btn-primary btn-sm pull-right'"
                             ng-model="isTracking" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                         <div ng-show="!isTracking">
                             Track
@@ -21,13 +21,14 @@
                             Untrack
                         </div>
                     </button>
+                    <button class="btn btn-primary btn-sm" ng-click="Show(marker)">Show</button>
                     <br/>
                     <hr />
                 </div>
                 <div ng-show="(markers | filter: { IsConflict : true}).length">
                     <label>Collisions</label><br/>
                     <div ng-repeat="collision in markers | filter : { IsConflict : true}">
-                        <button class="btn btn-primary btn-sm">Find</button> {{collision.CarrierName}} Flight {{collision.FlightNumber}}
+                        <button class="btn btn-primary btn-sm" ng-click="Find(collision)">Find</button> {{collision.CarrierName}} Flight {{collision.FlightNumber}}
                     </div>
                 </div>
             </div>

@@ -16,7 +16,7 @@
 
             var deferred = $q.defer();
 
-            var query = breeze.EntityQuery.from('PositionBreezeApi/Search');
+            var query = breeze.EntityQuery.from('positionbreezeapi/search');
             if (predicate != null) {
                 query = query.where(predicate);
             }
