@@ -322,6 +322,17 @@
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.directives.js" />
     <Content Include="Scripts\breeze.min.js" />
+    <Content Include="Scripts\Dependencies\angular-ui-bootstrap\0.14.3\ui-bootstrap.js" />
+    <Content Include="Scripts\Dependencies\angular-ui-grid\3.0.7\ui-grid.css" />
+    <Content Include="Scripts\Dependencies\angular-ui-grid\3.0.7\ui-grid.js" />
+    <Content Include="Scripts\Dependencies\angularjs\1.4.5\angular.js" />
+    <Content Include="Scripts\Dependencies\angularjs\1.5.0-beta.2\angular-route.js" />
+    <Content Include="Scripts\Dependencies\breezejs\1.5.5\breeze.debug.js" />
+    <Content Include="Scripts\Dependencies\breezejs\adapters\breeze.bridge.angular.js" />
+    <Content Include="Scripts\Dependencies\jquery\2.2.1\jquery.js" />
+    <Content Include="Scripts\Dependencies\momentjs\2.10.6\moment.js" />
+    <Content Include="Scripts\Dependencies\ngmap\googlemapapi.js" />
+    <Content Include="Scripts\Dependencies\ngmap\ng-map.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
