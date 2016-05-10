@@ -116,23 +116,27 @@ pc.script.create('terrain', function (app) {
             var renderModel = this.createTerrainFromHeightMap(img, this.subdivisions);
             var collisionModel = this.createTerrainFromHeightMap(img, this.subdivisions / 2);
 
-            this.entity.addComponent('model');
-            this.entity.model.model = renderModel;
-
-            this.entity.addComponent('collision', {
-                type: 'mesh'
-            });
-            this.entity.collision.model = collisionModel;
-
-            this.entity.addComponent('rigidbody', {
-                friction: 0.5,
-                type: 'static'
-            });
+            if(this.entity.model == null){
+                this.entity.addComponent('model');
+                this.entity.model.model = renderModel;
+            }
+            if (this.entity.collision == null) {
+                this.entity.addComponent('collision', {
+                    type: 'mesh'
+                });
+                this.entity.collision.model = collisionModel;
+            }
+            if (this.entity.rigidbody == null) {
+                this.entity.addComponent('rigidbody', {
+                    friction: 0.5,
+                    type: 'static'
+                });
+            }
 
             // HACK: This line is non-API but it is currently required to set a procedurally created
             //model onto a collision component
             if(app.systems.collision.implementations.mesh !== undefined)
-            app.systems.collision.implementations.mesh.doRecreatePhysicalShape(this.entity.collision);
+                app.systems.collision.implementations.mesh.doRecreatePhysicalShape(this.entity.collision);
         },
 
         // Called every frame, dt is time in seconds since last update
