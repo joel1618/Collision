@@ -130,7 +130,8 @@ pc.script.create('terrain', function (app) {
             });
 
             // HACK: This line is non-API but it is currently required to set a procedurally created
-            // model onto a collision component
+            //model onto a collision component
+            if(app.systems.collision.implementations.mesh !== undefined)
             app.systems.collision.implementations.mesh.doRecreatePhysicalShape(this.entity.collision);
         },
 

@@ -82,7 +82,6 @@
         //http://stackoverflow.com/questions/18184848/calculate-pitch-and-yaw-between-two-unknown-points
         //http://www.codeproject.com/Questions/324240/Determining-yaw-pitch-and-roll
         function CalculateEulerAngles(position) {
-            debugger;
             var angles = {
                 x: 0, y: 0, z: 0
             };

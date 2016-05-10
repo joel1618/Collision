@@ -29,13 +29,11 @@ pc.script.createLoadingScreen(function (app) {
     };
 
     var hideSplash = function () {
-    debugger;
         var splash = document.getElementById('application-splash-wrapper');
         splash.parentElement.removeChild(splash);
     };
 
     var setProgress = function (value) {
-        debugger;
         var bar = document.getElementById('progress-bar');
         if (bar) {
             value = Math.min(1, Math.max(0, value));
