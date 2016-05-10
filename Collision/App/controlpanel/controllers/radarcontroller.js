@@ -23,13 +23,11 @@
             });
             $timeout(function() {              
                 $scope.SetBounds(map);
-                $interval($scope.GetFlights(), 3000);
+                GetFlights($scope, radarservice);
+                $interval(function () { GetFlights($scope, radarservice) }, 10000);
             }, 1000);
         });
 
-        $scope.GetFlights = function () {
-            GetFlights($scope, radarservice);
-        }
         $scope.isLoading = false;
 
         $scope.SetBounds = function (map) {
@@ -48,7 +46,7 @@
         }
         $scope.ShowMarkerWindow = function (event, marker) {
             $scope.marker = marker;
-            $scope.map.showInfoWindow('myInfoWindow', this);
+            //$scope.map.showInfoWindow('myInfoWindow', this);
         };    
 
         $scope.Find = function(collision) {
