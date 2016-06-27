@@ -7,6 +7,7 @@
         <div class="row">
             <div class="col-md-2">
                 <div ng-show="marker != null">
+                    <h3>Info</h3>
                     <br />
                     <label>{{marker.CarrierName}} Flight {{marker.FlightNumber}}</label><br />
                     <label>Speed: </label> {{marker.Speed2}} kph<br />
@@ -30,6 +31,14 @@
                     <div ng-repeat="collision in markers | filter : { IsConflict : true}">
                         <button class="btn btn-primary btn-sm" ng-click="Find(collision)">Find</button> {{collision.CarrierName}} Flight {{collision.FlightNumber}}
                     </div>
+                </div>
+                <div ng-show="Flights.length > 0">
+                    <h3>Flights</h3>
+                    <ul class="list-group" ng-repeat="flight in Flights">
+                        <li class="list-group-item" ng-click="SelectFlight(flight)" ng-style="flight.Id === SelectedFlight.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                            {{flight.CarrierName}} {{flight.FlightNumber}}
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="col-md-10">

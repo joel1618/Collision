@@ -32,7 +32,6 @@
 
         $scope.SetBounds = function (map) {
             var bounds = map.getBounds();
-            debugger;
             $scope.bounds.northeast.latitude = bounds.f.b;
             $scope.bounds.northeast.longitude = bounds.b.f;
             $scope.bounds.southwest.latitude = bounds.f.f;
@@ -59,6 +58,10 @@
         $scope.Show = function (marker) {
             $location.path('/controlpanel/' + marker.Id);
         }
+
+        $scope.SelectFlight = function (flight) {
+            $scope.SelectedFlight = flight;
+        }
     }]);
 
     
@@ -70,6 +73,7 @@
         var p4 = new breeze.Predicate('Longitude2', '>', parseFloat($scope.bounds.southwest.longitude.toFixed(6) + "M"));
         var predicate = new breeze.Predicate.and([p1, p2, p3, p4]);
         radarservice.search(predicate, 0, 100, false).then(function (data) {
+            $scope.Flights = data;
             ManageMarkers($scope.markers, data);
         });
     }
