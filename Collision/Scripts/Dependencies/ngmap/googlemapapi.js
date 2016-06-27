@@ -4,8 +4,8 @@ window.google = window.google || {};
 google.maps = google.maps || {};
 (function() {
   
-  function getScript(src) {
-    document.write('<' + 'script src="' + src + '"><' + '/script>');
+    function getScript(src) {
+      document.write('<' + 'script src="' + src + '"><' + '/script>');
   }
   
   var modules = google.maps.modules = {};

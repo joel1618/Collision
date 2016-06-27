@@ -31,10 +31,12 @@
         $scope.isLoading = false;
 
         $scope.SetBounds = function (map) {
-            $scope.bounds.northeast.latitude = map.getBounds().H.j;
-            $scope.bounds.northeast.longitude = map.getBounds().j.H;
-            $scope.bounds.southwest.latitude = map.getBounds().H.H;
-            $scope.bounds.southwest.longitude = map.getBounds().j.j;
+            var bounds = map.getBounds();
+            debugger;
+            $scope.bounds.northeast.latitude = bounds.f.b;
+            $scope.bounds.northeast.longitude = bounds.b.f;
+            $scope.bounds.southwest.latitude = bounds.f.f;
+            $scope.bounds.southwest.longitude = bounds.b.b;
         }
 
         $scope.GetIcon = function (marker) {
