@@ -46,7 +46,7 @@
             return customIcon;
         }
         $scope.ShowMarkerWindow = function (event, marker) {
-            $scope.marker = marker;
+            $scope.SelectedFlight = marker;
             //$scope.map.showInfoWindow('myInfoWindow', this);
         };    
 

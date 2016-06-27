@@ -1,18 +1,16 @@
-﻿
-<div ng-controller="radarcontroller">
+﻿<div ng-controller="radarcontroller">
     <div ng-show="isLoading">
         Loading...
     </div>
     <div ng-show="!isLoading">
         <div class="row">
             <div class="col-md-2">
-                <div ng-show="marker != null">
+                <div ng-show="SelectedFlight != null">
                     <h3>Info</h3>
-                    <br />
-                    <label>{{marker.CarrierName}} Flight {{marker.FlightNumber}}</label><br />
-                    <label>Speed: </label> {{marker.Speed2}} kph<br />
-                    <label>Heading: </label> {{marker.Heading2}} degrees<br />
-                    <label>Time at position: </label> {{marker.ModifiedAtUtcTimeStamp}}<br />
+                    <label>{{SelectedFlight.CarrierName}} Flight {{SelectedFlight.FlightNumber}}</label><br />
+                    <label>Speed: </label> {{SelectedFlight.Speed2}} kph<br />
+                    <label>Heading: </label> {{SelectedFlight.Heading2}} degrees<br />
+                    <label>Time at position: </label> {{SelectedFlight.ModifiedAtUtcTimeStamp}}<br />
                     <button ng-class="isTracking ? 'btn btn-danger btn-sm pull-right' : 'btn btn-primary btn-sm pull-right'"
                             ng-model="isTracking" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                         <div ng-show="!isTracking">
@@ -34,8 +32,8 @@
                 </div>
                 <div ng-show="Flights.length > 0">
                     <h3>Flights</h3>
-                    <ul class="list-group" ng-repeat="flight in Flights">
-                        <li class="list-group-item" ng-click="SelectFlight(flight)" ng-style="flight.Id === SelectedFlight.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                    <ul class="list-group" style="height: 50vh; overflow: hidden; overflow-y: scroll;">
+                        <li class="list-group-item" ng-repeat="flight in Flights" ng-click="SelectFlight(flight)" ng-style="flight.Id === SelectedFlight.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
                             {{flight.CarrierName}} {{flight.FlightNumber}}
                         </li>
                     </ul>
