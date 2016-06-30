@@ -1,8 +1,12 @@
 ﻿<div ng-controller="radarcontroller">
     <div ng-show="isLoading">
-        Loading...
+        <div style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: gray; z-index: 30001; opacity: 0.5;">
+            <p style="position: absolute; color: White; top: 50%; left: 45%;">
+                <i class="fa fa-5x fa-circle-o-notch fa-spin"></i>
+            </p>
+        </div>
     </div>
-    <div ng-show="!isLoading">
+    <div>
         <div class="row">
             <div class="col-md-2">
                 <div ng-show="SelectedFlight != null">

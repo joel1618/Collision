@@ -16,19 +16,19 @@
                 longitude: null
             }
         }
-        NgMap.getMap().then(function (map) {
-            map.addListener('idle', function () {
-                $scope.SetBounds(map);
-                GetFlights($scope, radarservice);
+        $timeout(function () {
+            NgMap.getMap().then(function (map) {
+                map.addListener('idle', function () {
+                    $scope.SetBounds(map);
+                    GetFlights($scope, radarservice);
+                });
+                $timeout(function () {
+                    $scope.SetBounds(map);
+                    GetFlights($scope, radarservice);
+                    $interval(function () { GetFlights($scope, radarservice) }, 10000);
+                }, 1000);
             });
-            $timeout(function() {              
-                $scope.SetBounds(map);
-                GetFlights($scope, radarservice);
-                $interval(function () { GetFlights($scope, radarservice) }, 10000);
-            }, 1000);
-        });
-
-        $scope.isLoading = false;
+        }, 1000);
 
         $scope.SetBounds = function (map) {
             var bounds = map.getBounds();
@@ -75,6 +75,7 @@
         radarservice.search(predicate, 0, 100, false).then(function (data) {
             $scope.Flights = data;
             ManageMarkers($scope.markers, data);
+            $scope.isLoading = false;
         });
     }
 
