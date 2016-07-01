@@ -5,6 +5,7 @@
     function controller($scope, $http, $timeout, $interval, $location, breezeservice, breeze, radarservice, NgMap) {
         $scope.isLoading = true;
         $scope.isTracking = false;
+        $scope.SelectedFlight = null;
         $scope.markers = [];
         $scope.bounds = {
             northeast: {
@@ -73,8 +74,15 @@
         radarservice.search(predicate, 0, 100, false).then(function (data) {
             $scope.Flights = data;
             ManageMarkers($scope.markers, data);
+            CenterOnTrackedFlight($scope);
             $scope.isLoading = false;
         });
+    }
+
+    function CenterOnTrackedFlight($scope) {
+        if ($scope.isTracking) {
+            $scope.map.panTo({ lat: $scope.SelectedFlight.Latitude2, lng: $scope.SelectedFlight.Longitude2 });
+        }
     }
 
 
