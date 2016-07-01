@@ -12,9 +12,12 @@
                 <div ng-show="SelectedFlight != null">
                     <h3>Info</h3>
                     <label>{{SelectedFlight.CarrierName}} Flight {{SelectedFlight.FlightNumber}}</label><br />
-                    <label>Speed: </label> {{SelectedFlight.Speed2}} kph<br />
+                    <label>Speed: </label> {{SelectedFlight.Speed2 | number:0}} kph<br />
                     <label>Heading: </label> {{SelectedFlight.Heading2}} degrees<br />
-                    <label>Time at position: </label> {{SelectedFlight.ModifiedAtUtcTimeStamp}}<br />
+                    <label>Time at position: </label> 
+                        <div ng-if="SelectedFlight.ModifiedAtUtcTimeStamp !== null">{{SelectedFlight.ModifiedAtUtcTimeStamp  | date:"MM/dd/yyyy 'at' h:mm a"}}</div>
+                        <div ng-if="SelectedFlight.ModifiedAtUtcTimeStamp === null">{{SelectedFlight.CreatedAtUtcTimeStamp  | date:"MM/dd/yyyy 'at' h:mm a"}}</div>
+                    <br />
                     <button ng-class="isTracking ? 'btn btn-danger btn-sm pull-right' : 'btn btn-primary btn-sm pull-right'"
                             ng-model="isTracking" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                         <div ng-show="!isTracking">

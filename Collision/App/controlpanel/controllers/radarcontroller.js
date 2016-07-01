@@ -22,11 +22,9 @@
                     $scope.SetBounds(map);
                     GetFlights($scope, radarservice);
                 });
-                $timeout(function () {
-                    $scope.SetBounds(map);
-                    GetFlights($scope, radarservice);
-                    $interval(function () { GetFlights($scope, radarservice) }, 10000);
-                }, 1000);
+                $scope.SetBounds(map);
+                GetFlights($scope, radarservice);
+                $interval(function () { GetFlights($scope, radarservice) }, 10000);
             });
         }, 1000);
 
@@ -99,8 +97,6 @@
     }
 
     function CreateMarker(markers, item) {
-        item.ModifiedAtUtcTimeStamp = moment(item.ModifiedAtUtcTimeStamp).format('MMMM Do YYYY, h:mm:ss a');
-        item.Speed2 = item.Speed2.toFixed(0);
         markers.push(item);
     }
 
