@@ -54,8 +54,8 @@
             $scope.map.setZoom(10);
         }
 
-        $scope.Show = function (marker) {
-            $location.path('/controlpanel/' + marker.Id);
+        $scope.Show = function () {
+            $location.path('/controlpanel/' + $scope.SelectedFlight.Id);
         }
 
         $scope.SelectFlight = function (flight) {
